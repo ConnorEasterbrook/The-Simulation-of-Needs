@@ -29,4 +29,16 @@ public class ProgressOnBar : MonoBehaviour
         _targetValue = progress + percentageAmount;
         _increaseSpeed = increaseSpeed;
     }
+
+    public bool CheckIfProjectIsFinished()
+    {
+        if (progress >= 100)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
