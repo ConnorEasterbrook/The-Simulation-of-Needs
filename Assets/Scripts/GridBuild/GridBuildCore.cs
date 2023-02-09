@@ -102,6 +102,7 @@ public class GridBuildCore : MonoBehaviour
             Vector3 position = _startPoint + _direction * (_tileSize * 0.5f + _tileSize * i);
 
             GameObject newObject = Instantiate(_objectPrefab, position, Quaternion.LookRotation(_direction), _plane.transform);
+            newObject.AddComponent<BoxCollider>();
             newObject.transform.localScale = new Vector3(_objectScale.x, _objectScale.y, _tileSize);
         }
 
@@ -112,6 +113,7 @@ public class GridBuildCore : MonoBehaviour
 
         Vector3 lastPosition = _startPoint + _direction * (_tileSize * numTiles + remainingLength * 0.5f);
         GameObject newObjectLast = Instantiate(_objectPrefab, lastPosition, Quaternion.LookRotation(_direction), _plane.transform);
+        newObjectLast.AddComponent<BoxCollider>();
         newObjectLast.transform.localScale = new Vector3(_objectScale.x, _objectScale.y, remainingLength);
     }
 
