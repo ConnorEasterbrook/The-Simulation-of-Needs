@@ -8,16 +8,18 @@ public class GridBuildCore : MonoBehaviour
     [SerializeField] private GameObject _objectPrefab;
     [SerializeField] private GameObject _plane;
     private Plane _gridPlane;
-    [SerializeField] private float _gridSize = 1f;
+    [SerializeField] private float _tileSize = 1f;
 
     private GameObject _currentObject;
     [SerializeField] private GameObject _previewObject;
-    private bool _isBuilding;
     private Vector3 _startPoint;
     private Vector3 _endPoint;
     private Vector3 _objectPosition;
     private Vector3 _initialObjectScale;
     private Vector3 _objectScale;
+
+    private Vector3 _direction;
+    private float _length;
 
     // Start is called before the first frame update
     void Start()
@@ -38,79 +40,99 @@ public class GridBuildCore : MonoBehaviour
 
     private void BuildObject()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
         if (Input.GetMouseButtonDown(0))
         {
-            if (_gridPlane.Raycast(ray, out float distance))
-            {
-                _startPoint = SnapToGrid(ray.GetPoint(distance));
-                _previewObject.transform.position = _startPoint;
-            }
+            _startPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
+            _previewObject.transform.position = _startPoint;
         }
         else if (Input.GetMouseButton(0) && _previewObject.activeSelf)
         {
-            if (_gridPlane.Raycast(ray, out float distance))
-            {
-                _endPoint = SnapToGrid(ray.GetPoint(distance));
-                UpdatePreviewObject();
-            }
+            _endPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
+            PreviewObject();
         }
         else if (Input.GetMouseButtonUp(0) && _previewObject.activeSelf)
         {
+            _endPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
             InstantiateObject();
-            _previewObject.transform.localScale = _initialObjectScale;
+
+            _previewObject.transform.localScale = _initialObjectScale; // Reset scale
         }
         else
         {
-            if (_gridPlane.Raycast(ray, out float distance))
-            {
-                Vector3 hitPoint = ray.GetPoint(distance);
-                Vector3 snappedPoint = SnapToGrid(hitPoint);
-
-                _objectPrefab.transform.position = new Vector3(snappedPoint.x, snappedPoint.y + (_objectScale.y * 0.5f), snappedPoint.z);
-                _objectPrefab.transform.localScale = _objectScale;
-            }
+            Vector3 hitPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
+            _objectPrefab.transform.position = new Vector3(hitPoint.x, hitPoint.y, hitPoint.z);
+            _objectPrefab.transform.localScale = _objectScale;
         }
     }
 
-    private void UpdatePreviewObject()
+    private void PreviewObject()
     {
-        Vector3 direction = _endPoint - _startPoint;
-        float length = direction.magnitude;
-        direction.Normalize();
+        _direction = _endPoint - _startPoint;
+        _length = _direction.magnitude;
+        _direction.Normalize();
 
         if (SnapToGrid(_startPoint) != SnapToGrid(_endPoint))
         {
-            length = Mathf.Max(length, _gridSize);
+            _length = Mathf.Max(_length, _tileSize);
 
-            _previewObject.transform.localScale = new Vector3(_objectScale.x, _objectScale.y, length);
-            _previewObject.transform.rotation = Quaternion.LookRotation(direction);
+            _previewObject.transform.localScale = new Vector3(_objectScale.x, _objectScale.y, _length);
+            _previewObject.transform.rotation = Quaternion.LookRotation(_direction);
         }
         else
         {
             _previewObject.transform.localScale = _initialObjectScale;
         }
 
-        _objectPosition = _startPoint + direction * length * 0.5f;
-        _objectPosition.y += _objectScale.y * 0.5f;
+        _objectPosition = _startPoint + _direction * _length * 0.5f;
         _previewObject.transform.position = _objectPosition;
     }
 
     private void InstantiateObject()
     {
-        GameObject newObject = Instantiate(_objectPrefab, _objectPosition, Quaternion.identity, _plane.transform);
-        newObject.SetActive(true);
-        newObject.transform.rotation = Quaternion.LookRotation(_endPoint - _startPoint);
+        int numTiles = Mathf.FloorToInt(_length / _tileSize);
+        float remainingLength = _length - (numTiles * _tileSize);
 
-        newObject.transform.localScale = new Vector3(_objectScale.x, _objectScale.y, _previewObject.transform.localScale.z);
+        if (numTiles == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < numTiles; i++)
+        {
+            Vector3 position = _startPoint + _direction * (_tileSize * 0.5f + _tileSize * i);
+
+            GameObject newObject = Instantiate(_objectPrefab, position, Quaternion.LookRotation(_direction), _plane.transform);
+            newObject.transform.localScale = new Vector3(_objectScale.x, _objectScale.y, _tileSize);
+        }
+
+        if (remainingLength == 0)
+        {
+            return;
+        }
+
+        Vector3 lastPosition = _startPoint + _direction * (_tileSize * numTiles + remainingLength * 0.5f);
+        GameObject newObjectLast = Instantiate(_objectPrefab, lastPosition, Quaternion.LookRotation(_direction), _plane.transform);
+        newObjectLast.transform.localScale = new Vector3(_objectScale.x, _objectScale.y, remainingLength);
+    }
+
+    private Vector3 GetMouseWorldPositionOnPlane()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        float distance;
+
+        if (_gridPlane.Raycast(ray, out distance))
+        {
+            return ray.GetPoint(distance);
+        }
+
+        return Vector3.zero;
     }
 
     private Vector3 SnapToGrid(Vector3 hitPoint)
     {
-        float x = Mathf.Round(hitPoint.x / _gridSize) * _gridSize;
-        float y = Mathf.Round(hitPoint.y / _gridSize) * _gridSize;
-        float z = Mathf.Round(hitPoint.z / _gridSize) * _gridSize;
+        float x = Mathf.Round(hitPoint.x / _tileSize) * _tileSize;
+        float y = hitPoint.y + (_objectScale.y * 0.5f);
+        float z = Mathf.Round(hitPoint.z / _tileSize) * _tileSize;
 
         return new Vector3(x, y, z);
     }

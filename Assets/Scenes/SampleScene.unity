@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c25dccf5db82bcc46aac09816dbead95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _programmingSkill: 1
+  _programmingSkill: 10
   _gameVariableConnectorScript: {fileID: 1487171647}
 --- !u!1 &469801530
 GameObject:
@@ -892,7 +892,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectPrefab: {fileID: 1902063047}
   _plane: {fileID: 469801530}
-  _gridSize: 1
+  _tileSize: 1
   _previewObject: {fileID: 1902063047}
 --- !u!4 &1487171646
 Transform:
@@ -933,27 +933,13 @@ GameObject:
   - component: {fileID: 1902063051}
   - component: {fileID: 1902063050}
   - component: {fileID: 1902063049}
-  - component: {fileID: 1902063048}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!65 &1902063048
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1902063047}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_IsActive: 1
 --- !u!23 &1902063049
 MeshRenderer:
   m_ObjectHideFlags: 0
