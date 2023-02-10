@@ -9,7 +9,7 @@ public class SimpleIntelligence : MonoBehaviour
     private NavMeshAgent _navMeshAgent;
     public float interactionInterval = 5f;
     public float interactionCooldown = 0f;
-    public BaseInteraction currentInteraction;
+    [HideInInspector] public BaseInteraction currentInteraction;
     private bool _isPerformingInteraction = false;
 
     private void Awake()
@@ -65,8 +65,8 @@ public class SimpleIntelligence : MonoBehaviour
         SmartObject selectedObject = SmartObjectManager.instance.registeredObjects[randomObjectIndex]; // Get the selected smart object
 
         // Select random interaction
-        int randomInteractionIndex = Random.Range(0, selectedObject._interactions.Count - 1); // Select a random interaction
-        BaseInteraction selectedInteraction = selectedObject._interactions[randomInteractionIndex]; // Get the selected interaction
+        int randomInteractionIndex = Random.Range(0, selectedObject.interactions.Count - 1); // Select a random interaction
+        BaseInteraction selectedInteraction = selectedObject.interactions[randomInteractionIndex]; // Get the selected interaction
 
         CheckPerformInteraction(selectedInteraction); // Check if the interaction can be performed
     }
@@ -80,7 +80,7 @@ public class SimpleIntelligence : MonoBehaviour
         {
             _isPerformingInteraction = false; // Set to false to allow the interaction to be performed
             currentInteraction = interaction; // Set the current interaction
-            _navMeshAgent.SetDestination(currentInteraction.transform.position); // Set the destination of the navmesh agent to the interaction's position
+            _navMeshAgent.SetDestination(interaction.GetComponent<SmartObject>().interactionPoint); // Set the destination of the navmesh agent to the interaction's position
         }
     }
 

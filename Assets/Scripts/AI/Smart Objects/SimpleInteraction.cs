@@ -82,12 +82,23 @@ public class SimpleInteraction : BaseInteraction
         // Update the interaction time for each performer
         for (int i = 0; i < performers.Count; i++)
         {
-            performers[i].interactionTime += Time.deltaTime; // Increment the interaction time
+            PerformerInformation performer = performers[i]; // Get the performer
+            performer.interactionTime += Time.deltaTime; // Increment the interaction time
+
+            // performers[i].interactionTime += Time.deltaTime; // Increment the interaction time
+
+            // // Check if the interaction time has reached the interaction duration
+            // if (performers[i].interactionTime >= interactionDuration)
+            // {
+            //     performers[i].onInteractionComplete.Invoke(this); // Invoke the on interaction complete event
+            //     performers.RemoveAt(i); // Remove the performer from the list
+            //     i--; // Decrement the index
+            // }
 
             // Check if the interaction time has reached the interaction duration
-            if (performers[i].interactionTime >= interactionDuration)
+            if (performer.interactionTime >= interactionDuration)
             {
-                performers[i].onInteractionComplete.Invoke(this); // Invoke the on interaction complete event
+                performer.onInteractionComplete.Invoke(this); // Invoke the on interaction complete event
                 performers.RemoveAt(i); // Remove the performer from the list
                 i--; // Decrement the index
             }
