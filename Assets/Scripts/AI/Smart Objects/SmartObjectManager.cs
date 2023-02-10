@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class SmartObjectManager : MonoBehaviour
 {
-    [SerializeField] private bool _debug = false;
-    public static SmartObjectManager instance = null;
-    private List<SmartObject> _registeredObjects = new List<SmartObject>();
+    [SerializeField] private bool _debug = false; // Whether or not to display debug messages
+    public static SmartObjectManager instance = null; // The singleton instance of the SmartObjectManager
+    public List<SmartObject> registeredObjects = new List<SmartObject>(); // The list of registered smart objects
 
     private void Awake()
     {
+        // If an instance of the SmartObjectManager already exists, destroy this instance
         if (instance != null)
         {
             Destroy(gameObject);
@@ -32,9 +33,12 @@ public class SmartObjectManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Registers a smart object
+    /// </summary>
     public void RegisterSmartObject(SmartObject smartObject)
     {
-        _registeredObjects.Add(smartObject);
+        registeredObjects.Add(smartObject);
 
         if (_debug)
         {
@@ -42,9 +46,12 @@ public class SmartObjectManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Deregisters a smart object
+    /// </summary>
     public void DeregisterSmartObject(SmartObject smartObject)
     {
-        _registeredObjects.Remove(smartObject);
+        registeredObjects.Remove(smartObject);
 
         if (_debug)
         {
