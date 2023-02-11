@@ -60,17 +60,12 @@ public class SimpleInteraction : BaseInteraction
     /// </summary>
     private void InstantInteraction(BaseCharacterIntelligence performer, UnityAction<BaseInteraction> onInteractionComplete)
     {
-        if (onInteractionComplete == null)
-        {
-            Debug.LogError("No on interaction complete event was provided.");
-            return;
-        }
-
         if (needsChanges.Count > 0)
         {
             ApplyNeedsChanges(performer, 1f);
-            onInteractionComplete.Invoke(this);
         }
+
+        onInteractionComplete.Invoke(this);
     }
 
     /// <summary>
@@ -78,12 +73,6 @@ public class SimpleInteraction : BaseInteraction
     /// </summary>
     private void OverTimeInteraction(BaseCharacterIntelligence performer, UnityAction<BaseInteraction> onInteractionComplete)
     {
-        if (onInteractionComplete == null)
-        {
-            Debug.LogError("No on interaction complete event was provided.");
-            return;
-        }
-
         // Add the performer to the list of performers
         performers.Add(new PerformerInformation()
         {
@@ -117,6 +106,14 @@ public class SimpleInteraction : BaseInteraction
                 i--; // Decrement the index
             }
         }
+    }
+
+    /// <summary>
+    /// Updates the current amount of people performing the interaction.
+    /// </summary>
+    public override void CompleteInteraction()
+    {
+        _currentInteractions--;
     }
 
     /// <summary>

@@ -13,14 +13,9 @@ public class CharacterNeeds
     public float hygiene = 100f; // The happiness level of the character
 
     // The rate at which the needs decay
-    public float hungerDecayRate = 0.1f; // The rate at which hunger decays
-    public float energyDecayRate = 0.1f; // The rate at which energy decays
-    public float hygieneDecayRate = 0.1f; // The rate at which hygiene decays
-
-    // The rate at which the needs increase
-    public float hungerIncreaseRate = 0.2f; // The rate at which hunger increases
-    public float energyIncreaseRate = 0.2f; // The rate at which energy increases
-    public float hygieneIncreaseRate = 0.2f; // The rate at which hygiene increases
+    public float hungerDecayRate = 1f; // The rate at which hunger decays
+    public float energyDecayRate = 1f; // The rate at which energy decays
+    public float hygieneDecayRate = 1f; // The rate at which hygiene decays
 
     // The cap for the needs
     public float hungerCap = 100f; // The cap for hunger
@@ -46,17 +41,39 @@ public class CharacterNeeds
                 hunger += value;
                 hunger = Mathf.Clamp(hunger, 0f, hungerCap);
                 break;
+                
             case NeedType.Energy:
                 energy += value;
                 energy = Mathf.Clamp(energy, 0f, energyCap);
                 break;
+
             case NeedType.Hygiene:
                 hygiene += value;
                 hygiene = Mathf.Clamp(hygiene, 0f, hygieneCap);
                 break;
+
             default:
                 Debug.LogError("Invalid NeedType");
                 break;
+        }
+    }
+
+    public float GetNeedValue(NeedType needType)
+    {
+        switch (needType)
+        {
+            case NeedType.Hunger:
+                return hunger;
+
+            case NeedType.Energy:
+                return energy;
+
+            case NeedType.Hygiene:
+                return hygiene;
+                
+            default:
+                Debug.LogError("Invalid NeedType");
+                return 0f;
         }
     }
 }

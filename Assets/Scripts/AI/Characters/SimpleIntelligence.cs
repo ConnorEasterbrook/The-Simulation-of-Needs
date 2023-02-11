@@ -18,9 +18,9 @@ public class SimpleIntelligence : BaseCharacterIntelligence
     public override void Update()
     {
         // If the agent is not performing an interaction and is not moving, pick a random interaction
-        if (currentInteraction != null && !_isPerformingInteraction)
+        if (currentInteraction != null && !isPerformingInteraction)
         {
-            _isPerformingInteraction = true; // Set to true to prevent multiple interactions from being performed
+            isPerformingInteraction = true; // Set to true to prevent multiple interactions from being performed
             currentInteraction.PerformInteraction(this, OnInteractionComplete); // Perform the interaction
         }
         else

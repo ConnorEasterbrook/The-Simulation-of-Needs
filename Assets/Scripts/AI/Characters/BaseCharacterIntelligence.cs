@@ -10,7 +10,7 @@ public class BaseCharacterIntelligence : MonoBehaviour
     public float interactionInterval = 5f;
     public float interactionCooldown = 0f;
     [HideInInspector] public BaseInteraction currentInteraction = null;
-    [HideInInspector] public bool _isPerformingInteraction = false;
+    [HideInInspector] public bool isPerformingInteraction = false;
     public CharacterNeeds _characterNeedsScript = new CharacterNeeds();
     public CharacterNeedsUI _characterNeedsUIScript = new CharacterNeedsUI();
 
@@ -21,7 +21,6 @@ public class BaseCharacterIntelligence : MonoBehaviour
     {
         if (interaction.CanPerformInteraction())
         {
-            _isPerformingInteraction = false; // Set to false to allow the interaction to be performed
             currentInteraction = interaction; // Set the current interaction
             _navMeshAgent.SetDestination(interaction.GetComponent<SmartObject>().interactionPoint); // Set the destination of the navmesh agent to the interaction's position
         }
@@ -32,15 +31,17 @@ public class BaseCharacterIntelligence : MonoBehaviour
     /// </summary>
     public virtual void OnInteractionComplete(BaseInteraction interaction)
     {
+        interaction.CompleteInteraction(); // Complete the interaction
+        isPerformingInteraction = false; // Set to false to allow the interaction to be performed
         currentInteraction = null;
     }
 
     public virtual void Update()
     {
         // If the agent is not performing an interaction and is not moving, pick a random interaction
-        if (currentInteraction != null && !_isPerformingInteraction)
+        if (currentInteraction != null && !isPerformingInteraction)
         {
-            _isPerformingInteraction = true; // Set to true to prevent multiple interactions from being performed
+            isPerformingInteraction = true; // Set to true to prevent multiple interactions from being performed
             currentInteraction.PerformInteraction(this, OnInteractionComplete); // Perform the interaction
         }
 
@@ -53,7 +54,6 @@ public class BaseCharacterIntelligence : MonoBehaviour
 
     public void UpdateIndividualNeed(NeedType needType, float value)
     {
-        Debug.Log("Updating " + needType + " to " + value);
         _characterNeedsScript.UpdateIndividualNeed(needType, value);
     }
 }

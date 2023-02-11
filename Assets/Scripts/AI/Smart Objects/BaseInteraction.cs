@@ -16,6 +16,7 @@ public abstract class BaseInteraction : MonoBehaviour
     public abstract bool CanPerformInteraction(); // Returns true if the interaction can be performed
     public abstract void PerformInteraction(BaseCharacterIntelligence performer, UnityAction<BaseInteraction> onInteractionComplete); // Performs the interaction
     public abstract void CancelInteraction(); // Cancels the interaction
+    public abstract void CompleteInteraction(); // Completes the interaction
 
     public void ApplyNeedsChanges(BaseCharacterIntelligence performerIntelligence, float percentage)
     {
@@ -26,6 +27,8 @@ public abstract class BaseInteraction : MonoBehaviour
             performerIntelligence.UpdateIndividualNeed(needsChange.targetNeedType, needsChange.changeAmount * percentage);
         }
     }
+
+    
 }
 
 /// <summary>
