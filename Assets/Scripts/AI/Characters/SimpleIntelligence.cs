@@ -9,25 +9,19 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class SimpleIntelligence : BaseCharacterIntelligence
 {
-    private NavMeshAgent _navMeshAgent;
-    public float interactionInterval = 5f;
-    public float interactionCooldown = 0f;
-    [HideInInspector] public BaseInteraction currentInteraction;
-    private bool _isPerformingInteraction = false;
-
     private void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>(); // Get the navmesh agent component
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
         // If the agent is not performing an interaction and is not moving, pick a random interaction
         if (currentInteraction != null && !_isPerformingInteraction)
         {
             _isPerformingInteraction = true; // Set to true to prevent multiple interactions from being performed
-            currentInteraction.PerformInteraction(gameObject, OnInteractionComplete); // Perform the interaction
+            currentInteraction.PerformInteraction(this, OnInteractionComplete); // Perform the interaction
         }
         else
         {
@@ -40,21 +34,6 @@ public class SimpleIntelligence : BaseCharacterIntelligence
             {
                 interactionCooldown -= Time.deltaTime;
             }
-
-            // // If the agent is not performing an interaction and is moving, check if the agent has reached the interaction's position
-            // if (currentInteraction != null && _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
-            // {
-            //     // If the agent has reached the interaction's position, check if the interaction can be performed
-            //     CheckPerformInteraction(currentInteraction);
-            // }
-            // else
-            // {
-            //     // If the agent is not performing an interaction and is not moving, pick a random interaction
-            //     if (currentInteraction == null && !_navMeshAgent.hasPath)
-            //     {
-            //         PickRandomInteraction();
-            //     }
-            // }
         }
     }
 
@@ -72,26 +51,5 @@ public class SimpleIntelligence : BaseCharacterIntelligence
         BaseInteraction selectedInteraction = selectedObject.interactions[randomInteractionIndex]; // Get the selected interaction
 
         CheckPerformInteraction(selectedInteraction); // Check if the interaction can be performed
-    }
-
-    /// <summary>
-    /// Checks if the interaction can be performed and sets the destination of the navmesh agent to the interaction's position
-    /// </summary>
-    private void CheckPerformInteraction(BaseInteraction interaction)
-    {
-        if (interaction.CanPerformInteraction())
-        {
-            _isPerformingInteraction = false; // Set to false to allow the interaction to be performed
-            currentInteraction = interaction; // Set the current interaction
-            _navMeshAgent.SetDestination(interaction.GetComponent<SmartObject>().interactionPoint); // Set the destination of the navmesh agent to the interaction's position
-        }
-    }
-
-    /// <summary>
-    /// Called when the interaction is complete
-    /// </summary>
-    private void OnInteractionComplete(BaseInteraction interaction)
-    {
-        currentInteraction = null;
     }
 }

@@ -23,7 +23,7 @@ public class SimpleInteraction : BaseInteraction
     /// <summary>
     /// Performs the interaction.
     /// </summary>
-    public override void PerformInteraction(GameObject performer, UnityAction<BaseInteraction> onInteractionComplete)
+    public override void PerformInteraction(BaseCharacterIntelligence performer, UnityAction<BaseInteraction> onInteractionComplete)
     {
         // Check if the interaction can be performed
         if (CanPerformInteraction())
@@ -58,7 +58,7 @@ public class SimpleInteraction : BaseInteraction
     /// <summary>
     /// Performs the interaction instantly.
     /// </summary>
-    private void InstantInteraction(GameObject performer, UnityAction<BaseInteraction> onInteractionComplete)
+    private void InstantInteraction(BaseCharacterIntelligence performer, UnityAction<BaseInteraction> onInteractionComplete)
     {
         if (onInteractionComplete == null)
         {
@@ -76,7 +76,7 @@ public class SimpleInteraction : BaseInteraction
     /// <summary>
     /// Performs the interaction over time.
     /// </summary>
-    private void OverTimeInteraction(GameObject performer, UnityAction<BaseInteraction> onInteractionComplete)
+    private void OverTimeInteraction(BaseCharacterIntelligence performer, UnityAction<BaseInteraction> onInteractionComplete)
     {
         if (onInteractionComplete == null)
         {
@@ -87,6 +87,7 @@ public class SimpleInteraction : BaseInteraction
         // Add the performer to the list of performers
         performers.Add(new PerformerInformation()
         {
+            performingAIIntelligence = performer,
             elapsedTime = 0,
             onInteractionComplete = onInteractionComplete
         });
@@ -105,7 +106,7 @@ public class SimpleInteraction : BaseInteraction
 
             if (needsChanges.Count > 0)
             {
-                ApplyNeedsChanges(gameObject, needChangePercentage); // Apply the needs changes (if any)
+                ApplyNeedsChanges(performer.performingAIIntelligence, needChangePercentage); // Apply the needs changes (if any)
             }
 
             // Check if the interaction time has reached the interaction duration
@@ -123,6 +124,7 @@ public class SimpleInteraction : BaseInteraction
     /// </summary>
     public class PerformerInformation
     {
+        public BaseCharacterIntelligence performingAIIntelligence;
         public float elapsedTime;
         public UnityAction<BaseInteraction> onInteractionComplete;
     }

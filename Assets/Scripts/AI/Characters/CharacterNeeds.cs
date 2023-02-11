@@ -37,6 +37,28 @@ public class CharacterNeeds
         energy = Mathf.Clamp(energy, 0f, energyCap);
         hygiene = Mathf.Clamp(hygiene, 0f, hygieneCap);
     }
+
+    public void UpdateIndividualNeed(NeedType needType, float value)
+    {
+        switch (needType)
+        {
+            case NeedType.Hunger:
+                hunger += value;
+                hunger = Mathf.Clamp(hunger, 0f, hungerCap);
+                break;
+            case NeedType.Energy:
+                energy += value;
+                energy = Mathf.Clamp(energy, 0f, energyCap);
+                break;
+            case NeedType.Hygiene:
+                hygiene += value;
+                hygiene = Mathf.Clamp(hygiene, 0f, hygieneCap);
+                break;
+            default:
+                Debug.LogError("Invalid NeedType");
+                break;
+        }
+    }
 }
 
 /// <summary>

@@ -2018,14 +2018,20 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 281786485}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92c5d9b990d556646a4f48b3c1688a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _navMeshAgent: {fileID: 0}
   interactionInterval: 5
   interactionCooldown: 0
   currentInteraction: {fileID: 0}
+  _isPerformingInteraction: 0
+  _characterNeedsUIScript:
+    _hungerSlider: {fileID: 0}
+    _energySlider: {fileID: 0}
+    _hygieneSlider: {fileID: 0}
 --- !u!114 &281786494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2033,14 +2039,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 281786485}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0f42dd6f1bc72e498ca550ac1e687eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _navMeshAgent: {fileID: 0}
   interactionInterval: 5
   interactionCooldown: 0
   currentInteraction: {fileID: 0}
+  _isPerformingInteraction: 0
   _characterNeedsUIScript:
     _hungerSlider: {fileID: 1035134561}
     _energySlider: {fileID: 124268785}
@@ -6029,7 +6037,7 @@ MonoBehaviour:
   interactionType: 1
   interactionDuration: 5
   needsChanges:
-  - targetNeedType: 2
+  - targetNeedType: 0
     changeAmount: 5
   maxSimultaneousInteractions: 1
 --- !u!1 &904472201
@@ -9265,7 +9273,7 @@ MonoBehaviour:
   interactionType: 1
   interactionDuration: 5
   needsChanges:
-  - targetNeedType: 1
+  - targetNeedType: 0
     changeAmount: 5
   maxSimultaneousInteractions: 1
 --- !u!1 &1271324839
@@ -10532,11 +10540,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Eat
-  interactionType: 0
-  interactionDuration: 1
+  interactionType: 1
+  interactionDuration: 5
   needsChanges:
   - targetNeedType: 0
-    changeAmount: 20
+    changeAmount: 5
   maxSimultaneousInteractions: 1
 --- !u!1 &1426175237
 GameObject:

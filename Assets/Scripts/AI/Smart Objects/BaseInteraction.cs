@@ -14,14 +14,16 @@ public abstract class BaseInteraction : MonoBehaviour
     public List<InteractionNeedsChange> needsChanges = new List<InteractionNeedsChange>(); // The list of needs that will be changed by the interaction
 
     public abstract bool CanPerformInteraction(); // Returns true if the interaction can be performed
-    public abstract void PerformInteraction(GameObject performer, UnityAction<BaseInteraction> onInteractionComplete); // Performs the interaction
+    public abstract void PerformInteraction(BaseCharacterIntelligence performer, UnityAction<BaseInteraction> onInteractionComplete); // Performs the interaction
     public abstract void CancelInteraction(); // Cancels the interaction
 
-    public void ApplyNeedsChanges(GameObject performer, float percentage)
+    public void ApplyNeedsChanges(BaseCharacterIntelligence performerIntelligence, float percentage)
     {
-        foreach (InteractionNeedsChange needsChange in needsChanges)
+        foreach (var needsChange in needsChanges)
         {
-            
+            // Debug.Log($"Applying {needsChange.changeAmount * percentage} to {needsChange.targetNeedType}");
+            // Update performer need through BaseCharacterIntelligence.cs 
+            performerIntelligence.UpdateIndividualNeed(needsChange.targetNeedType, needsChange.changeAmount * percentage);
         }
     }
 }
