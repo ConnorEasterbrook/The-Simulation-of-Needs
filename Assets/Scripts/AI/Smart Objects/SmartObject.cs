@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Smart objects are objects that can be interacted with. They are registered with the SmartObjectManager.
+/// </summary>
 [RequireComponent(typeof(SimpleInteraction))]
 public class SmartObject : MonoBehaviour
 {

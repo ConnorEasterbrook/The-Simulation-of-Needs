@@ -3,21 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-/// <summary>
-/// A simple intelligence that picks a random interaction and performs it. Best used for Non-Player Characters.
-/// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
-public class SimpleIntelligence : BaseCharacterIntelligence
+/// <summary>
+/// A more complex intelligence that picks interactions based on needs and performs it. Best used for Autonomous Agents like Sims.
+/// </summary>
+public class AutonomousIntelligence : BaseCharacterIntelligence
 {
     private NavMeshAgent _navMeshAgent;
     public float interactionInterval = 5f;
     public float interactionCooldown = 0f;
     [HideInInspector] public BaseInteraction currentInteraction;
     private bool _isPerformingInteraction = false;
+    public CharacterNeeds _characterNeedsScript = new CharacterNeeds();
+    public CharacterNeedsUI _characterNeedsUIScript = new CharacterNeedsUI();
 
     private void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>(); // Get the navmesh agent component
+        _characterNeedsUIScript.Initialize(_characterNeedsScript); // Initialize the character needs UI;
     }
 
     // Update is called once per frame
@@ -40,22 +43,13 @@ public class SimpleIntelligence : BaseCharacterIntelligence
             {
                 interactionCooldown -= Time.deltaTime;
             }
-
-            // // If the agent is not performing an interaction and is moving, check if the agent has reached the interaction's position
-            // if (currentInteraction != null && _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
-            // {
-            //     // If the agent has reached the interaction's position, check if the interaction can be performed
-            //     CheckPerformInteraction(currentInteraction);
-            // }
-            // else
-            // {
-            //     // If the agent is not performing an interaction and is not moving, pick a random interaction
-            //     if (currentInteraction == null && !_navMeshAgent.hasPath)
-            //     {
-            //         PickRandomInteraction();
-            //     }
-            // }
         }
+
+        // Update the character needs
+        _characterNeedsScript.UpdateNeeds();
+
+        // Update the character needs UI
+        _characterNeedsUIScript.UpdateSliders();
     }
 
     /// <summary>

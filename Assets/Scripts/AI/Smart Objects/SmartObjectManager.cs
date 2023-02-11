@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Manages all smart objects in the scene.
+/// </summary>
 public class SmartObjectManager : MonoBehaviour
 {
     [SerializeField] private bool _debug = false; // Whether or not to display debug messages

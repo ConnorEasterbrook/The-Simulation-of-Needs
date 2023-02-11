@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <Summary>
+/// Simple interaction that can be performed by multiple people at the same time.
+/// </Summary>
 public class SimpleInteraction : BaseInteraction
 {
     public int maxSimultaneousInteractions = 1; // The maximum amount of people that can perform the interaction at the same time
@@ -57,9 +60,15 @@ public class SimpleInteraction : BaseInteraction
     /// </summary>
     private void InstantInteraction(GameObject performer, UnityAction<BaseInteraction> onInteractionComplete)
     {
-        // Perform the interaction
-        if (onInteractionComplete != null)
+        if (onInteractionComplete == null)
         {
+            Debug.LogError("No on interaction complete event was provided.");
+            return;
+        }
+
+        if (needsChanges.Count > 0)
+        {
+            ApplyNeedsChanges(performer, 1f);
             onInteractionComplete.Invoke(this);
         }
     }
@@ -69,10 +78,16 @@ public class SimpleInteraction : BaseInteraction
     /// </summary>
     private void OverTimeInteraction(GameObject performer, UnityAction<BaseInteraction> onInteractionComplete)
     {
+        if (onInteractionComplete == null)
+        {
+            Debug.LogError("No on interaction complete event was provided.");
+            return;
+        }
+
         // Add the performer to the list of performers
         performers.Add(new PerformerInformation()
         {
-            interactionTime = interactionDuration,
+            elapsedTime = 0,
             onInteractionComplete = onInteractionComplete
         });
     }
@@ -83,20 +98,18 @@ public class SimpleInteraction : BaseInteraction
         for (int i = 0; i < performers.Count; i++)
         {
             PerformerInformation performer = performers[i]; // Get the performer
-            performer.interactionTime += Time.deltaTime; // Increment the interaction time
 
-            // performers[i].interactionTime += Time.deltaTime; // Increment the interaction time
+            float previousElapsedTime = performer.elapsedTime; // Get the previous interaction time
+            performer.elapsedTime = Mathf.Min(performer.elapsedTime + Time.deltaTime, interactionDuration); // Update the interaction time
+            float needChangePercentage = (performer.elapsedTime - previousElapsedTime) / interactionDuration; // Get the percentage of the interaction that has been completed
 
-            // // Check if the interaction time has reached the interaction duration
-            // if (performers[i].interactionTime >= interactionDuration)
-            // {
-            //     performers[i].onInteractionComplete.Invoke(this); // Invoke the on interaction complete event
-            //     performers.RemoveAt(i); // Remove the performer from the list
-            //     i--; // Decrement the index
-            // }
+            if (needsChanges.Count > 0)
+            {
+                ApplyNeedsChanges(gameObject, needChangePercentage); // Apply the needs changes (if any)
+            }
 
             // Check if the interaction time has reached the interaction duration
-            if (performer.interactionTime >= interactionDuration)
+            if (performer.elapsedTime >= interactionDuration)
             {
                 performer.onInteractionComplete.Invoke(this); // Invoke the on interaction complete event
                 performers.RemoveAt(i); // Remove the performer from the list
@@ -110,7 +123,7 @@ public class SimpleInteraction : BaseInteraction
     /// </summary>
     public class PerformerInformation
     {
-        public float interactionTime;
+        public float elapsedTime;
         public UnityAction<BaseInteraction> onInteractionComplete;
     }
 }
