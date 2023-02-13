@@ -94,8 +94,6 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
 
         // Sort the scored interactions by score in descending order. The first interaction will be the best interaction
         List<ScoredInteraction> scoredInteractionsSorted = scoredInteractionsUnsorted.OrderByDescending(scoredInteraction => scoredInteraction.interactionScore).ToList();
-
-        Debug.Log("Best interaction: " + scoredInteractionsSorted[0].interaction.displayName + " with score: " + scoredInteractionsSorted[0].interactionScore);
         SmartObject selectedObject = scoredInteractionsSorted[0].interactionObject; // Get the selected smart object
         BaseInteraction selectedInteraction = scoredInteractionsSorted[0].interaction; // Get the selected interaction
 
