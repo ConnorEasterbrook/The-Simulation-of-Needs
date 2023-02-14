@@ -43,8 +43,8 @@ MonoBehaviour:
     y: 0
     width: 695
     height: 978
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 21}
   m_Panes:
   - {fileID: 21}
@@ -198,8 +198,8 @@ MonoBehaviour:
     y: 0
     width: 419
     height: 978
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -346,8 +346,8 @@ MonoBehaviour:
     y: 0
     width: 2032
     height: 1584
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -422,22 +422,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/GridBuild
+    - Assets/Scripts/AI/Agent Communication
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts/GridBuild
+  - Assets/Scripts/AI/Agent Communication
   m_LastFoldersGridSize: -1
   m_LastProjectPath: E:\Not_Windows\Github\AT-SimSomething
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 00610000
-    m_LastClickedID: 24832
-    m_ExpandedIDs: 00000000c8600000d4600000fa60000000ca9a3bffffff7f
+    m_SelectedIDs: 08610000
+    m_LastClickedID: 24840
+    m_ExpandedIDs: 00000000c6600000d2600000f860000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -465,7 +465,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000c8600000
+    m_ExpandedIDs: 00000000c6600000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -595,7 +595,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 36fbffff6a5900008e5a0000c45a0000e25a0000
+      m_ExpandedIDs: 36fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -877,9 +877,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 8.209431, y: 1.5, z: -5.628292}
+    m_Target: {x: -0.7401447, y: 0.03829193, z: -4.8445287}
     speed: 2
-    m_Value: {x: 8.209431, y: 1.5, z: -5.628292}
+    m_Value: {x: -0.7401447, y: 0.03829193, z: -4.8445287}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -925,13 +925,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.33633006, y: -0.5032679, z: 0.22128357, w: -0.76474255}
+    m_Target: {x: -0.29335147, y: 0.63832414, z: -0.2876076, w: -0.6511264}
     speed: 2
-    m_Value: {x: -0.33629742, y: -0.50321907, z: 0.2212621, w: -0.76466835}
+    m_Value: {x: -0.29332265, y: 0.63826144, z: -0.28757936, w: -0.6510624}
   m_Size:
-    m_Target: 2.5825808
+    m_Target: 21.361698
     speed: 2
-    m_Value: 2.5825808
+    m_Value: 21.361698
   m_Ortho:
     m_Target: 0
     speed: 2

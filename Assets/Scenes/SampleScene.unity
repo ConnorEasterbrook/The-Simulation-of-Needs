@@ -2484,7 +2484,6 @@ MonoBehaviour:
     _hungerSlider: {fileID: 1035134561}
     _energySlider: {fileID: 124268785}
     _hygieneSlider: {fileID: 1341597997}
-  _interactionPickSelection: 1
 --- !u!1 &291997538
 GameObject:
   m_ObjectHideFlags: 0
@@ -3673,7 +3672,6 @@ MonoBehaviour:
     _hungerSlider: {fileID: 1174008712}
     _energySlider: {fileID: 2056322381}
     _hygieneSlider: {fileID: 770514549}
-  _interactionPickSelection: 1
 --- !u!114 &439068749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12660,6 +12658,7 @@ GameObject:
   - component: {fileID: 1487171645}
   - component: {fileID: 1487171647}
   - component: {fileID: 1487171648}
+  - component: {fileID: 1487171649}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -12725,6 +12724,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _debug: 0
   registeredObjects: []
+--- !u!114 &1487171649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487171644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bd9c884f1926734082847cdc762f0c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1510818936
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class CharacterNeeds
 {
+    private Communication _communication; // The communication object for this character
+
     // The needs of the character
     public float hunger = 100f; // The hunger level of the character
     public float energy = 100f; // The energy level of the character
@@ -22,11 +24,21 @@ public class CharacterNeeds
     public float energyCap = 100f; // The cap for energy
     public float hygieneCap = 100f; // The cap for hygiene
 
+    public void Initialize(Communication communication)
+    {
+        _communication = communication;
+    }
+
     public void UpdateNeeds()
     {
         hunger -= hungerDecayRate * Time.deltaTime;
+        // _communication.Set<float>(_communication.floatValues, CommunicationKey.Character_Need_Hunger, hunger); // Set the hunger need
+
         energy -= energyDecayRate * Time.deltaTime;
+        // _communication.Set<float>(_communication.floatValues, CommunicationKey.Character_Need_Energy, energy); // Set the energy need
+
         hygiene -= hygieneDecayRate * Time.deltaTime;
+        // _communication.Set<float>(_communication.floatValues, CommunicationKey.Character_Need_Hygiene, hygiene); // Set the hygiene need
 
         hunger = Mathf.Clamp(hunger, 0f, hungerCap);
         energy = Mathf.Clamp(energy, 0f, energyCap);

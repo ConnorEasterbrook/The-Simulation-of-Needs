@@ -9,11 +9,6 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class SimpleIntelligence : BaseCharacterIntelligence
 {
-    private void Awake()
-    {
-        _navMeshAgent = GetComponent<NavMeshAgent>(); // Get the navmesh agent component
-    }
-
     // Update is called once per frame
     public override void Update()
     {

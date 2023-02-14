@@ -10,16 +10,9 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class AutonomousIntelligence : BaseCharacterIntelligence
 {
-    private float _interactionInterval = 5f; // The interval between interactions
-    private float _interactionCooldown = 0f; // The cooldown between interactions
+    // private float _interactionInterval = 5f; // The interval between interactions
+    // private float _interactionCooldown = 0f; // The cooldown between interactions
     private float _defaultInteractionScore = 0f; // The default score for an interaction
-    [SerializeField] private int _interactionPickSelection = 3; // The number of interactions to pick from
-
-    private void Awake()
-    {
-        _navMeshAgent = GetComponent<NavMeshAgent>(); // Get the navmesh agent component
-        _characterNeedsUIScript.Initialize(_characterNeedsScript); // Initialize the character needs UI;
-    }
 
     public override void Update()
     {
