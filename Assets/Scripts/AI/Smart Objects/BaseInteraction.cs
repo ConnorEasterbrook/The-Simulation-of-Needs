@@ -8,8 +8,9 @@ using UnityEngine.Events;
 /// </Summary>
 public abstract class BaseInteraction : MonoBehaviour
 {
+    private GameVariableConnector _gameVariableConnectorScript; // The GameVariableConnector script
     public string displayName; // The name of the interaction
-    public InteractionType interactionType = InteractionType.Instant; // The type of interaction
+    public InteractionType interactionType = InteractionType.Need; // The type of interaction
     public float interactionDuration = 1f; // The duration of the interaction
     public List<InteractionNeedsChange> needsChanges = new List<InteractionNeedsChange>(); // The list of needs that will be changed by the interaction
 
@@ -19,17 +20,66 @@ public abstract class BaseInteraction : MonoBehaviour
     public abstract void CancelInteraction(); // Cancels the interaction
     public abstract void CompleteInteraction(); // Completes the interaction
 
+    private void Start()
+    {
+        _gameVariableConnectorScript = GameVariableConnector.instance; // Get the GameVariableConnector script
+    }
+
+    public void AssignWorkFromType(PerformerInformation performer)
+    {
+        switch (interactionType)
+        {
+            case InteractionType.Need:
+                NeedInteraction(performer);
+                break;
+
+            case InteractionType.Work:
+                WorkInteraction(performer);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    public void NeedInteraction(PerformerInformation performer)
+    {
+        float previousElapsedTime = performer.elapsedTime; // Get the previous interaction time
+        performer.elapsedTime = Mathf.Min(performer.elapsedTime + Time.deltaTime, interactionDuration); // Update the interaction time
+        float needChangePercentage = (performer.elapsedTime - previousElapsedTime) / interactionDuration; // Get the percentage of the interaction that has been completed
+
+        if (needsChanges.Count > 0)
+        {
+            ApplyNeedsChanges(performer.performingAIIntelligence, needChangePercentage); // Apply the needs changes (if any)
+        }
+    }
+
     public void ApplyNeedsChanges(BaseCharacterIntelligence performerIntelligence, float percentage)
     {
         foreach (var needsChange in needsChanges)
         {
-            // Debug.Log($"Applying {needsChange.changeAmount * percentage} to {needsChange.targetNeedType}");
             // Update performer need through BaseCharacterIntelligence.cs 
             performerIntelligence.UpdateIndividualNeed(needsChange.targetNeedType, needsChange.changeAmount * percentage);
         }
     }
 
-    
+    private void WorkInteraction(PerformerInformation performer)
+    {
+        float previousElapsedTime = performer.elapsedTime; // Get the previous interaction time
+        performer.elapsedTime = Mathf.Min(performer.elapsedTime + Time.deltaTime, interactionDuration); // Update the interaction time
+
+        _gameVariableConnectorScript.IncreaseProgress(1f, 5f); // Increase the progress of the work
+    }
+
+    /// <summary>
+    /// Information about a performer.
+    /// </summary>
+    public class PerformerInformation
+    {
+        public BaseCharacterIntelligence performingAIIntelligence;
+        public float elapsedTime;
+        public UnityAction<BaseInteraction> onInteractionComplete;
+    }
 }
 
 /// <summary>
@@ -37,8 +87,8 @@ public abstract class BaseInteraction : MonoBehaviour
 /// </summary>
 public enum InteractionType
 {
-    Instant,
-    OverTime
+    Need,
+    Work
 }
 
 /// <summary>
