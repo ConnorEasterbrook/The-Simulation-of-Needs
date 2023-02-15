@@ -65,16 +65,34 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
     {
         List<ScoredInteraction> scoredInteractionsUnsorted = new List<ScoredInteraction>(); // The list of scored interactions
 
-        foreach (var smartObject in SmartObjectManager.instance.registeredObjects)
+        if (_characterNeedsScript.AreNeedsFine())
         {
-            foreach (var interaction in smartObject.interactions)
+            foreach (var workObject in SmartObjectManager.instance.workObjects)
             {
-                if (!interaction.CanPerformInteraction())
+                foreach (var interaction in workObject.interactions)
                 {
-                    continue;
-                }
+                    if (!interaction.CanPerformInteraction())
+                    {
+                        continue;
+                    }
 
-                scoredInteractionsUnsorted.Add(new ScoredInteraction(smartObject, interaction, ScoreInteraction(interaction))); // Add the scored interaction to the list
+                    scoredInteractionsUnsorted.Add(new ScoredInteraction(workObject, interaction, ScoreInteraction(interaction))); // Add the scored interaction to the list
+                }
+            }
+        }
+        else
+        {
+            foreach (var smartObject in SmartObjectManager.instance.registeredObjects)
+            {
+                foreach (var interaction in smartObject.interactions)
+                {
+                    if (!interaction.CanPerformInteraction())
+                    {
+                        continue;
+                    }
+
+                    scoredInteractionsUnsorted.Add(new ScoredInteraction(smartObject, interaction, ScoreInteraction(interaction))); // Add the scored interaction to the list
+                }
             }
         }
 

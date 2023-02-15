@@ -22,10 +22,20 @@ public class SmartObject : MonoBehaviour
     void Start()
     {
         SmartObjectManager.instance.RegisterSmartObject(this);
+
+        if (GetComponent<BaseInteraction>().interactionType == InteractionType.Work)
+        {
+            SmartObjectManager.instance.RegisterWorkObject(this, true);
+        }
     }
 
     private void OnDestroy()
     {
         SmartObjectManager.instance.DeregisterSmartObject(this);
+
+        if (GetComponent<BaseInteraction>().interactionType == InteractionType.Work)
+        {
+            SmartObjectManager.instance.RegisterWorkObject(this, false);
+        }
     }
 }

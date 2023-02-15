@@ -10,6 +10,7 @@ public class SmartObjectManager : MonoBehaviour
     [SerializeField] private bool _debug = false; // Whether or not to display debug messages
     public static SmartObjectManager instance = null; // The singleton instance of the SmartObjectManager
     public List<SmartObject> registeredObjects = new List<SmartObject>(); // The list of registered smart objects
+    public List<SmartObject> workObjects = new List<SmartObject>(); // The list of registered smart objects
 
     private void Awake()
     {
@@ -34,6 +35,18 @@ public class SmartObjectManager : MonoBehaviour
         if (_debug)
         {
             Debug.Log("Registered Smart Object: " + smartObject.displayName);
+        }
+    }
+
+    public void RegisterWorkObject(SmartObject smartObject, bool isActive)
+    {
+        if (isActive)
+        {
+            workObjects.Add(smartObject);
+        }
+        else
+        {
+            workObjects.Remove(smartObject);
         }
     }
 

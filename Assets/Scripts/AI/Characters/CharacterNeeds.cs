@@ -90,6 +90,18 @@ public class CharacterNeeds
                 return 0f;
         }
     }
+
+    public bool AreNeedsFine()
+    {
+        if (hunger < 60f || energy <= 60f || hygiene <= 60f)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 }
 
 /// <summary>
