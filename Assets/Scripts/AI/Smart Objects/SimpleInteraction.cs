@@ -20,17 +20,16 @@ public class SimpleInteraction : BaseInteraction
         return _currentInteractions < maxSimultaneousInteractions;
     }
 
+    public override void HeadToInteraction()
+    {
+        _currentInteractions++; // Increment the current amount of peorple performing the interaction
+    }
+
     /// <summary>
     /// Performs the interaction.
     /// </summary>
     public override void PerformInteraction(BaseCharacterIntelligence performer, UnityAction<BaseInteraction> onInteractionComplete)
     {
-        // Check if the interaction can be performed
-        if (CanPerformInteraction())
-        {
-            _currentInteractions++; // Increment the current amount of peorple performing the interaction
-        }
-
         // Check the interaction type and perform the interaction
         switch (interactionType)
         {
@@ -84,6 +83,12 @@ public class SimpleInteraction : BaseInteraction
 
     private void Update()
     {
+        // Check if the interaction type is over time
+        if (interactionType != InteractionType.OverTime && performers.Count <= 0)
+        {
+            return;
+        }
+
         // Update the interaction time for each performer
         for (int i = 0; i < performers.Count; i++)
         {

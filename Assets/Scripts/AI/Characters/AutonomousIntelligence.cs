@@ -16,7 +16,7 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
 
     public override void Update()
     {
-        base.Update();
+        // base.Update();
 
         // // If the agent is not performing an interaction and is not moving, pick a random interaction
         // if (currentInteraction == null)
@@ -36,19 +36,18 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
         // If the agent is not performing an interaction and is not moving, pick a random interaction
         if (currentInteraction != null && !isPerformingInteraction)
         {
-            isPerformingInteraction = true; // Set to true to prevent multiple interactions from being performed
-            currentInteraction.PerformInteraction(this, OnInteractionComplete); // Perform the interaction
+            if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
+            {
+                isPerformingInteraction = true; // Set to true to prevent multiple interactions from being performed
+                currentInteraction.PerformInteraction(this, OnInteractionComplete); // Perform the interaction
+            }
         }
         else
         {
-            if (interactionCooldown <= 0f)
+            if (currentInteraction == null)
             {
                 interactionCooldown = interactionInterval;
                 PickBestInteractiom();
-            }
-            else if (currentInteraction == null)
-            {
-                interactionCooldown -= Time.deltaTime;
             }
         }
 
@@ -81,16 +80,29 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
 
         if (scoredInteractionsUnsorted.Count == 0)
         {
-            Debug.Log("No interactions available");
             return;
         }
 
         // Sort the scored interactions by score in descending order. The first interaction will be the best interaction
         List<ScoredInteraction> scoredInteractionsSorted = scoredInteractionsUnsorted.OrderByDescending(scoredInteraction => scoredInteraction.interactionScore).ToList();
-        SmartObject selectedObject = scoredInteractionsSorted[0].interactionObject; // Get the selected smart object
-        BaseInteraction selectedInteraction = scoredInteractionsSorted[0].interaction; // Get the selected interaction
+        // SmartObject selectedObject = scoredInteractionsSorted[0].interactionObject; // Get the selected smart object
 
-        CheckPerformInteraction(selectedInteraction); // Check if the interaction can be performed
+        for (int i = 0; i < scoredInteractionsSorted.Count; i++)
+        {
+            if (scoredInteractionsSorted[i].interaction.CanPerformInteraction())
+            {
+                Debug.Log("Amount of interactions: " + scoredInteractionsSorted.Count);
+                BaseInteraction interaction = scoredInteractionsSorted[i].interaction; // Get the selected interaction
+                interaction.HeadToInteraction(); // Head to the interaction
+                currentInteraction = interaction; // Set the current interaction
+                _navMeshAgent.SetDestination(interaction.GetComponent<SmartObject>().interactionPoint); // Set the destination of the navmesh agent to the interaction's position
+                break;
+            }
+        }
+
+        // BaseInteraction selectedInteraction = scoredInteractionsSorted[0].interaction; // Get the selected interaction
+
+        // CheckPerformInteraction(selectedInteraction); // Check if the interaction can be performed
     }
 
     /// <summary>

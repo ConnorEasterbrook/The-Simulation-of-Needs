@@ -12,7 +12,7 @@ public class BaseCharacterIntelligence : MonoBehaviour
     [HideInInspector] public Communication _individualCommunication = null;
 
     [Header("Settings")]
-    public float interactionInterval = 5f;
+    public float interactionInterval = 1f;
     public float interactionCooldown = 0f;
     public BaseInteraction currentInteraction = null;
     [HideInInspector] public bool isPerformingInteraction = false;
@@ -50,6 +50,7 @@ public class BaseCharacterIntelligence : MonoBehaviour
     {
         if (interaction.CanPerformInteraction())
         {
+            interaction.HeadToInteraction(); // Head to the interaction
             currentInteraction = interaction; // Set the current interaction
             _navMeshAgent.SetDestination(interaction.GetComponent<SmartObject>().interactionPoint); // Set the destination of the navmesh agent to the interaction's position
         }

@@ -14,6 +14,7 @@ public abstract class BaseInteraction : MonoBehaviour
     public List<InteractionNeedsChange> needsChanges = new List<InteractionNeedsChange>(); // The list of needs that will be changed by the interaction
 
     public abstract bool CanPerformInteraction(); // Returns true if the interaction can be performed
+    public abstract void HeadToInteraction(); // Head to the interaction
     public abstract void PerformInteraction(BaseCharacterIntelligence performer, UnityAction<BaseInteraction> onInteractionComplete); // Performs the interaction
     public abstract void CancelInteraction(); // Cancels the interaction
     public abstract void CompleteInteraction(); // Completes the interaction
