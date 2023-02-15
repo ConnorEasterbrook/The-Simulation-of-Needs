@@ -46,7 +46,7 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
                 interactionCooldown = interactionInterval;
                 PickBestInteractiom();
             }
-            else
+            else if (currentInteraction == null)
             {
                 interactionCooldown -= Time.deltaTime;
             }

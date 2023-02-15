@@ -10,7 +10,7 @@ public class SimpleInteraction : BaseInteraction
 {
     public int maxSimultaneousInteractions = 1; // The maximum amount of people that can perform the interaction at the same time
     public List<PerformerInformation> performers = new List<PerformerInformation>(); // The list of performers
-    private int _currentInteractions = 0; // The current amount of people performing the interaction
+    public int _currentInteractions = 0; // The current amount of people performing the interaction
 
     /// <summary>
     /// Returns true if the interaction can be performed.

@@ -10,9 +10,12 @@ public class CharacterNeeds
     private Communication _communication; // The communication object for this character
 
     // The needs of the character
-    public float hunger = 100f; // The hunger level of the character
-    public float energy = 100f; // The energy level of the character
-    public float hygiene = 100f; // The happiness level of the character
+    // public float hunger { get { return _communication.Get<float>(_communication.floatValues, CommunicationKey.Character_Need_Hunger); } set { _communication.Set<float>(_communication.floatValues, CommunicationKey.Character_Need_Hunger, value); } } // The hunger level of the character
+    // public float energy { get { return _communication.Get<float>(_communication.floatValues, CommunicationKey.Character_Need_Energy); } set { _communication.Set<float>(_communication.floatValues, CommunicationKey.Character_Need_Energy, value); } } // The energy level of the character
+    // public float hygiene { get { return _communication.Get<float>(_communication.floatValues, CommunicationKey.Character_Need_Hygiene); } set { _communication.Set<float>(_communication.floatValues, CommunicationKey.Character_Need_Hygiene, value); } } // The hygiene level of the character
+    public float hunger; // The hunger level of the character
+    public float energy; // The energy level of the character
+    public float hygiene; // The hygiene level of the character
 
     // The rate at which the needs decay
     public float hungerDecayRate = 1f; // The rate at which hunger decays
@@ -27,18 +30,17 @@ public class CharacterNeeds
     public void Initialize(Communication communication)
     {
         _communication = communication;
+
+        hunger = hungerCap;
+        energy = energyCap;
+        hygiene = hygieneCap;
     }
 
     public void UpdateNeeds()
     {
         hunger -= hungerDecayRate * Time.deltaTime;
-        // _communication.Set<float>(_communication.floatValues, CommunicationKey.Character_Need_Hunger, hunger); // Set the hunger need
-
         energy -= energyDecayRate * Time.deltaTime;
-        // _communication.Set<float>(_communication.floatValues, CommunicationKey.Character_Need_Energy, energy); // Set the energy need
-
         hygiene -= hygieneDecayRate * Time.deltaTime;
-        // _communication.Set<float>(_communication.floatValues, CommunicationKey.Character_Need_Hygiene, hygiene); // Set the hygiene need
 
         hunger = Mathf.Clamp(hunger, 0f, hungerCap);
         energy = Mathf.Clamp(energy, 0f, energyCap);

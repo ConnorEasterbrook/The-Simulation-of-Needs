@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Communication : MonoBehaviour
+public class Communication
 {
     public Dictionary<CommunicationKey, int> intValues = new Dictionary<CommunicationKey, int>();
     public Dictionary<CommunicationKey, float> floatValues = new Dictionary<CommunicationKey, float>();
@@ -13,8 +13,6 @@ public class Communication : MonoBehaviour
 
     public void Set<T>(Dictionary<CommunicationKey, T> dictionary, CommunicationKey key, T value)
     {
-        Debug.Log("Type: " + typeof(T) + " Key: " + key + " Value: " + value);
-
         if (dictionary.ContainsKey(key))
         {
             dictionary[key] = value;
@@ -52,11 +50,26 @@ public class Communication : MonoBehaviour
     }
 }
 
+/// <summary>
+/// This enum contains all the keys for the communication dictionary.
+/// </summary>
 public enum CommunicationKey
 {
+    /// Character
+    // Character Needs
     Character_Need_Hunger,
     Character_Need_Energy,
     Character_Need_Hygiene,
 
-    Character_Focus_Target
+    // Character Max Needs
+    Character_MaxNeed_Hunger,
+    Character_MaxNeed_Energy,
+    Character_MaxNeed_Hygiene,
+
+    // Character Level
+    Character_Level_Programming,
+
+    /// Tasks
+    // Task worker count
+    Task_Worker_Count,
 }

@@ -9,12 +9,12 @@ public class BaseCharacterIntelligence : MonoBehaviour
     [Header("General")]
     [SerializeField] private int _characterID = 0;
     [HideInInspector] public NavMeshAgent _navMeshAgent = null;
-    public Communication _individualCommunication = null;
+    [HideInInspector] public Communication _individualCommunication = null;
 
     [Header("Settings")]
     public float interactionInterval = 5f;
     public float interactionCooldown = 0f;
-    [HideInInspector] public BaseInteraction currentInteraction = null;
+    public BaseInteraction currentInteraction = null;
     [HideInInspector] public bool isPerformingInteraction = false;
 
     [Header("Needs")]
@@ -24,21 +24,23 @@ public class BaseCharacterIntelligence : MonoBehaviour
     private void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>(); // Get the navmesh agent component
-        _characterNeedsUIScript.Initialize(_characterNeedsScript); // Initialize the character needs UI;
     }
 
     private void Start()
     {
         EstablishCommunication(); // Establish communication
         _characterNeedsScript.Initialize(_individualCommunication); // Initialize the character needs
+        _characterNeedsUIScript.Initialize(_individualCommunication, _characterNeedsScript); // Initialize the character needs UI;
     }
 
     public virtual void EstablishCommunication()
     {
         _individualCommunication = CommunicationManager.instance.GetIndividualCommunication(gameObject); // Get the individual communication
-        _individualCommunication.Set<float>(_individualCommunication.floatValues, CommunicationKey.Character_Need_Energy, _characterNeedsScript.energy); // Set the energy need
-        _individualCommunication.Set<float>(_individualCommunication.floatValues, CommunicationKey.Character_Need_Hunger, _characterNeedsScript.hunger); // Set the hunger need
-        _individualCommunication.Set<float>(_individualCommunication.floatValues, CommunicationKey.Character_Need_Hygiene, _characterNeedsScript.hygiene); // Set the hygiene need
+    }
+
+    public Communication GetIndividualCommunication()
+    {
+        return _individualCommunication;
     }
 
     /// <summary>
