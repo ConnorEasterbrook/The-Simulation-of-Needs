@@ -79,21 +79,15 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
                     scoredInteractionsUnsorted.Add(new ScoredInteraction(workObject, interaction, ScoreInteraction(interaction))); // Add the scored interaction to the list
                 }
             }
+
+            if (scoredInteractionsUnsorted.Count == 0)
+            {
+                GetNeedInteraction(scoredInteractionsUnsorted);
+            }
         }
         else
         {
-            foreach (var smartObject in SmartObjectManager.instance.registeredObjects)
-            {
-                foreach (var interaction in smartObject.interactions)
-                {
-                    if (!interaction.CanPerformInteraction())
-                    {
-                        continue;
-                    }
-
-                    scoredInteractionsUnsorted.Add(new ScoredInteraction(smartObject, interaction, ScoreInteraction(interaction))); // Add the scored interaction to the list
-                }
-            }
+            GetNeedInteraction(scoredInteractionsUnsorted);
         }
 
         if (scoredInteractionsUnsorted.Count == 0)
@@ -121,6 +115,22 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
         // BaseInteraction selectedInteraction = scoredInteractionsSorted[0].interaction; // Get the selected interaction
 
         // CheckPerformInteraction(selectedInteraction); // Check if the interaction can be performed
+    }
+
+    private void GetNeedInteraction(List<ScoredInteraction> scoredInteractionsUnsorted)
+    {
+        foreach (var smartObject in SmartObjectManager.instance.registeredObjects)
+        {
+            foreach (var interaction in smartObject.interactions)
+            {
+                if (!interaction.CanPerformInteraction())
+                {
+                    continue;
+                }
+
+                scoredInteractionsUnsorted.Add(new ScoredInteraction(smartObject, interaction, ScoreInteraction(interaction))); // Add the scored interaction to the list
+            }
+        }
     }
 
     /// <summary>

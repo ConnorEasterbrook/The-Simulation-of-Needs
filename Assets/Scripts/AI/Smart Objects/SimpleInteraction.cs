@@ -17,7 +17,14 @@ public class SimpleInteraction : BaseInteraction
     /// </summary>
     public override bool CanPerformInteraction()
     {
-        return _currentInteractions < maxSimultaneousInteractions;
+        if (_currentInteractions < maxSimultaneousInteractions)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public override void HeadToInteraction()
