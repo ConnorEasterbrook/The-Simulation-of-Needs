@@ -9,7 +9,6 @@ using UnityEngine.Events;
 public abstract class BaseInteraction : MonoBehaviour
 {
     private GameVariableConnector _gameVariableConnectorScript; // The GameVariableConnector script
-    public string displayName; // The name of the interaction
     public InteractionType interactionType = InteractionType.Need; // The type of interaction
     public float interactionDuration = 1f; // The duration of the interaction
     public List<InteractionNeedsChange> needsChanges = new List<InteractionNeedsChange>(); // The list of needs that will be changed by the interaction

@@ -20,6 +20,9 @@ public class GridBuildCore : MonoBehaviour
     private Vector3 _direction;
     private float _length;
 
+    private List<Vector3> corners = new List<Vector3>();
+    private int cornerCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -126,6 +129,30 @@ public class GridBuildCore : MonoBehaviour
         newObjectLast.transform.localScale = new Vector3(_initialObjectScale.x, _initialObjectScale.y, remainingLength);
         newObjectLast.tag = "Construct";
         newObjectLast.name = "Wall";
+
+        TrackCorners();
+    }
+
+    private void TrackCorners()
+    {
+        if (corners.Count == 0)
+        {
+            corners.Add(_startPoint);
+        }
+        else
+        {
+            corners.Add(_endPoint);
+        }
+
+        cornerCount++;
+
+        if (cornerCount > 2)
+        {
+            if (corners[cornerCount - 1] == corners[0])
+            {
+                Debug.Log("Closed");
+            }
+        }
     }
 
     /// <summary>
