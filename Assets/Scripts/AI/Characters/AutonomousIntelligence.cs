@@ -103,7 +103,7 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
         {
             if (scoredInteractionsSorted[i].interaction.CanPerformInteraction())
             {
-                Debug.Log("Amount of interactions: " + scoredInteractionsSorted.Count);
+                if (debug) Debug.Log("Amount of interactions: " + scoredInteractionsSorted.Count);
                 BaseInteraction interaction = scoredInteractionsSorted[i].interaction; // Get the selected interaction
                 interaction.HeadToInteraction(); // Head to the interaction
                 currentInteraction = interaction; // Set the current interaction

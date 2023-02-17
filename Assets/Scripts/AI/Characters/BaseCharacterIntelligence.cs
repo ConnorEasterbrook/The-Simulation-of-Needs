@@ -16,6 +16,7 @@ public class BaseCharacterIntelligence : MonoBehaviour
     public float interactionCooldown = 0f;
     public BaseInteraction currentInteraction = null;
     [HideInInspector] public bool isPerformingInteraction = false;
+    public bool debug = false;
 
     [Header("Needs")]
     public CharacterNeeds _characterNeedsScript = new CharacterNeeds();
