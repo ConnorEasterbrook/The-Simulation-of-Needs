@@ -2,12 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeskFurnitureBuild : MonoBehaviour
+public class DeskFurnitureBuild : GridBuildCore
 {
-    private GridBuildCore gridBuildCore;
 
-    public DeskFurnitureBuild(GridBuildCore gridBuildCore)
-    {
-        this.gridBuildCore = gridBuildCore;
-    }
 }

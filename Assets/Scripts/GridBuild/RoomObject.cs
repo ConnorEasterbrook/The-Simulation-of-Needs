@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RoomObject : MonoBehaviour
 {
-    public List<WallObject> walls = new List<WallObject>();
+    // public List<WallObject> walls = new List<WallObject>();
     public int roomID;
 
     // Start is called before the first frame update

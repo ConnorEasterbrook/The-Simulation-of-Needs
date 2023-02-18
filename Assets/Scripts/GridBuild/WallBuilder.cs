@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WallBuilder : GridBuildCore
 {
+
     /// <summary>
     /// Controls the building of the object
     /// </summary>
@@ -16,26 +17,26 @@ public class WallBuilder : GridBuildCore
 
         if (Input.GetMouseButtonDown(0))
         {
-            _startPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
-            _previewObject.transform.position = _startPoint;
+            startPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
+            previewObject.transform.position = startPoint;
         }
-        else if (Input.GetMouseButton(0) && _previewObject.activeSelf)
+        else if (Input.GetMouseButton(0) && previewObject.activeSelf)
         {
-            _endPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
+            endPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
             PreviewObject();
         }
-        else if (Input.GetMouseButtonUp(0) && _previewObject.activeSelf)
+        else if (Input.GetMouseButtonUp(0) && previewObject.activeSelf)
         {
-            _endPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
+            endPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
             InstantiateObject();
 
-            _previewObject.transform.localScale = _initialObjectScale; // Reset scale
+            previewObject.transform.localScale = initialObjectScale; // Reset scale
         }
         else
         {
             Vector3 hitPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
             objectPrefab.transform.position = new Vector3(hitPoint.x, hitPoint.y, hitPoint.z);
-            objectPrefab.transform.localScale = _initialObjectScale;
+            objectPrefab.transform.localScale = initialObjectScale;
         }
     }
 
@@ -44,24 +45,24 @@ public class WallBuilder : GridBuildCore
     /// </summary>
     private void PreviewObject()
     {
-        _direction = _endPoint - _startPoint;
+        _direction = endPoint - startPoint;
         _length = _direction.magnitude;
         _direction.Normalize();
 
-        if (SnapToGrid(_startPoint) != SnapToGrid(_endPoint))
+        if (SnapToGrid(startPoint) != SnapToGrid(endPoint))
         {
             _length = Mathf.Max(_length, tileSize);
 
-            _previewObject.transform.localScale = new Vector3(_initialObjectScale.x, _initialObjectScale.y, _length);
-            _previewObject.transform.rotation = Quaternion.LookRotation(_direction);
+            previewObject.transform.localScale = new Vector3(initialObjectScale.x, initialObjectScale.y, _length);
+            previewObject.transform.rotation = Quaternion.LookRotation(_direction);
         }
         else
         {
-            _previewObject.transform.localScale = _initialObjectScale;
+            previewObject.transform.localScale = initialObjectScale;
         }
 
-        _objectPosition = _startPoint + _direction * _length * 0.5f;
-        _previewObject.transform.position = _objectPosition;
+        objectPosition = startPoint + _direction * _length * 0.5f;
+        previewObject.transform.position = objectPosition;
     }
 
     /// <summary>
@@ -79,11 +80,11 @@ public class WallBuilder : GridBuildCore
 
         for (int i = 0; i < numTiles; i++)
         {
-            Vector3 position = _startPoint + _direction * (tileSize * 0.5f + tileSize * i);
+            Vector3 position = startPoint + _direction * (tileSize * 0.5f + tileSize * i);
 
             GameObject newObject = MonoBehaviour.Instantiate(objectPrefab, position, Quaternion.LookRotation(_direction), plane.transform);
             newObject.AddComponent<BoxCollider>();
-            newObject.transform.localScale = new Vector3(_initialObjectScale.x, _initialObjectScale.y, tileSize);
+            newObject.transform.localScale = new Vector3(initialObjectScale.x, initialObjectScale.y, tileSize);
             newObject.tag = newObject.name = "Wall";
         }
 
@@ -92,10 +93,10 @@ public class WallBuilder : GridBuildCore
             return;
         }
 
-        Vector3 lastPosition = _startPoint + _direction * (tileSize * numTiles + remainingLength * 0.5f);
+        Vector3 lastPosition = startPoint + _direction * (tileSize * numTiles + remainingLength * 0.5f);
         GameObject newObjectLast = MonoBehaviour.Instantiate(objectPrefab, lastPosition, Quaternion.LookRotation(_direction), plane.transform);
         newObjectLast.AddComponent<BoxCollider>();
-        newObjectLast.transform.localScale = new Vector3(_initialObjectScale.x, _initialObjectScale.y, remainingLength);
+        newObjectLast.transform.localScale = new Vector3(initialObjectScale.x, initialObjectScale.y, remainingLength);
         newObjectLast.tag = newObjectLast.name = "Wall";
     }
 }
