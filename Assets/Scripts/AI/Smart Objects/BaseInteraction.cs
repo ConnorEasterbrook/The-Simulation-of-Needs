@@ -8,7 +8,6 @@ using UnityEngine.Events;
 /// </Summary>
 public abstract class BaseInteraction : MonoBehaviour
 {
-    private GameVariableConnector _gameVariableConnectorScript; // The GameVariableConnector script
     public InteractionType interactionType = InteractionType.Need; // The type of interaction
     public float interactionDuration = 1f; // The duration of the interaction
     public List<InteractionNeedsChange> needsChanges = new List<InteractionNeedsChange>(); // The list of needs that will be changed by the interaction
@@ -18,11 +17,6 @@ public abstract class BaseInteraction : MonoBehaviour
     public abstract void PerformInteraction(BaseCharacterIntelligence performer, UnityAction<BaseInteraction> onInteractionComplete); // Performs the interaction
     public abstract void CancelInteraction(); // Cancels the interaction
     public abstract void CompleteInteraction(); // Completes the interaction
-
-    private void Start()
-    {
-        _gameVariableConnectorScript = GameVariableConnector.instance; // Get the GameVariableConnector script
-    }
 
     public void AssignWorkFromType(PerformerInformation performer)
     {
@@ -70,7 +64,7 @@ public abstract class BaseInteraction : MonoBehaviour
         float percentageIncrease = performer.performingAIIntelligence.characterSkillsScript.skillLevel / 100f; // Get the percentage increase of the work
         float percentageSpeedIncrease = performer.performingAIIntelligence.characterSkillsScript.skillLevel / 100f; // Get the percentage increase of the work speed
 
-        _gameVariableConnectorScript.IncreaseProgress(percentageIncrease, percentageSpeedIncrease); // Increase the progress of the work
+        CreateJob.instance.WorkOnTask(percentageIncrease, percentageSpeedIncrease);
     }
 
     /// <summary>

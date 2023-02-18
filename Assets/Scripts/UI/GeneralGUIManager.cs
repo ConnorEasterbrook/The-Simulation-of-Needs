@@ -7,11 +7,11 @@ public class GeneralGUIManager : MonoBehaviour
     [SerializeField] private GameObject _GUIPanel;
     [SerializeField] private GameObject _buildingModePanel;
 
-    private GridBuildManager _gridBuildCore;
+    private GridBuildManager _gridBuildManager;
 
     private void Start()
     {
-        _gridBuildCore = GetComponent<GridBuildManager>();
+        _gridBuildManager = GetComponent<GridBuildManager>();
     }
 
     public void ChangeBuildingMode()
@@ -32,9 +32,14 @@ public class GeneralGUIManager : MonoBehaviour
         }
     }
 
+    public void SetPreviewObject(GameObject previewObject)
+    {
+        _gridBuildManager.SetPreviewObject(previewObject);
+    }
+
     public void SetBuildingObject(GameObject buildingObject)
     {
-        GridBuildManager gridBuildCore = FindObjectOfType<GridBuildManager>();
-        gridBuildCore.SetBuildingObject(buildingObject);
+        buildingObject.SetActive(true);
+        _gridBuildManager.SetBuildingObject(buildingObject);
     }
 }

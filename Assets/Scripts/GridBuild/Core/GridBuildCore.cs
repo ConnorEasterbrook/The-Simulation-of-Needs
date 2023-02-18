@@ -18,21 +18,30 @@ public class GridBuildCore
     public static Vector3 _direction;
     public static float _length;
 
-    public void PrepVariables(GameObject _prefab, GameObject _plane, Plane _gridPlane, float _tileSize)
+    public static bool validRaycast = false;
+
+    public void PrepVariables(GameObject _prefab, GameObject _preview, GameObject _plane, Plane _gridPlane, float _tileSize)
     {
         objectPrefab = _prefab;
-        previewObject = _prefab;
+        previewObject = _preview;
         plane = _plane;
         gridPlane = _gridPlane;
         tileSize = _tileSize;
         initialObjectScale = objectPrefab.transform.localScale;
     }
 
-    public void ChangeObject(GameObject _prefab)
+    public void ChangeObject(GameObject _prefab, GameObject _preview)
     {
+        previewObject.SetActive(false);
         objectPrefab = _prefab;
-        previewObject = _prefab;
+        previewObject = _preview;
+        previewObject.SetActive(true);
         initialObjectScale = objectPrefab.transform.localScale;
+    }
+
+    public void UpdateValidity(bool _validRaycast)
+    {
+        validRaycast = _validRaycast;
     }
 
     /// <summary>
@@ -54,11 +63,20 @@ public class GridBuildCore
     /// <summary>
     /// Snaps the given point to the grid
     /// </summary>
-    public Vector3 SnapToGrid(Vector3 hitPoint)
+    public Vector3 SnapToGrid(Vector3 hitPoint, bool wall = false)
     {
         float x = Mathf.Round(hitPoint.x / tileSize) * tileSize;
-        float y = hitPoint.y + (initialObjectScale.y * 0.5f);
+        float y = 0;
         float z = Mathf.Round(hitPoint.z / tileSize) * tileSize;
+
+        if (wall)
+        {
+            y = hitPoint.y + (initialObjectScale.y * 0.5f);
+        }
+        else
+        {
+            y = hitPoint.y;
+        }
 
         return new Vector3(x, y, z);
     }

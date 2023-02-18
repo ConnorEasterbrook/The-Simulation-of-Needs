@@ -17,24 +17,24 @@ public class WallBuilder : GridBuildCore
 
         if (Input.GetMouseButtonDown(0))
         {
-            startPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
+            startPoint = SnapToGrid(GetMouseWorldPositionOnPlane(), true);
             previewObject.transform.position = startPoint;
         }
         else if (Input.GetMouseButton(0) && previewObject.activeSelf)
         {
-            endPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
+            endPoint = SnapToGrid(GetMouseWorldPositionOnPlane(), true);
             PreviewObject();
         }
         else if (Input.GetMouseButtonUp(0) && previewObject.activeSelf)
         {
-            endPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
+            endPoint = SnapToGrid(GetMouseWorldPositionOnPlane(), true);
             InstantiateObject();
 
             previewObject.transform.localScale = initialObjectScale; // Reset scale
         }
         else
         {
-            Vector3 hitPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
+            Vector3 hitPoint = SnapToGrid(GetMouseWorldPositionOnPlane(), true);
             objectPrefab.transform.position = new Vector3(hitPoint.x, hitPoint.y, hitPoint.z);
             objectPrefab.transform.localScale = initialObjectScale;
         }
@@ -49,7 +49,7 @@ public class WallBuilder : GridBuildCore
         _length = _direction.magnitude;
         _direction.Normalize();
 
-        if (SnapToGrid(startPoint) != SnapToGrid(endPoint))
+        if (SnapToGrid(startPoint, true) != SnapToGrid(endPoint, true))
         {
             _length = Mathf.Max(_length, tileSize);
 
@@ -73,7 +73,7 @@ public class WallBuilder : GridBuildCore
         int numTiles = Mathf.FloorToInt(_length / tileSize);
         float remainingLength = _length - (numTiles * tileSize);
 
-        if (numTiles == 0)
+        if (numTiles == 0 || !validRaycast)
         {
             return;
         }

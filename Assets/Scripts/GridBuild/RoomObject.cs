@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomObject : MonoBehaviour
+public class RoomObject
 {
     // public List<WallObject> walls = new List<WallObject>();
     public int roomID;

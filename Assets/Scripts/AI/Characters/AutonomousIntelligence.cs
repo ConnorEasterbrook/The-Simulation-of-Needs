@@ -16,23 +16,6 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
 
     public override void Update()
     {
-        // base.Update();
-
-        // // If the agent is not performing an interaction and is not moving, pick a random interaction
-        // if (currentInteraction == null)
-        // {
-        //     // _isPerformingInteraction = true; // Set to true to prevent multiple interactions from being performed
-        //     // currentInteraction.PerformInteraction(this, OnInteractionComplete); // Perform the interaction
-
-        //     _interactionCooldown -= Time.deltaTime; // Decrement the interaction cooldown
-
-        //     if (_interactionCooldown <= 0f)
-        //     {
-        //         _interactionCooldown = _interactionInterval; // Reset the interaction cooldown
-        //         PickBestInteractiom(); // Pick the best interaction
-        //     }
-        // }
-
         // If the agent is not performing an interaction and is not moving, pick a random interaction
         if (currentInteraction != null && !isPerformingInteraction)
         {
@@ -65,7 +48,7 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
     {
         List<ScoredInteraction> scoredInteractionsUnsorted = new List<ScoredInteraction>(); // The list of scored interactions
 
-        if (characterNeedsScript.AreNeedsFine())
+        if (characterNeedsScript.AreNeedsFine() && CreateJob.instance.CheckForActiveSlider())
         {
             foreach (var workObject in SmartObjectManager.instance.workObjects)
             {

@@ -8,6 +8,7 @@ public class GridBuildManager : MonoBehaviour
     public static GridBuildCore _gridBuildCore = new GridBuildCore();
 
     public GameObject objectPrefab;
+    public GameObject previewObject;
     public GameObject plane;
     public Plane gridPlane;
     public float tileSize = 1f;
@@ -15,7 +16,7 @@ public class GridBuildManager : MonoBehaviour
     private ObjectTypes _objectType;
     private WallBuilder _wallBuilder = new WallBuilder();
     private FloorBuilder _floorBuilder = new FloorBuilder();
-    private RoomObject _roomBuilder = new RoomObject();
+    private RoomObject _roomBuilder;
     private GroundFurnitureBuild _groundFurnitureBuilder = new GroundFurnitureBuild();
     private DeskFurnitureBuild _deskFurnitureBuilder = new DeskFurnitureBuild();
 
@@ -23,9 +24,7 @@ public class GridBuildManager : MonoBehaviour
     void Start()
     {
         gridPlane = new Plane(plane.transform.up, plane.transform.position);
-
-        _gridBuildCore.PrepVariables(objectPrefab, plane, gridPlane, tileSize);
-
+        _gridBuildCore.PrepVariables(objectPrefab, previewObject, plane, gridPlane, tileSize);
         _objectType = objectPrefab.GetComponent<BuildableObject>().objectType;
     }
 
@@ -57,6 +56,21 @@ public class GridBuildManager : MonoBehaviour
                     break;
             }
         }
+
+        // Check if raycast hits UI element
+        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        {
+            _gridBuildCore.UpdateValidity(false);
+        }
+        else
+        {
+            _gridBuildCore.UpdateValidity(true);
+        }
+    }
+
+    public void SetPreviewObject(GameObject _previewObject)
+    {
+        previewObject = _previewObject;
     }
 
     /// <summary>
@@ -64,8 +78,8 @@ public class GridBuildManager : MonoBehaviour
     /// </summary>
     public void SetBuildingObject(GameObject buildingObject)
     {
-        _gridBuildCore.ChangeObject(buildingObject);
-        _objectType = objectPrefab.GetComponent<BuildableObject>().objectType;
+        _gridBuildCore.ChangeObject(buildingObject, previewObject);
+        _objectType = buildingObject.GetComponent<BuildableObject>().objectType;
     }
 }
 
