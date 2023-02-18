@@ -2,39 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallBuilder
+public class WallBuilder : GridBuildCore
 {
-    public GameObject _objectPrefab;
-    public GameObject _plane;
-    public Plane _gridPlane;
-    public float _tileSize = 1f;
-
-    public GridBuildCore _gridBuildCore;
-    private GameObject _previewObject;
-    private Vector3 _startPoint;
-    private Vector3 _endPoint;
-    private Vector3 _objectPosition;
-    private Vector3 _initialObjectScale;
-
-    private Vector3 _direction;
-    private float _length;
-
-    public WallBuilder(GridBuildCore gridBuildCore)
-    {
-        _gridBuildCore = gridBuildCore;
-        _objectPrefab = _gridBuildCore.objectPrefab;
-        _previewObject = _gridBuildCore.objectPrefab;
-        _plane = _gridBuildCore.plane;
-        _gridPlane = _gridBuildCore.gridPlane;
-        _tileSize = _gridBuildCore.tileSize;
-        _initialObjectScale = _gridBuildCore.initialObjectScale;
-    }
-
     /// <summary>
     /// Controls the building of the object
     /// </summary>
     public void BuildObject()
     {
+        if (objectPrefab == null)
+        {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             _startPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
@@ -55,8 +34,8 @@ public class WallBuilder
         else
         {
             Vector3 hitPoint = SnapToGrid(GetMouseWorldPositionOnPlane());
-            _objectPrefab.transform.position = new Vector3(hitPoint.x, hitPoint.y, hitPoint.z);
-            _objectPrefab.transform.localScale = _initialObjectScale;
+            objectPrefab.transform.position = new Vector3(hitPoint.x, hitPoint.y, hitPoint.z);
+            objectPrefab.transform.localScale = _initialObjectScale;
         }
     }
 
@@ -71,7 +50,7 @@ public class WallBuilder
 
         if (SnapToGrid(_startPoint) != SnapToGrid(_endPoint))
         {
-            _length = Mathf.Max(_length, _tileSize);
+            _length = Mathf.Max(_length, tileSize);
 
             _previewObject.transform.localScale = new Vector3(_initialObjectScale.x, _initialObjectScale.y, _length);
             _previewObject.transform.rotation = Quaternion.LookRotation(_direction);
@@ -90,21 +69,21 @@ public class WallBuilder
     /// </summary>
     private void InstantiateObject()
     {
-        int numTiles = Mathf.FloorToInt(_length / _tileSize);
-        float remainingLength = _length - (numTiles * _tileSize);
+        int numTiles = Mathf.FloorToInt(_length / tileSize);
+        float remainingLength = _length - (numTiles * tileSize);
 
         if (numTiles == 0)
         {
             return;
         }
 
-        for (int i = 0; i < numTiles; i++)  
+        for (int i = 0; i < numTiles; i++)
         {
-            Vector3 position = _startPoint + _direction * (_tileSize * 0.5f + _tileSize * i);
+            Vector3 position = _startPoint + _direction * (tileSize * 0.5f + tileSize * i);
 
-            GameObject newObject = MonoBehaviour.Instantiate(_objectPrefab, position, Quaternion.LookRotation(_direction), _plane.transform);
+            GameObject newObject = MonoBehaviour.Instantiate(objectPrefab, position, Quaternion.LookRotation(_direction), plane.transform);
             newObject.AddComponent<BoxCollider>();
-            newObject.transform.localScale = new Vector3(_initialObjectScale.x, _initialObjectScale.y, _tileSize);
+            newObject.transform.localScale = new Vector3(_initialObjectScale.x, _initialObjectScale.y, tileSize);
             newObject.tag = newObject.name = "Wall";
         }
 
@@ -113,38 +92,10 @@ public class WallBuilder
             return;
         }
 
-        Vector3 lastPosition = _startPoint + _direction * (_tileSize * numTiles + remainingLength * 0.5f);
-        GameObject newObjectLast = MonoBehaviour.Instantiate(_objectPrefab, lastPosition, Quaternion.LookRotation(_direction), _plane.transform);
+        Vector3 lastPosition = _startPoint + _direction * (tileSize * numTiles + remainingLength * 0.5f);
+        GameObject newObjectLast = MonoBehaviour.Instantiate(objectPrefab, lastPosition, Quaternion.LookRotation(_direction), plane.transform);
         newObjectLast.AddComponent<BoxCollider>();
         newObjectLast.transform.localScale = new Vector3(_initialObjectScale.x, _initialObjectScale.y, remainingLength);
         newObjectLast.tag = newObjectLast.name = "Wall";
-    }
-
-    /// <summary>
-    /// Gets the mouse position on the grid plane
-    /// </summary>
-    public Vector3 GetMouseWorldPositionOnPlane()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        float distance;
-
-        if (_gridPlane.Raycast(ray, out distance))
-        {
-            return ray.GetPoint(distance);
-        }
-
-        return Vector3.zero;
-    }
-
-    /// <summary>
-    /// Snaps the given point to the grid
-    /// </summary>
-    public Vector3 SnapToGrid(Vector3 hitPoint)
-    {
-        float x = Mathf.Round(hitPoint.x / _tileSize) * _tileSize;
-        float y = hitPoint.y + (_initialObjectScale.y * 0.5f);
-        float z = Mathf.Round(hitPoint.z / _tileSize) * _tileSize;
-
-        return new Vector3(x, y, z);
     }
 }

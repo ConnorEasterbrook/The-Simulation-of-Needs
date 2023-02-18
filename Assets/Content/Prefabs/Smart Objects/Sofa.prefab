@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 4146952053292578740}
   - component: {fileID: 4146952053292578742}
   - component: {fileID: 4146952053292578741}
+  - component: {fileID: -6881560225386472784}
   m_Layer: 0
   m_Name: Sofa
   m_TagString: Untagged
@@ -151,3 +152,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Need_Energy
   _interactionPoint: {fileID: 7030307336860498385}
+--- !u!114 &-6881560225386472784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7541218084303185971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d0f0a7e6e83cc149870c31993433ea3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: 3

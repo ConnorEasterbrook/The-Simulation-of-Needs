@@ -52,10 +52,10 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
         }
 
         // Update the character needs
-        _characterNeedsScript.UpdateNeeds();
+        characterNeedsScript.UpdateNeeds();
 
         // Update the character needs UI
-        _characterNeedsUIScript.UpdateSliders();
+        characterNeedsUIScript.UpdateSliders();
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
     {
         List<ScoredInteraction> scoredInteractionsUnsorted = new List<ScoredInteraction>(); // The list of scored interactions
 
-        if (_characterNeedsScript.AreNeedsFine())
+        if (characterNeedsScript.AreNeedsFine())
         {
             foreach (var workObject in SmartObjectManager.instance.workObjects)
             {
@@ -160,7 +160,7 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
     /// </summary>
     private float ScoreChange(NeedType needType, float changeAmount)
     {
-        float currentNeedValue = 100 - _characterNeedsScript.GetNeedValue(needType); // Get the current need value by subtracting the current need value from 100
+        float currentNeedValue = 100 - characterNeedsScript.GetNeedValue(needType); // Get the current need value by subtracting the current need value from 100
         // float newNeedValue = currentNeedValue + changeAmount; // Calculate the new need value
         Mathf.Clamp(currentNeedValue, 0f, 100f);
 

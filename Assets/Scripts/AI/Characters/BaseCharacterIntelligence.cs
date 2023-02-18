@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class BaseCharacterIntelligence : MonoBehaviour
 {
     [Header("General")]
-    [SerializeField] private int _characterID = 0;
+    // [SerializeField] private int _characterID = 0;
     [HideInInspector] public NavMeshAgent _navMeshAgent = null;
     [HideInInspector] public Communication _individualCommunication = null;
 
@@ -19,8 +19,9 @@ public class BaseCharacterIntelligence : MonoBehaviour
     public bool debug = false;
 
     [Header("Needs")]
-    public CharacterNeeds _characterNeedsScript = new CharacterNeeds();
-    public CharacterNeedsUI _characterNeedsUIScript = new CharacterNeedsUI();
+    public CharacterNeeds characterNeedsScript = new CharacterNeeds();
+    public CharacterNeedsUI characterNeedsUIScript = new CharacterNeedsUI();
+    public CharacterSkills characterSkillsScript = new CharacterSkills();
 
     private void Awake()
     {
@@ -30,8 +31,8 @@ public class BaseCharacterIntelligence : MonoBehaviour
     private void Start()
     {
         EstablishCommunication(); // Establish communication
-        _characterNeedsScript.Initialize(_individualCommunication); // Initialize the character needs
-        _characterNeedsUIScript.Initialize(_individualCommunication, _characterNeedsScript); // Initialize the character needs UI;
+        characterNeedsScript.Initialize(_individualCommunication); // Initialize the character needs
+        characterNeedsUIScript.Initialize(_individualCommunication, characterNeedsScript); // Initialize the character needs UI;
     }
 
     public virtual void EstablishCommunication()
@@ -77,14 +78,14 @@ public class BaseCharacterIntelligence : MonoBehaviour
         }
 
         // Update the character needs
-        _characterNeedsScript.UpdateNeeds();
+        characterNeedsScript.UpdateNeeds();
 
         // Update the character needs UI
-        _characterNeedsUIScript.UpdateSliders();
+        characterNeedsUIScript.UpdateSliders();
     }
 
     public void UpdateIndividualNeed(NeedType needType, float value)
     {
-        _characterNeedsScript.UpdateIndividualNeed(needType, value);
+        characterNeedsScript.UpdateIndividualNeed(needType, value);
     }
 }
