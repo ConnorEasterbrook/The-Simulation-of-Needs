@@ -6,6 +6,7 @@ public class GeneralGUIManager : MonoBehaviour
 {
     [SerializeField] private GameObject _GUIPanel;
     [SerializeField] private GameObject _buildingModePanel;
+    [SerializeField] private GameObject _taskCreationPanel;
 
     private GridBuildManager _gridBuildManager;
 
@@ -29,6 +30,24 @@ public class GeneralGUIManager : MonoBehaviour
             _buildingModePanel.SetActive(true);
             _GUIPanel.SetActive(false);
             GridBuildManager.isBuilding = true;
+        }
+    }
+
+    public void ChangeTaskCreationMode()
+    {
+        bool isCreatingTask = CreateJob.instance.isCreatingTask;
+
+        if (isCreatingTask)
+        {
+            _taskCreationPanel.SetActive(false);
+            _GUIPanel.SetActive(true);
+            CreateJob.instance.isCreatingTask = false;
+        }
+        else
+        {
+            _taskCreationPanel.SetActive(true);
+            _GUIPanel.SetActive(false);
+            CreateJob.instance.isCreatingTask = true;
         }
     }
 

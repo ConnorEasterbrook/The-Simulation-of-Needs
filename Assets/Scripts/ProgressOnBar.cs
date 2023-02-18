@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ProgressOnBar : MonoBehaviour
 {
-    public static float progress;
+    public float progress;
     private float _targetValue;
     private float _increaseSpeed;
 

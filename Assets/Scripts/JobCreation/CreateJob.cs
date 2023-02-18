@@ -11,6 +11,8 @@ public class CreateJob : MonoBehaviour
     private List<Slider> _availableSliders = new List<Slider>();
     private List<Slider> _activeSliders = new List<Slider>();
 
+    public bool isCreatingTask;
+
     private void Awake()
     {
         // If an instance of the SmartObjectManager already exists, destroy this instance
@@ -28,6 +30,19 @@ public class CreateJob : MonoBehaviour
     void Start()
     {
         _availableSliders = sliders;
+    }
+
+    public bool CheckForAvailableSlider()
+    {
+        for (int i = 0; i < _availableSliders.Count; i++)
+        {
+            if (!_availableSliders[i].gameObject.activeInHierarchy)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public bool CheckForActiveSlider()
