@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CreateJob : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class CreateJob : MonoBehaviour
     public List<Slider> sliders = new List<Slider>();
     private List<Slider> _availableSliders = new List<Slider>();
     private List<Slider> _activeSliders = new List<Slider>();
+    private string _taskName;
+
+    // Store all task names created to make sure there are no duplicates
+    private Dictionary<string, string> _taskNames = new Dictionary<string, string>();
 
     public bool isCreatingTask;
 
@@ -69,15 +74,27 @@ public class CreateJob : MonoBehaviour
         slider.GetComponent<ProgressOnBar>().IncreaseProgress(percentageAmount, increaseSpeed);
     }
 
+    public void SetTaskName(TMP_InputField inputField)
+    {
+        _taskName = inputField.text;
+    }
+
     public void CreateTask()
     {
         for (int i = 0; i < _availableSliders.Count; i++)
         {
-            if (!_availableSliders[i].gameObject.activeInHierarchy)
+            if (!_availableSliders[i].gameObject.activeInHierarchy && !_taskNames.ContainsKey(_taskName))
             {
                 _availableSliders[i].gameObject.SetActive(true);
+                _availableSliders[i].GetComponentInChildren<TextMeshProUGUI>().text = _taskName;
+                _taskNames.Add(_taskName, _taskName);
                 _activeSliders.Add(_availableSliders[i]);
                 _availableSliders.RemoveAt(i);
+                break;
+            }
+            else if (_taskNames.ContainsKey(_taskName))
+            {
+                Debug.Log("Task name already exists");
                 break;
             }
         }
