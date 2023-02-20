@@ -19,8 +19,17 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
         // If the agent is not performing an interaction and is not moving, pick a random interaction
         if (currentInteraction != null && !isPerformingInteraction)
         {
-            if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
+            float distance = Vector3.Distance(transform.position, currentInteraction.GetComponent<SmartObject>().GetInteractionPoint().transform.position);
+
+            // If the agent is close enough to the interaction, perform the interaction
+            if (distance <= 1f)
             {
+                // Rotate agent to face the same way as the interaction target's rotation
+                if (currentInteraction.GetComponent<SmartObject>().interactionPoint != null)
+                {
+                    rotatePerformer = true;
+                }
+
                 isPerformingInteraction = true; // Set to true to prevent multiple interactions from being performed
                 currentInteraction.PerformInteraction(this, OnInteractionComplete); // Perform the interaction
             }
@@ -39,6 +48,21 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
 
         // Update the character needs UI
         characterNeedsUIScript.UpdateSliders();
+
+        if (rotatePerformer)
+        {
+            Vector3 targetDir = currentInteraction.GetComponent<SmartObject>().GetInteractionPoint().transform.localRotation * Vector3.forward;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDir), 1f);
+
+            // transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(currentInteraction.GetComponent<SmartObject>().interactionPoint + Vector3.forward), 1f);
+
+            // Debug.Log(targetDir + " " + transform.rotation + " " + Quaternion.LookRotation(targetDir));
+            if (transform.rotation == Quaternion.LookRotation(targetDir))
+            {
+                Debug.Log("Done rotating");
+                rotatePerformer = false;
+            }
+        }
     }
 
     /// <summary>

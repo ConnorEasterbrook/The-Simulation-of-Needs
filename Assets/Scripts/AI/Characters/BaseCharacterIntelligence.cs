@@ -10,6 +10,7 @@ public class BaseCharacterIntelligence : MonoBehaviour
     // [SerializeField] private int _characterID = 0;
     [HideInInspector] public NavMeshAgent _navMeshAgent = null;
     [HideInInspector] public Communication _individualCommunication = null;
+    [HideInInspector] public bool rotatePerformer = false;
 
     [Header("Settings")]
     public float interactionInterval = 1f;

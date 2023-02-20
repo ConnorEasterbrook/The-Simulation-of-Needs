@@ -38,4 +38,9 @@ public class SmartObject : MonoBehaviour
             SmartObjectManager.instance.RegisterWorkObject(this, false);
         }
     }
+
+    public Transform GetInteractionPoint()
+    {
+        return _interactionPoint;
+    }
 }

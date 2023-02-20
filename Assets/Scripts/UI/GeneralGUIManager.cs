@@ -1,20 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class GeneralGUIManager : MonoBehaviour
 {
+    [Header("General")]
     public bool stopMovement = false;
 
+    [Header("Panels")]
     [SerializeField] private GameObject _GUIPanel;
     [SerializeField] private GameObject _buildingModePanel;
     [SerializeField] private GameObject _taskCreationPanel;
 
     private GridBuildManager _gridBuildManager;
 
-    private void Start()
+    [Header("Performer")]
+    [SerializeField] private RenderTexture _performerRT;
+    [SerializeField] private GameObject _playerPerformer;
+    private GameObject _performer;
+    private PerformerCam _performerCam;
+
+    private void Awake()
     {
         _gridBuildManager = GetComponent<GridBuildManager>();
+        _performer = _playerPerformer;
+        _performerCam = new PerformerCam(_performer, _performerRT);
+    }
+
+    private void Update()
+    {
+        if (!stopMovement)
+        {
+            DetectPerformer();
+        }
+    }
+
+    private void DetectPerformer()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit, 1000))
+        {
+            if (hit.collider.gameObject.GetComponent<NavMeshAgent>() != null)
+            {
+                _performer = hit.collider.gameObject;
+                _performerCam.ChangeCamera(_performer);
+            }
+            else
+            {
+                _performer = _playerPerformer;
+                _performerCam.ChangeCamera(_performer);
+            }
+        }
+
     }
 
     public void ChangeBuildingMode()
