@@ -6,6 +6,7 @@ public class GameVariableConnector : MonoBehaviour
 {
     public static GameVariableConnector instance = null; // The instance of the SmartObjectManager
     public ProgressOnBar _progressOnBarScript;
+    public GeneralGUIManager _generalGUIManagerScript;
 
     public ProgressOnBar GetProgressOnBarScript()
     {

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GeneralGUIManager : MonoBehaviour
 {
+    public bool stopMovement = false;
+
     [SerializeField] private GameObject _GUIPanel;
     [SerializeField] private GameObject _buildingModePanel;
     [SerializeField] private GameObject _taskCreationPanel;
@@ -39,12 +41,14 @@ public class GeneralGUIManager : MonoBehaviour
 
         if (isCreatingTask)
         {
+            stopMovement = false;
             _taskCreationPanel.SetActive(false);
             _GUIPanel.SetActive(true);
             CreateJob.instance.isCreatingTask = false;
         }
         else
         {
+            stopMovement = true;
             _taskCreationPanel.SetActive(true);
             _GUIPanel.SetActive(false);
             CreateJob.instance.isCreatingTask = true;
