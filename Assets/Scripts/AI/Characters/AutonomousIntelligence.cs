@@ -46,9 +46,6 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
         // Update the character needs
         characterNeedsScript.UpdateNeeds();
 
-        // Update the character needs UI
-        characterNeedsUIScript.UpdateSliders();
-
         if (rotatePerformer)
         {
             Vector3 targetDir = currentInteraction.GetComponent<SmartObject>().GetInteractionPoint().transform.localRotation * Vector3.forward;

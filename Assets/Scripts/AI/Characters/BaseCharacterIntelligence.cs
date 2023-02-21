@@ -21,7 +21,6 @@ public class BaseCharacterIntelligence : MonoBehaviour
 
     [Header("Needs")]
     public CharacterNeeds characterNeedsScript = new CharacterNeeds();
-    public CharacterNeedsUI characterNeedsUIScript = new CharacterNeedsUI();
     public CharacterSkills characterSkillsScript = new CharacterSkills();
 
     private void Awake()
@@ -33,7 +32,6 @@ public class BaseCharacterIntelligence : MonoBehaviour
     {
         EstablishCommunication(); // Establish communication
         characterNeedsScript.Initialize(_individualCommunication); // Initialize the character needs
-        characterNeedsUIScript.Initialize(_individualCommunication, characterNeedsScript); // Initialize the character needs UI;
     }
 
     public virtual void EstablishCommunication()
@@ -80,9 +78,6 @@ public class BaseCharacterIntelligence : MonoBehaviour
 
         // Update the character needs
         characterNeedsScript.UpdateNeeds();
-
-        // Update the character needs UI
-        characterNeedsUIScript.UpdateSliders();
     }
 
     public void UpdateIndividualNeed(NeedType needType, float value)

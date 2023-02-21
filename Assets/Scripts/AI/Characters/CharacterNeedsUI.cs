@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 /// <summary>
 /// This class stores the character's UI elements and handles the logic for updating them.
@@ -9,44 +10,65 @@ using UnityEngine.UI;
 [System.Serializable]
 public class CharacterNeedsUI
 {
-    private Communication _communication; // The communication object for this character
+    private GameObject _performerDetailPanelPrefab;
+    private static Transform _performerDetailPanelParent;
+    private static List<AutonomousIntelligence> performers = new List<AutonomousIntelligence>();
+    private static List<GameObject> performerDetailPanels = new List<GameObject>();
 
-    [SerializeField] private Slider _hungerSlider; // The slider for the hunger need
-    [SerializeField] private Slider _energySlider; // The slider for the energy need
-    [SerializeField] private Slider _hygieneSlider; // The slider for the hygiene need
-
-    private CharacterNeeds _characterNeeds; // The character's needs
-
-    public void Initialize(Communication communication, CharacterNeeds characterNeeds)
+    public CharacterNeedsUI(GameObject prefab, Transform prefabParent)
     {
-        _communication = communication;
-        _characterNeeds = characterNeeds;
+        _performerDetailPanelPrefab = prefab;
+        _performerDetailPanelParent = prefabParent;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void GetInitialPerformers()
     {
-        _hungerSlider.maxValue = _characterNeeds.hungerCap;
-        _energySlider.maxValue = _characterNeeds.energyCap;
-        _hygieneSlider.maxValue = _characterNeeds.hygieneCap;
+        GameObject[] temp = GameObject.FindGameObjectsWithTag("Performer");
 
-        _hungerSlider.value = _characterNeeds.hunger;
-        _energySlider.value = _characterNeeds.energy;
-        _hygieneSlider.value = _characterNeeds.hygiene;
+        foreach (GameObject performer in temp)
+        {
+            AutonomousIntelligence performerScript = performer.GetComponent<AutonomousIntelligence>();
+            performers.Add(performerScript);
 
-        // _hungerSlider.value = _communication.Get<float>(_communication.floatValues, CommunicationKey.Character_Need_Hunger);
-        // _energySlider.value = _communication.Get<float>(_communication.floatValues, CommunicationKey.Character_Need_Energy);
-        // _hygieneSlider.value = _communication.Get<float>(_communication.floatValues, CommunicationKey.Character_Need_Hygiene);
+            GameObject performerDetailPanel = MonoBehaviour.Instantiate(_performerDetailPanelPrefab, _performerDetailPanelParent);
+            performerDetailPanels.Add(performerDetailPanel);
+        }
     }
 
-    public void UpdateSliders()
+    public void PopulatePerformerDetails()
     {
-        // _hungerSlider.value = _communication.Get<float>(_communication.floatValues, CommunicationKey.Character_Need_Hunger);
-        // _energySlider.value = _communication.Get<float>(_communication.floatValues, CommunicationKey.Character_Need_Energy);
-        // _hygieneSlider.value = _communication.Get<float>(_communication.floatValues, CommunicationKey.Character_Need_Hygiene);
+        if (performers.Count > performerDetailPanels.Count)
+        {
+            GameObject performerDetailPanel = MonoBehaviour.Instantiate(_performerDetailPanelPrefab, _performerDetailPanelParent);
+            performerDetailPanels.Add(performerDetailPanel);
+        }
 
-        _hungerSlider.value = _characterNeeds.hunger;
-        _energySlider.value = _characterNeeds.energy;
-        _hygieneSlider.value = _characterNeeds.hygiene;
+        foreach (AutonomousIntelligence performer in performers)
+        {
+            GetPerformerDetails(performer);
+        }
+    }
+
+    private void GetPerformerDetails(AutonomousIntelligence performer)
+    {
+        TextMeshProUGUI performerName = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        Slider performerHunger = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(1).transform.GetChild(0).GetComponent<Slider>();
+        Slider performerHygiene = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(2).transform.GetChild(0).GetComponent<Slider>();
+        Slider performerEnergy = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(3).transform.GetChild(0).GetComponent<Slider>();
+        Slider performerHappiness = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(4).transform.GetChild(0).GetComponent<Slider>();
+
+        performerName.text = performer.name;
+
+        performerHunger.maxValue = performer.characterNeedsScript.hungerCap;
+        performerHunger.value = performer.characterNeedsScript.hunger;
+
+        performerHygiene.maxValue = performer.characterNeedsScript.hygieneCap;
+        performerHygiene.value = performer.characterNeedsScript.hygiene;
+
+        performerEnergy.maxValue = performer.characterNeedsScript.energyCap;
+        performerEnergy.value = performer.characterNeedsScript.energy;
+
+        // performerHappiness.maxValue = performer.characterNeedsScript.happinessCap;
+        // performerHappiness.value = performer.characterNeedsScript.happiness;
     }
 }

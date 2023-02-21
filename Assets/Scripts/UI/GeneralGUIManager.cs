@@ -21,11 +21,21 @@ public class GeneralGUIManager : MonoBehaviour
     private GameObject _performer;
     private PerformerCam _performerCam;
 
+    [Header("Performer Details")]
+    private CharacterNeedsUI _characterNeedsUI;
+    [SerializeField] private Transform _performerDetailsPanelParent;
+    [SerializeField] private GameObject _performerDetailsPanel;
+
+
     private void Awake()
     {
         _gridBuildManager = GetComponent<GridBuildManager>();
+
         _performer = _playerPerformer;
         _performerCam = new PerformerCam(_performer, _performerRT);
+
+        _characterNeedsUI = new CharacterNeedsUI(_performerDetailsPanel, _performerDetailsPanelParent);
+        _characterNeedsUI.GetInitialPerformers();
     }
 
     private void Update()
@@ -34,6 +44,8 @@ public class GeneralGUIManager : MonoBehaviour
         {
             DetectPerformer();
         }
+
+        _characterNeedsUI.PopulatePerformerDetails();
     }
 
     private void DetectPerformer()
