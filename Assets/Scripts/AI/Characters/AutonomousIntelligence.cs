@@ -56,7 +56,6 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
             // Debug.Log(targetDir + " " + transform.rotation + " " + Quaternion.LookRotation(targetDir));
             if (transform.rotation == Quaternion.LookRotation(targetDir))
             {
-                Debug.Log("Done rotating");
                 rotatePerformer = false;
             }
         }

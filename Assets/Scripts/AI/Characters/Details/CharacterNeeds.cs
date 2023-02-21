@@ -16,16 +16,27 @@ public class CharacterNeeds
     public float hunger; // The hunger level of the character
     public float energy; // The energy level of the character
     public float hygiene; // The hygiene level of the character
+    public float motivation; // The motivation level of the character
+    public float happiness; // The happiness level of the character
 
     // The rate at which the needs decay
     public float hungerDecayRate = 1f; // The rate at which hunger decays
     public float energyDecayRate = 1f; // The rate at which energy decays
     public float hygieneDecayRate = 1f; // The rate at which hygiene decays
+    public float motivationDecayRate = 1f; // The rate at which motivation decays
+    public float happinessDecayRate = 1f; // The rate at which happiness decays
 
     // The cap for the needs
     public float hungerCap = 100f; // The cap for hunger
     public float energyCap = 100f; // The cap for energy
     public float hygieneCap = 100f; // The cap for hygiene
+    public float motivationCap = 100f; // The cap for motivation
+    public float happinessCap = 100f; // The cap for happiness
+
+    // The threshold for the needs
+    public float hungerThreshold = 50f; // The threshold for hunger
+    public float energyThreshold = 50f; // The threshold for energy
+    public float hygieneThreshold = 50f; // The threshold for hygiene
 
     public void Initialize(Communication communication)
     {
@@ -34,6 +45,12 @@ public class CharacterNeeds
         hunger = hungerCap;
         energy = energyCap;
         hygiene = hygieneCap;
+        motivation = motivationCap;
+        happiness = happinessCap;
+
+        hungerThreshold = Random.Range(35f, 65f);
+        energyThreshold = Random.Range(35f, 65f);
+        hygieneThreshold = Random.Range(35f, 65f);
     }
 
     public void UpdateNeeds()
@@ -41,10 +58,14 @@ public class CharacterNeeds
         hunger -= hungerDecayRate * Time.deltaTime;
         energy -= energyDecayRate * Time.deltaTime;
         hygiene -= hygieneDecayRate * Time.deltaTime;
+        motivation -= motivationDecayRate * Time.deltaTime;
+        happiness -= happinessDecayRate * Time.deltaTime;
 
         hunger = Mathf.Clamp(hunger, 0f, hungerCap);
         energy = Mathf.Clamp(energy, 0f, energyCap);
         hygiene = Mathf.Clamp(hygiene, 0f, hygieneCap);
+        motivation = Mathf.Clamp(motivation, 0f, motivationCap);
+        happiness = Mathf.Clamp(happiness, 0f, happinessCap);
     }
 
     public void UpdateIndividualNeed(NeedType needType, float value)
@@ -66,6 +87,16 @@ public class CharacterNeeds
                 hygiene = Mathf.Clamp(hygiene, 0f, hygieneCap);
                 break;
 
+            case NeedType.Motivation:
+                motivation += value;
+                motivation = Mathf.Clamp(motivation, 0f, motivationCap);
+                break;
+
+            case NeedType.Happiness:
+                happiness += value;
+                happiness = Mathf.Clamp(happiness, 0f, happinessCap);
+                break;
+
             default:
                 Debug.LogError("Invalid NeedType");
                 break;
@@ -84,6 +115,12 @@ public class CharacterNeeds
 
             case NeedType.Hygiene:
                 return hygiene;
+
+            case NeedType.Motivation:
+                return motivation;
+
+            case NeedType.Happiness:
+                return happiness;
                 
             default:
                 Debug.LogError("Invalid NeedType");
@@ -93,7 +130,7 @@ public class CharacterNeeds
 
     public bool AreNeedsFine()
     {
-        if (hunger < 60f || energy <= 60f || hygiene <= 60f)
+        if (hunger < hungerThreshold || energy <= energyThreshold || hygiene <= hygieneThreshold)
         {
             return false;
         }
@@ -111,5 +148,7 @@ public enum NeedType
 {
     Hunger,
     Energy,
-    Hygiene
+    Hygiene,
+    Motivation,
+    Happiness
 }

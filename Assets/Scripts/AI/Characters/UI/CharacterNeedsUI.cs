@@ -45,23 +45,36 @@ public class CharacterNeedsUI
     private void GetPerformerDetails(AutonomousIntelligence performer)
     {
         TextMeshProUGUI performerName = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
+        performerName.text = performer.name;
+
         Slider performerHunger = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(1).GetComponentInChildren<Slider>();
         Slider performerHygiene = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(2).GetComponentInChildren<Slider>();
         Slider performerEnergy = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(3).GetComponentInChildren<Slider>();
         Slider performerHappiness = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(4).GetComponentInChildren<Slider>();
+        Slider performerMotivation = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(5).GetComponentInChildren<Slider>();
 
-        performerName.text = performer.name;
+        Color fullColour = new Color(134f / 255f, 217f / 255f, 116f / 255f, 1f);
+        Color emptyColour = new Color(140f / 255f, 77f / 255f, 74f / 255f, 1f);
+
 
         performerHunger.maxValue = performer.characterNeedsScript.hungerCap;
         performerHunger.value = performer.characterNeedsScript.hunger;
+        performerHunger.fillRect.GetComponent<Image>().color = Color.Lerp(emptyColour, fullColour, performerHunger.value / performerHunger.maxValue);
 
         performerHygiene.maxValue = performer.characterNeedsScript.hygieneCap;
         performerHygiene.value = performer.characterNeedsScript.hygiene;
+        performerHygiene.fillRect.GetComponent<Image>().color = Color.Lerp(emptyColour, fullColour, performerHygiene.value / performerHygiene.maxValue);
 
         performerEnergy.maxValue = performer.characterNeedsScript.energyCap;
         performerEnergy.value = performer.characterNeedsScript.energy;
+        performerEnergy.fillRect.GetComponent<Image>().color = Color.Lerp(emptyColour, fullColour, performerEnergy.value / performerEnergy.maxValue);
 
-        // performerHappiness.maxValue = performer.characterNeedsScript.happinessCap;
-        // performerHappiness.value = performer.characterNeedsScript.happiness;
+        performerHappiness.maxValue = performer.characterNeedsScript.happinessCap;
+        performerHappiness.value = performer.characterNeedsScript.happiness;
+        performerHappiness.fillRect.GetComponent<Image>().color = Color.Lerp(emptyColour, fullColour, performerHappiness.value / performerHappiness.maxValue);
+
+        performerMotivation.maxValue = performer.characterNeedsScript.motivationCap;
+        performerMotivation.value = performer.characterNeedsScript.motivation;
+        performerMotivation.fillRect.GetComponent<Image>().color = Color.Lerp(emptyColour, fullColour, performerMotivation.value / performerMotivation.maxValue);
     }
 }

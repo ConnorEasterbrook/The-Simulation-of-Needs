@@ -61,12 +61,23 @@ public abstract class BaseInteraction : MonoBehaviour
         float previousElapsedTime = performer.elapsedTime; // Get the previous interaction time
         performer.elapsedTime = Mathf.Min(performer.elapsedTime + Time.deltaTime, interactionDuration); // Update the interaction time
 
-        float percentageIncrease = performer.performingAIIntelligence.characterSkillsScript.skillLevel / 20f; // Get the percentage increase of the work
-        float percentageSpeedIncrease = performer.performingAIIntelligence.characterSkillsScript.skillLevel / 20f; // Get the percentage increase of the work speed
+        float workEfficiency = performer.performingAIIntelligence.characterSkillsScript.skillLevel / 200f; // Get the performers skill level
+
+        float energyModifier = performer.performingAIIntelligence.characterNeedsScript.GetNeedValue(NeedType.Energy) / 200f;
+        float happinessModifier = performer.performingAIIntelligence.characterNeedsScript.GetNeedValue(NeedType.Happiness) / 50f;
+        float motivationModifier = performer.performingAIIntelligence.characterNeedsScript.GetNeedValue(NeedType.Motivation) / 50f;
+        float modifier = energyModifier + happinessModifier + motivationModifier;
+
+        workEfficiency = workEfficiency * modifier; // Apply the modifiers to the work efficiency
+
+        Debug.Log("Work Efficiency: " + workEfficiency);
+
+
+        // workEfficiency = workEfficiency / ; 
 
         if (CreateJob.instance.CheckForActiveSlider())
         {
-            CreateJob.instance.WorkOnTask(percentageIncrease, percentageSpeedIncrease);
+            CreateJob.instance.WorkOnTask(workEfficiency, 10f);
         }
     }
 
