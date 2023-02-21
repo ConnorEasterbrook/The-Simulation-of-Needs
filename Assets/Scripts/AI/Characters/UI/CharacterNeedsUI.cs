@@ -21,41 +21,34 @@ public class CharacterNeedsUI
         _performerDetailPanelParent = prefabParent;
     }
 
-    public void GetInitialPerformers()
+    public void AddPerformer(AutonomousIntelligence performer)
     {
-        GameObject[] temp = GameObject.FindGameObjectsWithTag("Performer");
+        performers.Add(performer);
 
-        foreach (GameObject performer in temp)
-        {
-            AutonomousIntelligence performerScript = performer.GetComponent<AutonomousIntelligence>();
-            performers.Add(performerScript);
-
-            GameObject performerDetailPanel = MonoBehaviour.Instantiate(_performerDetailPanelPrefab, _performerDetailPanelParent);
-            performerDetailPanels.Add(performerDetailPanel);
-        }
+        GameObject performerDetailPanel = MonoBehaviour.Instantiate(_performerDetailPanelPrefab, _performerDetailPanelParent);
+        performerDetailPanels.Add(performerDetailPanel);
     }
 
     public void PopulatePerformerDetails()
     {
-        if (performers.Count > performerDetailPanels.Count)
-        {
-            GameObject performerDetailPanel = MonoBehaviour.Instantiate(_performerDetailPanelPrefab, _performerDetailPanelParent);
-            performerDetailPanels.Add(performerDetailPanel);
-        }
-
         foreach (AutonomousIntelligence performer in performers)
         {
+            if (performerDetailPanels[performers.IndexOf(performer)] == null)
+            {
+                return;
+            }
+
             GetPerformerDetails(performer);
         }
     }
 
     private void GetPerformerDetails(AutonomousIntelligence performer)
     {
-        TextMeshProUGUI performerName = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(0).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        Slider performerHunger = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(1).transform.GetChild(0).GetComponent<Slider>();
-        Slider performerHygiene = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(2).transform.GetChild(0).GetComponent<Slider>();
-        Slider performerEnergy = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(3).transform.GetChild(0).GetComponent<Slider>();
-        Slider performerHappiness = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(4).transform.GetChild(0).GetComponent<Slider>();
+        TextMeshProUGUI performerName = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
+        Slider performerHunger = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(1).GetComponentInChildren<Slider>();
+        Slider performerHygiene = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(2).GetComponentInChildren<Slider>();
+        Slider performerEnergy = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(3).GetComponentInChildren<Slider>();
+        Slider performerHappiness = performerDetailPanels[performers.IndexOf(performer)].transform.GetChild(4).GetComponentInChildren<Slider>();
 
         performerName.text = performer.name;
 

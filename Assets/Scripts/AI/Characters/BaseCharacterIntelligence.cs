@@ -6,6 +6,14 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class BaseCharacterIntelligence : MonoBehaviour
 {
+    public string characterName;
+
+    public class NameGen
+    {
+        public List<string> names = new List<string>();
+    }
+
+
     [Header("General")]
     // [SerializeField] private int _characterID = 0;
     [HideInInspector] public NavMeshAgent _navMeshAgent = null;
@@ -32,6 +40,35 @@ public class BaseCharacterIntelligence : MonoBehaviour
     {
         EstablishCommunication(); // Establish communication
         characterNeedsScript.Initialize(_individualCommunication); // Initialize the character needs
+
+        GenerateName();
+    }
+
+    public void GenerateName()
+    {
+        GameVariableConnector gameVariableConnector = GameVariableConnector.instance;
+        TextAsset namesJson = new TextAsset("Hello");
+        namesJson = gameVariableConnector.GetNamesJson();
+
+        if (namesJson == null)
+        {
+            Debug.LogError("No names.json file found!");
+            gameObject.name = characterName;
+            return;
+        }
+
+        var names = JsonUtility.FromJson<NameGen>(namesJson.text);
+        var forename = names.names[Random.Range(0, names.names.Count)];
+        var surname = names.names[Random.Range(0, names.names.Count)];
+        gameObject.name = forename + " " + surname;
+
+        GeneralGUIManager generalGUIManager = gameVariableConnector.generalGUIManagerScript;
+        CharacterNeedsUI characterNeedsUI = generalGUIManager._characterNeedsUIScript;
+        characterNeedsUI.AddPerformer(gameObject.GetComponent<AutonomousIntelligence>());
+
+
+        // // var test = JsonUtility.FromJson<NameGen>(namesJson.text);
+        // var test = JsonUtility.FromJson<NameGen>(Resources.Load<TextAsset>("names").text);
     }
 
     public virtual void EstablishCommunication()

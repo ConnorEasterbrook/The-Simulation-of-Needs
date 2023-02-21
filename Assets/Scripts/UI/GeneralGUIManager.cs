@@ -22,7 +22,7 @@ public class GeneralGUIManager : MonoBehaviour
     private PerformerCam _performerCam;
 
     [Header("Performer Details")]
-    private CharacterNeedsUI _characterNeedsUI;
+    public CharacterNeedsUI _characterNeedsUIScript;
     [SerializeField] private Transform _performerDetailsPanelParent;
     [SerializeField] private GameObject _performerDetailsPanel;
 
@@ -34,8 +34,8 @@ public class GeneralGUIManager : MonoBehaviour
         _performer = _playerPerformer;
         _performerCam = new PerformerCam(_performer, _performerRT);
 
-        _characterNeedsUI = new CharacterNeedsUI(_performerDetailsPanel, _performerDetailsPanelParent);
-        _characterNeedsUI.GetInitialPerformers();
+        _characterNeedsUIScript = new CharacterNeedsUI(_performerDetailsPanel, _performerDetailsPanelParent);
+        // _characterNeedsUIScript.GetInitialPerformers();
     }
 
     private void Update()
@@ -45,7 +45,7 @@ public class GeneralGUIManager : MonoBehaviour
             DetectPerformer();
         }
 
-        _characterNeedsUI.PopulatePerformerDetails();
+        _characterNeedsUIScript.PopulatePerformerDetails();
     }
 
     private void DetectPerformer()

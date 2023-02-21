@@ -24,6 +24,8 @@ public class CameraMovement : MonoBehaviour
 
     private GameVariableConnector _gameVariableConnector;
 
+    private static bool validRaycast = false;
+
     private void Start()
     {
         _movementSpeed *= 10f;
@@ -39,7 +41,7 @@ public class CameraMovement : MonoBehaviour
 
     private void Update()
     {
-        if (!_gameVariableConnector._generalGUIManagerScript.stopMovement)
+        if (!_gameVariableConnector.generalGUIManagerScript.stopMovement)
         {
             if (Input.GetMouseButton(1))
             {
@@ -47,10 +49,20 @@ public class CameraMovement : MonoBehaviour
             }
 
             float scroll = Input.GetAxis("Mouse ScrollWheel");
-            if (scroll != 0)
+            if (scroll != 0 && validRaycast)
             {
                 SetCameraHeight(scroll);
             }
+        }
+
+        // Check if raycast hits UI element
+        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        {
+            validRaycast = false;
+        }
+        else
+        {
+            validRaycast = true;
         }
     }
 
@@ -65,7 +77,7 @@ public class CameraMovement : MonoBehaviour
 
     private Vector3 MoveCamera()
     {
-        if (!_gameVariableConnector._generalGUIManagerScript.stopMovement)
+        if (!_gameVariableConnector.generalGUIManagerScript.stopMovement)
         {
             Vector3 moveDirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
             moveDirection = transform.rotation * moveDirection;

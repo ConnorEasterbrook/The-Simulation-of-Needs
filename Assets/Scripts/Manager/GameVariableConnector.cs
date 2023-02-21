@@ -5,12 +5,14 @@ using UnityEngine;
 public class GameVariableConnector : MonoBehaviour
 {
     public static GameVariableConnector instance = null; // The instance of the SmartObjectManager
-    public ProgressOnBar _progressOnBarScript;
-    public GeneralGUIManager _generalGUIManagerScript;
+    public ProgressOnBar progressOnBarScript;
+    public GeneralGUIManager generalGUIManagerScript;
+
+    [SerializeField] private TextAsset _namesJson = null;
 
     public ProgressOnBar GetProgressOnBarScript()
     {
-        return _progressOnBarScript;
+        return progressOnBarScript;
     }
 
     private void Awake()
@@ -26,8 +28,19 @@ public class GameVariableConnector : MonoBehaviour
         }
     }
 
+    public TextAsset GetNamesJson()
+    {
+        if (_namesJson == null)
+        {
+            Debug.LogError("No names.json file found!");
+            return null;
+        }
+
+        return _namesJson;
+    }
+
     public void IncreaseProgress(float percentageAmount, float increaseSpeed)
     {
-        _progressOnBarScript.IncreaseProgress(percentageAmount, increaseSpeed);
+        progressOnBarScript.IncreaseProgress(percentageAmount, increaseSpeed);
     }
 }
