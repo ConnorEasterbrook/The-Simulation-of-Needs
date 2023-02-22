@@ -70,9 +70,6 @@ public abstract class BaseInteraction : MonoBehaviour
 
         workEfficiency = workEfficiency * modifier; // Apply the modifiers to the work efficiency
 
-        Debug.Log("Work Efficiency: " + workEfficiency);
-
-
         // workEfficiency = workEfficiency / ; 
 
         if (CreateJob.instance.CheckForActiveSlider())

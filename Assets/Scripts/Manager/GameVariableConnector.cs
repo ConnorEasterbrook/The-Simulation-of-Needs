@@ -7,6 +7,8 @@ public class GameVariableConnector : MonoBehaviour
     public static GameVariableConnector instance = null; // The instance of the SmartObjectManager
     public ProgressOnBar progressOnBarScript;
     public GeneralGUIManager generalGUIManagerScript;
+    public static float timeScale = 1f;
+    public static bool pauseGame = false;
 
     [SerializeField] private TextAsset _namesJson = null;
 
@@ -28,6 +30,16 @@ public class GameVariableConnector : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        Time.timeScale = timeScale;
+    }
+
+    public void ChangeTimeScale(float newTimeScale)
+    {
+        timeScale = newTimeScale;
+    }
+
     public TextAsset GetNamesJson()
     {
         if (_namesJson == null)
@@ -42,5 +54,20 @@ public class GameVariableConnector : MonoBehaviour
     public void IncreaseProgress(float percentageAmount, float increaseSpeed)
     {
         progressOnBarScript.IncreaseProgress(percentageAmount, increaseSpeed);
+    }
+
+    public void PauseGame()
+    {
+        pauseGame = true;
+    }
+
+    public void UnpauseGame()
+    {
+        pauseGame = false;
+    }
+
+    public bool IsGamePaused()
+    {
+        return pauseGame;
     }
 }
