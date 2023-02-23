@@ -30,6 +30,16 @@ public class EconomyManager
         _balanceText.text = "£" + _balance.ToString("0.00");
     }
 
+    public void AddToBalance(float amount)
+    {
+        _balance += amount;
+    }
+
+    public void SubtractFromBalance(float amount)
+    {
+        _balance -= amount;
+    }
+
     public void AddMonthlyBalance()
     {
         _monthlyBalance.Add(_balance);

@@ -98,5 +98,15 @@ public class WallBuilder : GridBuildCore
         newObjectLast.AddComponent<BoxCollider>();
         newObjectLast.transform.localScale = new Vector3(initialObjectScale.x, initialObjectScale.y, remainingLength);
         newObjectLast.tag = newObjectLast.name = "Wall";
+
+        // Calculate the cost
+        float cost = objectPrefab.GetComponent<BuildableObject>().GetCost();
+        float totalCost = cost * numTiles;
+        if (remainingLength != 0)
+        {
+            totalCost += cost;
+        }
+
+        gameVariableConnector.economyManagerScript.SubtractFromBalance(totalCost);
     }
 }

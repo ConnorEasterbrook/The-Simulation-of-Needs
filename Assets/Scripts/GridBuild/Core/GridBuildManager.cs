@@ -20,11 +20,14 @@ public class GridBuildManager : MonoBehaviour
     private GroundFurnitureBuild _groundFurnitureBuilder = new GroundFurnitureBuild();
     private DeskFurnitureBuild _deskFurnitureBuilder = new DeskFurnitureBuild();
 
+    private GameVariableConnector _gameVariableConnector;
+
     // Start is called before the first frame update
     void Start()
     {
+        _gameVariableConnector = GameVariableConnector.instance;
         gridPlane = new Plane(plane.transform.up, plane.transform.position);
-        _gridBuildCore.PrepVariables(objectPrefab, previewObject, plane, gridPlane, tileSize);
+        _gridBuildCore.PrepVariables(_gameVariableConnector, objectPrefab, previewObject, plane, gridPlane, tileSize);
         _objectType = objectPrefab.GetComponent<BuildableObject>().objectType;
     }
 

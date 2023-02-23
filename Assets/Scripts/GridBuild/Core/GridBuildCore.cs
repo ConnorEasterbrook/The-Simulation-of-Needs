@@ -20,8 +20,14 @@ public class GridBuildCore
 
     public static bool validRaycast = false;
 
-    public void PrepVariables(GameObject _prefab, GameObject _preview, GameObject _plane, Plane _gridPlane, float _tileSize)
+    public static GameVariableConnector gameVariableConnector;
+    public static EconomyManager economyManagerScript;
+
+    public void PrepVariables(GameVariableConnector _gameVariableConnector, GameObject _prefab, GameObject _preview, GameObject _plane, Plane _gridPlane, float _tileSize)
     {
+        gameVariableConnector = _gameVariableConnector;
+        economyManagerScript = gameVariableConnector.economyManagerScript;
+
         objectPrefab = _prefab;
         previewObject = _preview;
         plane = _plane;
