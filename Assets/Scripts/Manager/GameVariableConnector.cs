@@ -1,21 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameVariableConnector : MonoBehaviour
 {
     public static GameVariableConnector instance = null; // The instance of the SmartObjectManager
-    public ProgressOnBar progressOnBarScript;
-    public GeneralGUIManager generalGUIManagerScript;
+    public EconomyManager economyManagerScript;
+    [HideInInspector] public GeneralGUIManager generalGUIManagerScript;
     public static float timeScale = 1f;
     public static bool pauseGame = false;
 
     [SerializeField] private TextAsset _namesJson = null;
 
-    public ProgressOnBar GetProgressOnBarScript()
-    {
-        return progressOnBarScript;
-    }
+    [Header("Economy")]
+    [SerializeField] private TextMeshProUGUI _balanceText = null;
 
     private void Awake()
     {
@@ -28,6 +27,12 @@ public class GameVariableConnector : MonoBehaviour
         {
             instance = this;
         }
+    }
+
+    private void Start()
+    {
+        economyManagerScript = new EconomyManager(_balanceText);
+        generalGUIManagerScript = GetComponent<GeneralGUIManager>();
     }
 
     private void Update()
@@ -49,11 +54,6 @@ public class GameVariableConnector : MonoBehaviour
         }
 
         return _namesJson;
-    }
-
-    public void IncreaseProgress(float percentageAmount, float increaseSpeed)
-    {
-        progressOnBarScript.IncreaseProgress(percentageAmount, increaseSpeed);
     }
 
     public void PauseGame()

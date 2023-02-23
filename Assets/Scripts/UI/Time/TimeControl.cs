@@ -12,6 +12,8 @@ public class TimeControl : MonoBehaviour
     private float _seconds = 0;
     private int _minutes = 0;
     private int _hours = 0;
+    private int _days = 0;
+    private List<float> _monthlyBalance = new List<float>();
     private GameVariableConnector _gameVariableConnector;
 
     private void Start()
@@ -60,11 +62,19 @@ public class TimeControl : MonoBehaviour
         if (_hours >= 24)
         {
             _hours = 0;
+            _days++;
+        }
+
+        if (_days >= 30)
+        {
+            _days = 0;
+            _gameVariableConnector.economyManagerScript.AddMonthlyBalance();
         }
     }
 
     public void SkipDay()
     {
+        _days++;
         _hours = 0;
         _minutes = 0;
         _seconds = 0;

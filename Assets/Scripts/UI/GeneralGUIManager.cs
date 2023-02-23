@@ -26,6 +26,10 @@ public class GeneralGUIManager : MonoBehaviour
     [SerializeField] private Transform _performerDetailsPanelParent;
     [SerializeField] private GameObject _performerDetailsPanel;
 
+    [Header("Economy")]
+    [SerializeField] private float _startingBalance = 1000f;
+    private EconomyManager _economyManagerScript;
+
 
     private void Awake()
     {
@@ -38,6 +42,12 @@ public class GeneralGUIManager : MonoBehaviour
         // _characterNeedsUIScript.GetInitialPerformers();
     }
 
+    private void Start()
+    {
+        _economyManagerScript = GameVariableConnector.instance.economyManagerScript;
+        _economyManagerScript.SetStartingBalance(_startingBalance);
+    }
+
     private void Update()
     {
         if (!stopMovement)
@@ -46,6 +56,8 @@ public class GeneralGUIManager : MonoBehaviour
         }
 
         _characterNeedsUIScript.PopulatePerformerDetails();
+
+        _economyManagerScript.UpdateBalance();
     }
 
     private void DetectPerformer()
