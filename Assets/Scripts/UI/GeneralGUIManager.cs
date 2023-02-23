@@ -129,4 +129,10 @@ public class GeneralGUIManager : MonoBehaviour
         buildingObject.SetActive(true);
         _gridBuildManager.SetBuildingObject(buildingObject);
     }
+
+    public AutonomousIntelligence[] GetPerformers()
+    {
+        AutonomousIntelligence[] performers = _characterNeedsUIScript.GetPerformers();
+        return performers;
+    }
 }

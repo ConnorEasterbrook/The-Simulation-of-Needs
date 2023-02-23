@@ -99,4 +99,11 @@ public class CreateJob : MonoBehaviour
             }
         }
     }
+
+    public void CompleteTask(Slider slider)
+    {
+        _activeSliders.Remove(slider);
+        _availableSliders.Add(slider);
+        slider.gameObject.SetActive(false);
+    }
 }

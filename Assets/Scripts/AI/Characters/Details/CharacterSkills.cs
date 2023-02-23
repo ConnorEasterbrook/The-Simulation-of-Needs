@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharacterSkills
 {
     public int skillLevel = 10;
+    public float monthlySalary = 100;
 
     // Start is called before the first frame update
     void Start()
@@ -16,5 +17,10 @@ public class CharacterSkills
     void Update()
     {
         
+    }
+
+    public float GetSalary()
+    {
+        return monthlySalary;
     }
 }

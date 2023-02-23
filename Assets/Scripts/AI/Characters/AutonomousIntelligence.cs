@@ -50,10 +50,7 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
         {
             Vector3 targetDir = currentInteraction.GetComponent<SmartObject>().GetInteractionPoint().transform.localRotation * Vector3.forward;
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDir), 1f);
-
-            // transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(currentInteraction.GetComponent<SmartObject>().interactionPoint + Vector3.forward), 1f);
-
-            // Debug.Log(targetDir + " " + transform.rotation + " " + Quaternion.LookRotation(targetDir));
+            
             if (transform.rotation == Quaternion.LookRotation(targetDir))
             {
                 rotatePerformer = false;

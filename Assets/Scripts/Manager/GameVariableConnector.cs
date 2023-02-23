@@ -13,9 +13,6 @@ public class GameVariableConnector : MonoBehaviour
 
     [SerializeField] private TextAsset _namesJson = null;
 
-    [Header("Economy")]
-    [SerializeField] private TextMeshProUGUI _balanceText = null;
-
     private void Awake()
     {
         // If an instance of the SmartObjectManager already exists, destroy this instance
@@ -31,7 +28,7 @@ public class GameVariableConnector : MonoBehaviour
 
     private void Start()
     {
-        economyManagerScript = new EconomyManager(_balanceText);
+        economyManagerScript = GetComponent<EconomyManager>();
         generalGUIManagerScript = GetComponent<GeneralGUIManager>();
     }
 

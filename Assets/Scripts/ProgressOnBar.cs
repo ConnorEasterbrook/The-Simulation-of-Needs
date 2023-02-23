@@ -8,6 +8,15 @@ public class ProgressOnBar : MonoBehaviour
     public float progress;
     private float _targetValue;
     private float _increaseSpeed;
+    private GameVariableConnector _gameVariableConnector;
+    private CreateJob _createJobScript;
+
+    void Start()
+    {
+        progress = 0;
+        _gameVariableConnector = GameVariableConnector.instance;
+        _createJobScript = CreateJob.instance;
+    }
 
     // Update is called once per frame
     void Update()
@@ -22,6 +31,13 @@ public class ProgressOnBar : MonoBehaviour
         }
 
         GetComponent<Slider>().value = progress;
+
+        if (CheckIfProjectIsFinished())
+        {
+            _gameVariableConnector.economyManagerScript.AddToBalance(1000);
+            progress = 0;
+            _createJobScript.CompleteTask(gameObject.GetComponent<Slider>());
+        }
     }
 
     public void IncreaseProgress(float percentageAmount, float increaseSpeed)

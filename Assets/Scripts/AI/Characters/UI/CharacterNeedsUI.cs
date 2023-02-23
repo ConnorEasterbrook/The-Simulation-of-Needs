@@ -29,6 +29,11 @@ public class CharacterNeedsUI
         performerDetailPanels.Add(performerDetailPanel);
     }
 
+    public AutonomousIntelligence[] GetPerformers()
+    {
+        return performers.ToArray();
+    }
+
     public void PopulatePerformerDetails()
     {
         foreach (AutonomousIntelligence performer in performers)

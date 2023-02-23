@@ -65,10 +65,6 @@ public class BaseCharacterIntelligence : MonoBehaviour
         GeneralGUIManager generalGUIManager = gameVariableConnector.generalGUIManagerScript;
         CharacterNeedsUI characterNeedsUI = generalGUIManager._characterNeedsUIScript;
         characterNeedsUI.AddPerformer(gameObject.GetComponent<AutonomousIntelligence>());
-
-
-        // // var test = JsonUtility.FromJson<NameGen>(namesJson.text);
-        // var test = JsonUtility.FromJson<NameGen>(Resources.Load<TextAsset>("names").text);
     }
 
     public virtual void EstablishCommunication()

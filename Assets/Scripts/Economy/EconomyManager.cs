@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class EconomyManager
+public class EconomyManager : MonoBehaviour
 {
-    private TextMeshProUGUI _balanceText;
+    [SerializeField] private TextMeshProUGUI _balanceText;
+    [SerializeField] private TextMeshProUGUI _buildBalanceText;
 
     private float _balance = 1000;
 
@@ -13,12 +14,6 @@ public class EconomyManager
     private List<float> _monthlyProfit = new List<float>();
     private List<float> _monthlyIncome = new List<float>();
     private List<float> _monthlyExpenses = new List<float>();
-
-
-    public EconomyManager(TextMeshProUGUI balanceText)
-    {
-        _balanceText = balanceText;
-    }
 
     public void SetStartingBalance(float balance)
     {
@@ -28,6 +23,7 @@ public class EconomyManager
     public void UpdateBalance()
     {
         _balanceText.text = "£" + _balance.ToString("0.00");
+        _buildBalanceText.text = "£" + _balance.ToString("0.00");
     }
 
     public void AddToBalance(float amount)
@@ -42,6 +38,15 @@ public class EconomyManager
 
     public void AddMonthlyBalance()
     {
+        GeneralGUIManager generalGUIManagerScript = GameVariableConnector.instance.generalGUIManagerScript;
+        AutonomousIntelligence[] performers = generalGUIManagerScript.GetPerformers();
+
+        for (int i = 0; i < performers.Length; i++)
+        {
+            _balance -= performers[i].characterSkillsScript.GetSalary();
+        }
+
         _monthlyBalance.Add(_balance);
+        Debug.Log("Monthly balance: " + _balance);
     }
 }
