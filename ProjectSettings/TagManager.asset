@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Wall
   - Floor
+  - Performer
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Hide
   - Water
   - UI
   - 

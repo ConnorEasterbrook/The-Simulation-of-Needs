@@ -84,6 +84,7 @@ public class WallBuilder : GridBuildCore
 
             GameObject newObject = MonoBehaviour.Instantiate(objectPrefab, position, Quaternion.LookRotation(_direction), plane.transform);
             newObject.AddComponent<BoxCollider>();
+            newObject.AddComponent<WallObject>();
             newObject.transform.localScale = new Vector3(initialObjectScale.x, initialObjectScale.y, tileSize);
             newObject.tag = newObject.name = "Wall";
         }
@@ -96,6 +97,7 @@ public class WallBuilder : GridBuildCore
         Vector3 lastPosition = startPoint + _direction * (tileSize * numTiles + remainingLength * 0.5f);
         GameObject newObjectLast = MonoBehaviour.Instantiate(objectPrefab, lastPosition, Quaternion.LookRotation(_direction), plane.transform);
         newObjectLast.AddComponent<BoxCollider>();
+        newObjectLast.AddComponent<WallObject>();
         newObjectLast.transform.localScale = new Vector3(initialObjectScale.x, initialObjectScale.y, remainingLength);
         newObjectLast.tag = newObjectLast.name = "Wall";
 
