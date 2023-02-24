@@ -7,7 +7,7 @@ public class WallObject : MonoBehaviour
 {
     public static List<WallObject> wallObjects = new List<WallObject>();
     public List<WallObject> neighbourWalls = new List<WallObject>();
-    public RoomObject[] rooms = new RoomObject[2];
+    public List<WallObject> connectedWalls = new List<WallObject>();
     public int wallID;
     public bool visited = false;
 
@@ -19,7 +19,7 @@ public class WallObject : MonoBehaviour
 
         StartCoroutine(CheckForNeighborOnceAfterDelay(0.5f));
     }
-    
+
     private IEnumerator CheckForNeighborOnceAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -65,42 +65,14 @@ public class WallObject : MonoBehaviour
                 neighbourWalls[i] = temp;
             }
         }
-
-        // TraverseConnectedWalls(this);
     }
+
+    // Get all connected walls for builder script
+    // public List<WallObject> GetConnectedWalls(
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireMesh(GetComponent<MeshFilter>().sharedMesh, transform.position, transform.localRotation, transform.localScale);
-    }
-
-    private void Update()
-    {
-    }
-
-    private List<WallObject> TraverseConnectedWalls(WallObject wall)
-    {
-        List<WallObject> connectedWalls = new List<WallObject>();
-        connectedWalls.Add(wall);
-
-        foreach (WallObject connectedWall in wall.neighbourWalls)
-        {
-            if (!connectedWalls.Contains(connectedWall))
-            {
-                connectedWalls.AddRange(TraverseConnectedWalls(connectedWall));
-                Debug.Log ("Added " + connectedWall.name + " to connected walls");
-            }
-        }
-
-        return connectedWalls;
-    }
-
-    public class WallObjectData
-    {
-        public int wallID;
-        public List<WallObject> connectedWalls = new List<WallObject>();
-        public int[] rooms;
-        public bool visited = false;
     }
 }

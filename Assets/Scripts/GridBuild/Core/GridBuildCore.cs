@@ -5,7 +5,6 @@ using UnityEngine;
 public class GridBuildCore
 {
     public static GameObject objectPrefab;
-    public static GameObject plane;
     public static Plane gridPlane;
     public static float tileSize = 1f;
 
@@ -23,14 +22,13 @@ public class GridBuildCore
     public static GameVariableConnector gameVariableConnector;
     public static EconomyManager economyManagerScript;
 
-    public void PrepVariables(GameVariableConnector _gameVariableConnector, GameObject _prefab, GameObject _preview, GameObject _plane, Plane _gridPlane, float _tileSize)
+    public void PrepVariables(GameVariableConnector _gameVariableConnector, GameObject _prefab, GameObject _preview, Plane _gridPlane, float _tileSize)
     {
         gameVariableConnector = _gameVariableConnector;
         economyManagerScript = gameVariableConnector.economyManagerScript;
 
         objectPrefab = _prefab;
         previewObject = _preview;
-        plane = _plane;
         gridPlane = _gridPlane;
         tileSize = _tileSize;
         initialObjectScale = objectPrefab.transform.localScale;
@@ -86,4 +84,60 @@ public class GridBuildCore
 
         return new Vector3(x, y, z);
     }
+
+    // public Vector3 DragSnapToGrid(Vector3 hitPoint, bool wall = false)
+    // {
+    //     float x = Mathf.Round(hitPoint.x / tileSize) * tileSize; // Get relative x position
+    //     float z = Mathf.Round(hitPoint.z / tileSize) * tileSize; // Get relative z position
+
+    //     Debug.Log("X: " + x + " Z: " + z);
+
+    //     float xAxis = startPoint.x + Mathf.Abs(x); // Get the relative x axis
+    //     float zAxis = startPoint.z + Mathf.Abs(z); // Get the relative z axis
+
+    //     // Check if x is closer to z than to the axis
+    //     float xzValue = Mathf.Abs(x) + Mathf.Abs(z); // Get the relative x and z value
+    //     float xzAxis = xAxis + zAxis; // Get the relative x and z axis
+
+    //     // If x is closer to z than to the axis, then the object will be built in 45 degree angle
+    //     if (Mathf.Abs(xzValue) > Mathf.Abs(xzAxis))
+    //     {
+    //         if (x > z)
+    //         {
+    //             x = Mathf.Round(x / tileSize) * tileSize;
+    //             z = x;
+    //         }
+    //         else
+    //         {
+    //             z = Mathf.Round(z / tileSize) * tileSize;
+    //             x = z;
+    //         }
+    //     }
+    //     else
+    //     {
+    //         if (xAxis > zAxis)
+    //         {
+    //             x = Mathf.Round(xAxis / tileSize) * tileSize;
+    //             z = 0;
+    //         }
+    //         else
+    //         {
+    //             z = Mathf.Round(zAxis / tileSize) * tileSize;
+    //             x = 0;
+    //         }
+    //     }
+
+    //     float y = 0;
+
+    //     if (wall)
+    //     {
+    //         y = hitPoint.y + (initialObjectScale.y * 0.5f);
+    //     }
+    //     else
+    //     {
+    //         y = hitPoint.y;
+    //     }
+
+    //     return new Vector3(x, hitPoint.y, z);
+    // }
 }

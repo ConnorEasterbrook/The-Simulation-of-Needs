@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class WallBuilder : GridBuildCore
 {
-
     /// <summary>
     /// Controls the building of the object
     /// </summary>
@@ -23,6 +22,17 @@ public class WallBuilder : GridBuildCore
         else if (Input.GetMouseButton(0) && previewObject.activeSelf)
         {
             endPoint = SnapToGrid(GetMouseWorldPositionOnPlane(), true);
+
+            // Make endpoint same axis as startpoint on smaller axis
+            if (Mathf.Abs(startPoint.x - endPoint.x) < Mathf.Abs(startPoint.z - endPoint.z))
+            {
+                endPoint.x = startPoint.x;
+            }
+            else
+            {
+                endPoint.z = startPoint.z;
+            }
+
             PreviewObject();
         }
         else if (Input.GetMouseButtonUp(0) && previewObject.activeSelf)
@@ -82,7 +92,7 @@ public class WallBuilder : GridBuildCore
         {
             Vector3 position = startPoint + _direction * (tileSize * 0.5f + tileSize * i);
 
-            GameObject newObject = MonoBehaviour.Instantiate(objectPrefab, position, Quaternion.LookRotation(_direction), plane.transform);
+            GameObject newObject = MonoBehaviour.Instantiate(objectPrefab, position, Quaternion.LookRotation(_direction), gameVariableConnector.transform);
             newObject.AddComponent<BoxCollider>();
             newObject.AddComponent<WallObject>();
             newObject.transform.localScale = new Vector3(initialObjectScale.x, initialObjectScale.y, tileSize);
@@ -95,7 +105,7 @@ public class WallBuilder : GridBuildCore
         }
 
         Vector3 lastPosition = startPoint + _direction * (tileSize * numTiles + remainingLength * 0.5f);
-        GameObject newObjectLast = MonoBehaviour.Instantiate(objectPrefab, lastPosition, Quaternion.LookRotation(_direction), plane.transform);
+        GameObject newObjectLast = MonoBehaviour.Instantiate(objectPrefab, lastPosition, Quaternion.LookRotation(_direction), gameVariableConnector.transform);
         newObjectLast.AddComponent<BoxCollider>();
         newObjectLast.AddComponent<WallObject>();
         newObjectLast.transform.localScale = new Vector3(initialObjectScale.x, initialObjectScale.y, remainingLength);
