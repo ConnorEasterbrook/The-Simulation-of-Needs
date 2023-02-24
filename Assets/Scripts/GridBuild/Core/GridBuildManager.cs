@@ -24,8 +24,11 @@ public class GridBuildManager : MonoBehaviour
 
     [SerializeField] private GameObject tilePrefab;
     public GameObject[,] gridArray;
+    public bool[,] gridCheckArray;
     public int gridX;
     public int gridY;
+
+    public List<Vector2> wallTiles = new List<Vector2>();
 
     // Start is called before the first frame update
     void Start()
@@ -44,10 +47,7 @@ public class GridBuildManager : MonoBehaviour
         NavMeshSurface surface = tilePrefab.GetComponent<NavMeshSurface>();
         surface.BuildNavMesh();
 
-
-        int x = Random.Range(0, gridX);
-        int y = Random.Range(0, gridY);
-        StartCoroutine(FloodFill(x, y, Color.white, Color.red));
+        StartCoroutine(FloodFill(0, 0, Color.white, Color.red));
     }
 
     public void CreateGrid(int _x, int _y, GameObject tile = null)
@@ -60,6 +60,7 @@ public class GridBuildManager : MonoBehaviour
         tile.isStatic = true;
 
         gridArray = new GameObject[_x, _y];
+        gridCheckArray = new bool[_x, _y];
         Vector2 startPos = this.transform.position;
 
         for (int x = 0; x < _x; x++)
@@ -83,7 +84,7 @@ public class GridBuildManager : MonoBehaviour
         }
 
         transform.position = new Vector3(transform.position.x - (gridX * tileSize) / 2, transform.position.y, transform.position.z);
-        // tilePrefab.SetActive(false);
+        tilePrefab.GetComponent<MeshRenderer>().enabled = false;
     }
 
     public IEnumerator FloodFill(int x, int y, Color oldColour, Color newColour)
@@ -93,9 +94,26 @@ public class GridBuildManager : MonoBehaviour
             yield break;
         }
 
+        // Check if there's a wall gameobject in the way by checking collisions at the top of the tile
+        if (Physics.CheckBox(gridArray[x, y].transform.position + new Vector3(0, 1, 0), new Vector3(tileSize / 2, 1, tileSize / 2), Quaternion.identity, 1 << 7))
+        {
+            if (!wallTiles.Contains(new Vector2(x, y)))
+            {
+                wallTiles.Add(new Vector2(x, y));
+            }
+
+            gridArray[x, y].GetComponent<MeshRenderer>().material.color = Color.black;
+            gridCheckArray[x, y] = true;
+
+            yield break;
+        }
+
+
         if (gridArray[x, y].GetComponent<MeshRenderer>().material.color == oldColour)
         {
             gridArray[x, y].GetComponent<MeshRenderer>().material.color = newColour;
+            gridCheckArray[x, y] = true;
+
             yield return new WaitForSeconds(.1f);
             StartCoroutine(FloodFill(x + 1, y, oldColour, newColour));
             StartCoroutine(FloodFill(x - 1, y, oldColour, newColour));
@@ -113,6 +131,37 @@ public class GridBuildManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Debug.Log("Floodfilling");
+            for (int x = 0; x < gridX; x++)
+            {
+                for (int y = 0; y < gridY; y++)
+                {
+                    if (gridCheckArray[x, y])
+                    {
+                        continue;
+                    }
+
+                    // Check if there's a wall gameobject in the way by checking collisions at the top of the tile
+                    if (Physics.CheckBox(gridArray[x, y].transform.position + new Vector3(0, 1, 0), new Vector3(tileSize / 2, 1, tileSize / 2), Quaternion.identity, 1 << 7))
+                    {
+                        if (!wallTiles.Contains(new Vector2(x, y)))
+                        {
+                            wallTiles.Add(new Vector2(x, y));
+                        }
+
+                        gridArray[x, y].GetComponent<MeshRenderer>().material.color = Color.black;
+                        gridCheckArray[x, y] = true;
+                        continue;
+                    }
+
+                    gridArray[x, y].GetComponent<MeshRenderer>().material.color = Color.yellow;
+                    gridCheckArray[x, y] = true;
+                }
+            }
+        }
+
         if (isBuilding)
         {
             switch (_objectType)
