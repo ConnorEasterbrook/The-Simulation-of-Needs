@@ -1,0 +1,75 @@
+{
+    "traits": 
+    [
+        {
+            "id": 1,
+            "name": "Dedicated",
+            "description": "Spends more time working than most people.",
+            "change": 10,
+            "value": 4
+        },
+        {
+            "id": 2,
+            "name": "Hardworking",
+            "description": "Works hard.",
+            "change": 10,
+            "value": 3
+        },
+        {
+            "id": 3,
+            "name": "Big Stomach",
+            "description": "Larger food capacity",
+            "change": 10,
+            "value": 2
+        },
+        {
+            "id": 4,
+            "name": "Energetic",
+            "description": "More energy capacity.",
+            "change": 10,
+            "value": 2
+        },
+        {
+            "id": 5,
+            "name": "Clean",
+            "description": "Higher hygiene capacity.",
+            "change": 10,
+            "value": 2
+        },
+        {
+            "id": 1,
+            "name": "Lazy",
+            "description": "Spends less time working than most people.",
+            "change": -10,
+            "value": -3
+        },
+        {
+            "id": 2,
+            "name": "Unmotivated",
+            "description": "Works less hard.",
+            "change": -10,
+            "value": -2
+        },
+        {
+            "id": 3,
+            "name": "Small Stomach",
+            "description": "Smaller food capacity",
+            "change": -10,
+            "value": -1
+        },
+        {
+            "id": 4,
+            "name": "Tired",
+            "description": "Less energy capacity.",
+            "change": -10,
+            "value": -1
+        },
+        {
+            "id": 5,
+            "name": "Dirty",
+            "description": "Lower hygiene capacity.",
+            "change": -10,
+            "value": -1
+        }
+    ]
+}

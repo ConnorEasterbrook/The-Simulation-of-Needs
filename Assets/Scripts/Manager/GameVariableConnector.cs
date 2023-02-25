@@ -6,12 +6,13 @@ using TMPro;
 public class GameVariableConnector : MonoBehaviour
 {
     public static GameVariableConnector instance = null; // The instance of the SmartObjectManager
-    public EconomyManager economyManagerScript;
+    [HideInInspector] public EconomyManager economyManagerScript;
     [HideInInspector] public GeneralGUIManager generalGUIManagerScript;
     public static float timeScale = 1f;
     public static bool pauseGame = true;
 
     [SerializeField] private TextAsset _namesJson = null;
+    [SerializeField] private TextAsset _traitsJson = null;
 
     private void Awake()
     {
@@ -34,7 +35,6 @@ public class GameVariableConnector : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(pauseGame);
         Time.timeScale = timeScale;
     }
 
@@ -52,6 +52,17 @@ public class GameVariableConnector : MonoBehaviour
         }
 
         return _namesJson;
+    }
+
+    public TextAsset GetTraitsJson()
+    {
+        if (_traitsJson == null)
+        {
+            Debug.LogError("No traits.json file found!");
+            return null;
+        }
+
+        return _traitsJson;
     }
 
     public void PauseGame()

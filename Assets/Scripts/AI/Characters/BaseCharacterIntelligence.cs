@@ -31,7 +31,8 @@ public class BaseCharacterIntelligence : MonoBehaviour
     public CharacterNeeds characterNeedsScript = new CharacterNeeds();
     public CharacterSkills characterSkillsScript = new CharacterSkills();
 
-    [HideInInspector]  public float initialDelay = 0; // The initial delay before the interaction can be performed
+    [Header("Traits")]
+    public List<Trait> traits = new List<Trait>();
 
     private void Awake()
     {
@@ -45,13 +46,16 @@ public class BaseCharacterIntelligence : MonoBehaviour
         characterNeedsScript.Initialize(individualCommunication); // Initialize the character needs
 
         GenerateName();
+        traits = characterSkillsScript.GenerateTraits(gameObject.GetComponent<AutonomousIntelligence>());
+
+        CharacterNeedsUI characterNeedsUI = GameVariableConnector.instance.generalGUIManagerScript._characterNeedsUIScript;
+        characterNeedsUI.AddPerformer(gameObject.GetComponent<AutonomousIntelligence>());
     }
 
     public void GenerateName()
     {
-        GameVariableConnector gameVariableConnector = GameVariableConnector.instance;
         TextAsset namesJson = new TextAsset("Hello");
-        namesJson = gameVariableConnector.GetNamesJson();
+        namesJson = GameVariableConnector.instance.GetNamesJson();
 
         if (namesJson == null)
         {
@@ -60,14 +64,13 @@ public class BaseCharacterIntelligence : MonoBehaviour
             return;
         }
 
-        var names = JsonUtility.FromJson<NameGen>(namesJson.text);
-        var forename = names.names[Random.Range(0, names.names.Count)];
-        var surname = names.names[Random.Range(0, names.names.Count)];
+        var classNames = JsonUtility.FromJson<NameGen>(namesJson.text);
+        var forename = classNames.names[Random.Range(0, classNames.names.Count)];
+        var surname = classNames.names[Random.Range(0, classNames.names.Count)];
         gameObject.name = forename + " " + surname;
 
-        GeneralGUIManager generalGUIManager = gameVariableConnector.generalGUIManagerScript;
-        CharacterNeedsUI characterNeedsUI = generalGUIManager._characterNeedsUIScript;
-        characterNeedsUI.AddPerformer(gameObject.GetComponent<AutonomousIntelligence>());
+        // CharacterNeedsUI characterNeedsUI = GameVariableConnector.instance.generalGUIManagerScript._characterNeedsUIScript;
+        // characterNeedsUI.AddPerformer(gameObject.GetComponent<AutonomousIntelligence>());
     }
 
     public virtual void EstablishCommunication()
