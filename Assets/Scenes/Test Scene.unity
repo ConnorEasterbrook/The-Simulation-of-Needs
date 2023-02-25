@@ -189,7 +189,6 @@ MonoBehaviour:
   economyManagerScript: {fileID: 0}
   generalGUIManagerScript: {fileID: 5810211}
   _namesJson: {fileID: 4900000, guid: 44d00f3528edcdc4d9b9722a23a096a6, type: 3}
-  isPaused: 1
 --- !u!114 &5810209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24249,6 +24248,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3264120716615950895, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3264120716969400257, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
       propertyPath: _target
       value: 
@@ -26134,6 +26137,10 @@ PrefabInstance:
     - target: {fileID: 3264120716615950892, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3264120716615950895, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3264120716969400257, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
       propertyPath: _target
@@ -28778,6 +28785,10 @@ PrefabInstance:
     - target: {fileID: 3264120716615950892, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3264120716615950895, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3264120716969400257, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
       propertyPath: _target
@@ -31459,6 +31470,10 @@ PrefabInstance:
     - target: {fileID: 3264120716615950892, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3264120716615950895, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3264120716969400257, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
       propertyPath: _target
@@ -36321,34 +36336,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 1310309592}
     m_Modifications:
-    - target: {fileID: 543616841147067908, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3264120715115728150, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3264120715115728150, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3264120715688833894, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3264120715688833894, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3264120715742862453, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3264120715742862453, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3264120716615950885, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -36397,14 +36384,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Michael Warren
       objectReference: {fileID: 0}
-    - target: {fileID: 3264120716615950893, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
-      propertyPath: namesJson
-      value: 
-      objectReference: {fileID: 4900000, guid: 44d00f3528edcdc4d9b9722a23a096a6, type: 3}
-    - target: {fileID: 3264120716969400257, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}
-      propertyPath: _target
-      value: 
-      objectReference: {fileID: 14294528}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 5569b4ce96fd7db4c9ff99ff1a1c5907, type: 3}

@@ -16,8 +16,8 @@ public class BaseCharacterIntelligence : MonoBehaviour
 
     [Header("General")]
     // [SerializeField] private int _characterID = 0;
-    [HideInInspector] public NavMeshAgent _navMeshAgent = null;
-    [HideInInspector] public Communication _individualCommunication = null;
+    [HideInInspector] public NavMeshAgent navMeshAgent = null;
+    [HideInInspector] public Communication individualCommunication = null;
     [HideInInspector] public bool rotatePerformer = false;
 
     [Header("Settings")]
@@ -35,13 +35,14 @@ public class BaseCharacterIntelligence : MonoBehaviour
 
     private void Awake()
     {
-        _navMeshAgent = GetComponent<NavMeshAgent>(); // Get the navmesh agent component
+        navMeshAgent = GetComponent<NavMeshAgent>(); // Get the navmesh agent component
+        navMeshAgent.enabled = false;
     }
 
     private void Start()
     {
         EstablishCommunication(); // Establish communication
-        characterNeedsScript.Initialize(_individualCommunication); // Initialize the character needs
+        characterNeedsScript.Initialize(individualCommunication); // Initialize the character needs
 
         GenerateName();
     }
@@ -71,12 +72,12 @@ public class BaseCharacterIntelligence : MonoBehaviour
 
     public virtual void EstablishCommunication()
     {
-        _individualCommunication = CommunicationManager.instance.GetIndividualCommunication(gameObject); // Get the individual communication
+        individualCommunication = CommunicationManager.instance.GetIndividualCommunication(gameObject); // Get the individual communication
     }
 
     public Communication GetIndividualCommunication()
     {
-        return _individualCommunication;
+        return individualCommunication;
     }
 
     /// <summary>
@@ -88,7 +89,7 @@ public class BaseCharacterIntelligence : MonoBehaviour
         {
             interaction.HeadToInteraction(); // Head to the interaction
             currentInteraction = interaction; // Set the current interaction
-            _navMeshAgent.SetDestination(interaction.GetComponent<SmartObject>().interactionPoint); // Set the destination of the navmesh agent to the interaction's position
+            navMeshAgent.SetDestination(interaction.GetComponent<SmartObject>().interactionPoint); // Set the destination of the navmesh agent to the interaction's position
         }
     }
 

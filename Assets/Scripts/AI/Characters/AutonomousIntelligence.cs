@@ -16,8 +16,13 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
 
     public override void Update()
     {
-        if (initialDelay > 1)
+        if (!GameVariableConnector.instance.IsGamePaused())
         {
+            if (!navMeshAgent.enabled)
+            {
+                navMeshAgent.enabled = true;
+            }
+
             // If the agent is not performing an interaction and is not moving, pick a random interaction
             if (currentInteraction != null && !isPerformingInteraction)
             {
@@ -58,10 +63,6 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
                     rotatePerformer = false;
                 }
             }
-        }
-        else
-        {
-            initialDelay += Time.deltaTime;
         }
     }
 
@@ -114,7 +115,7 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
                 BaseInteraction interaction = scoredInteractionsSorted[i].interaction; // Get the selected interaction
                 interaction.HeadToInteraction(); // Head to the interaction
                 currentInteraction = interaction; // Set the current interaction
-                _navMeshAgent.SetDestination(interaction.GetComponent<SmartObject>().interactionPoint); // Set the destination of the navmesh agent to the interaction's position
+                navMeshAgent.SetDestination(interaction.GetComponent<SmartObject>().interactionPoint); // Set the destination of the navmesh agent to the interaction's position
                 break;
             }
         }

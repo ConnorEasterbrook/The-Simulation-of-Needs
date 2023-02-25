@@ -45,7 +45,6 @@ public class GridBuildManager : MonoBehaviour
 
     public void GetWorldInfo(GameObject[,] _gridArray, bool[,] _gridCheckArray, List<Vector2> _wallTiles)
     {
-        Debug.Log("Grid Array: " + _gridArray + " Grid Check Array: " + _gridCheckArray + " Wall Tiles: " + _wallTiles);
         gridArray = _gridArray;
         gridCheckArray = _gridCheckArray;
         wallTiles = _wallTiles;
@@ -54,8 +53,8 @@ public class GridBuildManager : MonoBehaviour
         NavMeshSurface surface = tilePrefab.GetComponent<NavMeshSurface>();
         surface.BuildNavMesh();
 
-        GameVariableConnector.instance.isPaused = false;
-    } 
+        GameVariableConnector.instance.UnpauseGame();
+    }
 
     // Update is called once per frame
     void Update()

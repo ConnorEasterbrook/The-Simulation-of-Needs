@@ -17,7 +17,7 @@ public class SimpleInteraction : BaseInteraction
     /// </summary>
     public override bool CanPerformInteraction()
     {
-        if (GameVariableConnector.instance.isPaused)
+        if (GameVariableConnector.instance.IsGamePaused())
         {
             return false;
         }

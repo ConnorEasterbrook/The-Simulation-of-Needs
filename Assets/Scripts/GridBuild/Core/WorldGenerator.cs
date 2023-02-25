@@ -205,14 +205,12 @@ public class WorldGenerator : MonoBehaviour
             {
                 if (gridCheckArray[i, j] == false)
                 {
-                    Debug.Log("Found unchecked tile at " + i + ", " + j);
                     StartCoroutine(FinalChecks(i, j, wallColour, roomColour));
                     return true;
                 }
             }
         }
 
-        Debug.Log("No unchecked tiles found");
         return false;
     }
 }

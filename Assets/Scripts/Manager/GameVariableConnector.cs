@@ -9,11 +9,9 @@ public class GameVariableConnector : MonoBehaviour
     public EconomyManager economyManagerScript;
     [HideInInspector] public GeneralGUIManager generalGUIManagerScript;
     public static float timeScale = 1f;
-    public static bool pauseGame = false;
+    public static bool pauseGame = true;
 
     [SerializeField] private TextAsset _namesJson = null;
-
-    public bool isPaused = true;
 
     private void Awake()
     {
@@ -36,6 +34,7 @@ public class GameVariableConnector : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(pauseGame);
         Time.timeScale = timeScale;
     }
 
