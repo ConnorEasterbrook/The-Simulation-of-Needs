@@ -32,16 +32,13 @@ public class GridBuildManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // CreateGrid(gridX, gridY);
         WorldGenerator worldGenerator = gameObject.GetComponent<WorldGenerator>();
-        // WorldGenerator worldGenerator = new WorldGenerator(this, (int)tileSize, tilePrefab, gridX, gridY);
         worldGenerator.Initialize(this, (int)tileSize, tilePrefab, gridX, gridY);
 
         _gameVariableConnector = GameVariableConnector.instance;
 
         Plane _gridPlane = new Plane(Vector3.up, Vector3.zero);
 
-        // gridPlane = new Plane(plane.transform.up, plane.transform.position);
         _gridBuildCore.PrepVariables(_gameVariableConnector, objectPrefab, previewObject, _gridPlane, tileSize);
         _objectType = objectPrefab.GetComponent<BuildableObject>().objectType;
     }

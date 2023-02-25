@@ -37,48 +37,7 @@ public class WorldGenerator : MonoBehaviour
         int randomXPos = Random.Range(0, gridX);
         int randomYPos = Random.Range(0, gridY);
         StartCoroutine(GenerateWorld(randomXPos, randomYPos, tilePrefab, startPos));
-
-        // CreateGrid(gridX, gridY, tilePrefab);
-        // instance.GetWorldInfo(gridArray, gridCheckArray, wallTiles);
-        // StartCoroutine(FloodFill(0, 0, Color.white, Color.red));
     }
-
-    // public void CreateGrid(int _x, int _y, GameObject tile = null)
-    // {
-    //     if (tile == null)
-    //     {
-    //         tile = tilePrefab;
-    //     }
-
-    //     tile.isStatic = true;
-
-    //     gridArray = new GameObject[_x, _y];
-    //     gridCheckArray = new bool[_x, _y];
-    //     Vector2 startPos = this.transform.position;
-
-    //     for (int x = 0; x < _x; x++)
-    //     {
-    //         for (int y = 0; y < _y; y++)
-    //         {
-    //             GameObject tileGO = new GameObject();
-    //             tileGO.layer = 6;
-    //             tileGO.AddComponent<MeshFilter>().mesh = tile.GetComponent<MeshFilter>().sharedMesh;
-
-    //             MeshRenderer meshRenderer = tile.GetComponent<MeshRenderer>();
-    //             meshRenderer.material.color = Color.white;
-    //             tileGO.AddComponent<MeshRenderer>().material = meshRenderer.sharedMaterial;
-
-    //             tileGO.transform.localScale = new Vector3(tileSize, .25f, tileSize);
-    //             tileGO.transform.position = new Vector3(startPos.x + (x * tileSize), -(tilePrefab.transform.localScale.y / 2f), startPos.y + (y * tileSize));
-    //             tileGO.transform.parent = this.transform;
-    //             tileGO.name = "Tile_" + x + "_" + y;
-    //             gridArray[x, y] = tileGO;
-    //         }
-    //     }
-
-    //     transform.position = new Vector3(transform.position.x - (gridX * tileSize) / 2, transform.position.y, transform.position.z);
-    //     tilePrefab.GetComponent<MeshRenderer>().enabled = false;
-    // }
 
     public IEnumerator GenerateWorld(int x, int y, GameObject tile, Vector2 startPos)
     {
@@ -207,14 +166,15 @@ public class WorldGenerator : MonoBehaviour
                     wallTiles.Add(new Vector2(x, y));
                 }
 
-                gridArray[x, y].GetComponent<MeshRenderer>().material.color = Color.black;
+                gridArray[x, y].GetComponent<MeshRenderer>().material.color = wallColour;
                 gridCheckArray[x, y] = true;
+
+                runningChecks--;
+                yield break;
             }
-            else
-            {
-                gridArray[x, y].GetComponent<MeshRenderer>().material.color = Color.yellow;
-                gridCheckArray[x, y] = true;
-            }
+
+            gridArray[x, y].GetComponent<MeshRenderer>().material.color = roomColour;
+            gridCheckArray[x, y] = true;
 
             yield return new WaitForSeconds(.025f);
             StartCoroutine(FinalChecks(x + 1, y, wallColour, roomColour));
@@ -224,10 +184,35 @@ public class WorldGenerator : MonoBehaviour
 
             if (runningChecks == 1)
             {
-                instance.GetWorldInfo(gridArray, gridCheckArray, wallTiles);
+                if (!CheckForUncheckedTiles(wallColour, roomColour))
+                {
+                    instance.GetWorldInfo(gridArray, gridCheckArray, wallTiles);
+                }
             }
         }
 
         runningChecks--;
+    }
+
+    private bool CheckForUncheckedTiles(Color wallColour, Color roomColour)
+    {
+        // Randomize room colour
+        roomColour = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+
+        for (int i = 0; i < gridX; i++)
+        {
+            for (int j = 0; j < gridY; j++)
+            {
+                if (gridCheckArray[i, j] == false)
+                {
+                    Debug.Log("Found unchecked tile at " + i + ", " + j);
+                    StartCoroutine(FinalChecks(i, j, wallColour, roomColour));
+                    return true;
+                }
+            }
+        }
+
+        Debug.Log("No unchecked tiles found");
+        return false;
     }
 }
