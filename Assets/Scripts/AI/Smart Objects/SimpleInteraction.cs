@@ -17,6 +17,11 @@ public class SimpleInteraction : BaseInteraction
     /// </summary>
     public override bool CanPerformInteraction()
     {
+        if (GameVariableConnector.instance.isPaused)
+        {
+            return false;
+        }
+
         if (_currentInteractions < maxSimultaneousInteractions)
         {
             return true;

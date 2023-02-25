@@ -27,13 +27,15 @@ public class GridBuildManager : MonoBehaviour
     public bool[,] gridCheckArray;
     public int gridX;
     public int gridY;
-
     public List<Vector2> wallTiles = new List<Vector2>();
 
     // Start is called before the first frame update
     void Start()
     {
-        CreateGrid(gridX, gridY);
+        // CreateGrid(gridX, gridY);
+        WorldGenerator worldGenerator = gameObject.GetComponent<WorldGenerator>();
+        // WorldGenerator worldGenerator = new WorldGenerator(this, (int)tileSize, tilePrefab, gridX, gridY);
+        worldGenerator.Initialize(this, (int)tileSize, tilePrefab, gridX, gridY);
 
         _gameVariableConnector = GameVariableConnector.instance;
 
@@ -42,91 +44,21 @@ public class GridBuildManager : MonoBehaviour
         // gridPlane = new Plane(plane.transform.up, plane.transform.position);
         _gridBuildCore.PrepVariables(_gameVariableConnector, objectPrefab, previewObject, _gridPlane, tileSize);
         _objectType = objectPrefab.GetComponent<BuildableObject>().objectType;
+    }
+
+    public void GetWorldInfo(GameObject[,] _gridArray, bool[,] _gridCheckArray, List<Vector2> _wallTiles)
+    {
+        Debug.Log("Grid Array: " + _gridArray + " Grid Check Array: " + _gridCheckArray + " Wall Tiles: " + _wallTiles);
+        gridArray = _gridArray;
+        gridCheckArray = _gridCheckArray;
+        wallTiles = _wallTiles;
 
         // Bake navmesh
         NavMeshSurface surface = tilePrefab.GetComponent<NavMeshSurface>();
         surface.BuildNavMesh();
 
-        StartCoroutine(FloodFill(0, 0, Color.white, Color.red));
-    }
-
-    public void CreateGrid(int _x, int _y, GameObject tile = null)
-    {
-        if (tile == null)
-        {
-            tile = tilePrefab;
-        }
-
-        tile.isStatic = true;
-
-        gridArray = new GameObject[_x, _y];
-        gridCheckArray = new bool[_x, _y];
-        Vector2 startPos = this.transform.position;
-
-        for (int x = 0; x < _x; x++)
-        {
-            for (int y = 0; y < _y; y++)
-            {
-                GameObject tileGO = new GameObject();
-                tileGO.layer = 6;
-                tileGO.AddComponent<MeshFilter>().mesh = tile.GetComponent<MeshFilter>().sharedMesh;
-
-                MeshRenderer meshRenderer = tile.GetComponent<MeshRenderer>();
-                meshRenderer.material.color = Color.white;
-                tileGO.AddComponent<MeshRenderer>().material = meshRenderer.sharedMaterial;
-
-                tileGO.transform.localScale = new Vector3(tileSize, .25f, tileSize);
-                tileGO.transform.position = new Vector3(startPos.x + (x * tileSize), -(tilePrefab.transform.localScale.y / 2f), startPos.y + (y * tileSize));
-                tileGO.transform.parent = this.transform;
-                tileGO.name = "Tile_" + x + "_" + y;
-                gridArray[x, y] = tileGO;
-            }
-        }
-
-        transform.position = new Vector3(transform.position.x - (gridX * tileSize) / 2, transform.position.y, transform.position.z);
-        tilePrefab.GetComponent<MeshRenderer>().enabled = false;
-    }
-
-    public IEnumerator FloodFill(int x, int y, Color oldColour, Color newColour)
-    {
-        if (x < 0 || x >= gridX || y < 0 || y >= gridY)
-        {
-            yield break;
-        }
-
-        // Check if there's a wall gameobject in the way by checking collisions at the top of the tile
-        if (Physics.CheckBox(gridArray[x, y].transform.position + new Vector3(0, 1, 0), new Vector3(tileSize / 2, 1, tileSize / 2), Quaternion.identity, 1 << 7))
-        {
-            if (!wallTiles.Contains(new Vector2(x, y)))
-            {
-                wallTiles.Add(new Vector2(x, y));
-            }
-
-            gridArray[x, y].GetComponent<MeshRenderer>().material.color = Color.black;
-            gridCheckArray[x, y] = true;
-
-            yield break;
-        }
-
-
-        if (gridArray[x, y].GetComponent<MeshRenderer>().material.color == oldColour)
-        {
-            gridArray[x, y].GetComponent<MeshRenderer>().material.color = newColour;
-            gridCheckArray[x, y] = true;
-
-            yield return new WaitForSeconds(.1f);
-            StartCoroutine(FloodFill(x + 1, y, oldColour, newColour));
-            StartCoroutine(FloodFill(x - 1, y, oldColour, newColour));
-            StartCoroutine(FloodFill(x, y + 1, oldColour, newColour));
-            StartCoroutine(FloodFill(x, y - 1, oldColour, newColour));
-
-            // Get diagonal neighbours
-            StartCoroutine(FloodFill(x + 1, y + 1, oldColour, newColour));
-            StartCoroutine(FloodFill(x - 1, y + 1, oldColour, newColour));
-            StartCoroutine(FloodFill(x + 1, y - 1, oldColour, newColour));
-            StartCoroutine(FloodFill(x - 1, y - 1, oldColour, newColour));
-        }
-    }
+        GameVariableConnector.instance.isPaused = false;
+    } 
 
     // Update is called once per frame
     void Update()

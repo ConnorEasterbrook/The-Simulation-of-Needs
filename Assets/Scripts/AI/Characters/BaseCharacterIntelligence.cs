@@ -31,6 +31,8 @@ public class BaseCharacterIntelligence : MonoBehaviour
     public CharacterNeeds characterNeedsScript = new CharacterNeeds();
     public CharacterSkills characterSkillsScript = new CharacterSkills();
 
+    [HideInInspector]  public float initialDelay = 0; // The initial delay before the interaction can be performed
+
     private void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>(); // Get the navmesh agent component

@@ -13,6 +13,8 @@ public class GameVariableConnector : MonoBehaviour
 
     [SerializeField] private TextAsset _namesJson = null;
 
+    public bool isPaused = true;
+
     private void Awake()
     {
         // If an instance of the SmartObjectManager already exists, destroy this instance
