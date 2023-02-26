@@ -47,6 +47,7 @@ public class BaseCharacterIntelligence : MonoBehaviour
 
         GenerateName();
         traits = characterSkillsScript.GenerateTraits(gameObject.GetComponent<AutonomousIntelligence>());
+        // traits = null;
 
         CharacterNeedsUI characterNeedsUI = GameVariableConnector.instance.generalGUIManagerScript._characterNeedsUIScript;
         characterNeedsUI.AddPerformer(gameObject.GetComponent<AutonomousIntelligence>());

@@ -48,22 +48,6 @@ public class CharacterSkills
             int randomTrait = Random.Range(0, performerTraits.traits.Count);
             Debug.Log(performerTraits.traits[randomTrait].name);
 
-            // Check if a trait with the same id already exists
-            for (int j = 0; j < traits.Count; j++)
-            {
-                if (traits[j].id == performerTraits.traits[randomTrait].id)
-                {
-                    i--;
-                    continue;
-                }
-            }
-
-            if (performerTraits.traits[randomTrait].value > traitPoints)
-            {
-                i--;
-                continue;
-            }
-
             traitPoints -= (int)performerTraits.traits[randomTrait].value;
 
             // Add the trait to the list
@@ -75,6 +59,18 @@ public class CharacterSkills
             newTrait.value = performerTraits.traits[randomTrait].value;
 
             traits.Add(newTrait);
+
+            // Remove the trait from the list
+            performerTraits.traits.RemoveAt(randomTrait);
+
+            // Remove trait with matching id
+            for (int j = 0; j < performerTraits.traits.Count; j++)
+            {
+                if (performerTraits.traits[j].id == newTrait.id)
+                {
+                    performerTraits.traits.RemoveAt(j);
+                }
+            }
         }
 
         // CharacterNeedsUI characterNeedsUI = GameVariableConnector.instance.generalGUIManagerScript._characterNeedsUIScript;

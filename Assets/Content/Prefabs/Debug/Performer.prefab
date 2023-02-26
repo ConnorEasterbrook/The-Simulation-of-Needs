@@ -56,7 +56,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 1000
+  far clip plane: 10
   field of view: 90
   orthographic: 0
   orthographic size: 0.3
@@ -467,7 +467,10 @@ MonoBehaviour:
   currentInteraction: {fileID: 0}
   isPerformingInteraction: 0
   debug: 0
-  initialDelay: 0
+  characterSkillsScript:
+    skillLevel: 10
+    monthlySalary: 100
+  traits: []
 --- !u!114 &3264120716615950893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,7 +491,10 @@ MonoBehaviour:
   currentInteraction: {fileID: 0}
   isPerformingInteraction: 0
   debug: 0
-  initialDelay: 0
+  characterSkillsScript:
+    skillLevel: 10
+    monthlySalary: 100
+  traits: []
 --- !u!1 &3264120716633442881
 GameObject:
   m_ObjectHideFlags: 0
