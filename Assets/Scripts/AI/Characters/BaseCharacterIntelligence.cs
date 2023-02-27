@@ -38,8 +38,6 @@ public class BaseCharacterIntelligence : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>(); // Get the navmesh agent component
         navMeshAgent.enabled = false;
-
-        Debug.Log("Awake");
     }
 
     private void Start()
@@ -55,8 +53,6 @@ public class BaseCharacterIntelligence : MonoBehaviour
 
         CharacterNeedsUI characterNeedsUI = GameVariableConnector.instance.generalGUIManagerScript._characterNeedsUIScript;
         characterNeedsUI.AddPerformer(gameObject.GetComponent<AutonomousIntelligence>());
-
-        Debug.Log("Start");
     }
 
     public void GenerateName()

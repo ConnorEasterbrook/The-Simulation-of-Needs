@@ -16,11 +16,6 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
 
     public override void Update()
     {
-        if (GameVariableConnector.instance == null)
-        {
-            return;
-        }
-
         if (!GameVariableConnector.instance.IsGamePaused())
         {
             if (!navMeshAgent.enabled)

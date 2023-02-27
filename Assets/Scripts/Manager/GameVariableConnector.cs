@@ -11,6 +11,10 @@ public class GameVariableConnector : MonoBehaviour
     public static float timeScale = 1f;
     public static bool pauseGame = true;
 
+    public GameObject wallParent;
+    public GameObject floorParent;
+    public GameObject furnitureParent;
+
     [SerializeField] private TextAsset _namesJson = null;
     [SerializeField] private TextAsset _traitsJson = null;
 

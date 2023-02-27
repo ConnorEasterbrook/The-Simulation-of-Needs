@@ -92,11 +92,12 @@ public class WallBuilder : GridBuildCore
         {
             Vector3 position = startPoint + _direction * (tileSize * 0.5f + tileSize * i);
 
-            GameObject newObject = MonoBehaviour.Instantiate(objectPrefab, position, Quaternion.LookRotation(_direction), gameVariableConnector.transform);
+            GameObject newObject = MonoBehaviour.Instantiate(objectPrefab, position, Quaternion.LookRotation(_direction), gameVariableConnector.wallParent.transform);
             newObject.AddComponent<BoxCollider>();
             newObject.AddComponent<WallObject>();
             newObject.transform.localScale = new Vector3(initialObjectScale.x, initialObjectScale.y, tileSize);
             newObject.tag = newObject.name = "Wall";
+            newObject.layer = 7;
         }
 
         if (remainingLength == 0)
@@ -105,11 +106,12 @@ public class WallBuilder : GridBuildCore
         }
 
         Vector3 lastPosition = startPoint + _direction * (tileSize * numTiles + remainingLength * 0.5f);
-        GameObject newObjectLast = MonoBehaviour.Instantiate(objectPrefab, lastPosition, Quaternion.LookRotation(_direction), gameVariableConnector.transform);
+        GameObject newObjectLast = MonoBehaviour.Instantiate(objectPrefab, lastPosition, Quaternion.LookRotation(_direction), gameVariableConnector.wallParent.transform);
         newObjectLast.AddComponent<BoxCollider>();
         newObjectLast.AddComponent<WallObject>();
         newObjectLast.transform.localScale = new Vector3(initialObjectScale.x, initialObjectScale.y, remainingLength);
         newObjectLast.tag = newObjectLast.name = "Wall";
+        newObjectLast.layer = 7;
 
         // Calculate the cost
         float cost = objectPrefab.GetComponent<BuildableObject>().GetCost();

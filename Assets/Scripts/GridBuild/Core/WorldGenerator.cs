@@ -66,9 +66,9 @@ public class WorldGenerator : MonoBehaviour
 
             tileGO.transform.localScale = new Vector3(tileSize, .25f, tileSize);
             tileGO.transform.position = new Vector3(startPos.x + (x * tileSize), -(tilePrefab.transform.localScale.y / 2f), startPos.y + (y * tileSize));
-            tileGO.transform.parent = instance.transform;
+            tileGO.transform.parent = GameVariableConnector.instance.floorParent.transform;
             tileGO.name = "Tile_" + x + "_" + y;
-            tileGO.AddComponent<BoxCollider>();
+            // tileGO.AddComponent<BoxCollider>();
             gridArray[x, y] = tileGO;
 
             tileGO.AddComponent<AnimatedInstantiation>();

@@ -37,7 +37,7 @@ public class GroundFurnitureBuild : GridBuildCore
     private void InstantiateObject()
     {
         Quaternion rotation = previewObject.transform.rotation;
-        GameObject newObject = MonoBehaviour.Instantiate(objectPrefab, objectPosition, rotation);
+        GameObject newObject = MonoBehaviour.Instantiate(objectPrefab, objectPosition, rotation, gameVariableConnector.furnitureParent.transform);
         
         gameVariableConnector.economyManagerScript.SubtractFromBalance(objectPrefab.GetComponent<BuildableObject>().GetCost());
     }
