@@ -66,13 +66,4 @@ public class WallObject : MonoBehaviour
             }
         }
     }
-
-    // Get all connected walls for builder script
-    // public List<WallObject> GetConnectedWalls(
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireMesh(GetComponent<MeshFilter>().sharedMesh, transform.position, transform.localRotation, transform.localScale);
-    }
 }

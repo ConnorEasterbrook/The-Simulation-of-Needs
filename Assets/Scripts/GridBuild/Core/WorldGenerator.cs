@@ -17,6 +17,9 @@ public class WorldGenerator : MonoBehaviour
     private static GridBuildManager instance;
     private int tilesGenerated = 0;
 
+    [SerializeField] private bool _debug = false;
+    [Range(0.001f, 0.2f)][SerializeField] private float initiaLGenerationSpeed = 0.1f;
+
     public void Initialize(GridBuildManager _gridBuildManager, int _tileSize, GameObject _tilePrefab, int _gridX, int _gridY)
     {
         wallTiles = new List<Vector2>();
@@ -57,7 +60,9 @@ public class WorldGenerator : MonoBehaviour
 
             MeshRenderer meshRenderer = tile.GetComponent<MeshRenderer>();
             meshRenderer.material.color = Color.white;
-            tileGO.AddComponent<MeshRenderer>().material = meshRenderer.sharedMaterial;
+            MeshRenderer newMeshRenderer = tileGO.AddComponent<MeshRenderer>();
+            newMeshRenderer.material = meshRenderer.sharedMaterial;
+            newMeshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 
             tileGO.transform.localScale = new Vector3(tileSize, .25f, tileSize);
             tileGO.transform.position = new Vector3(startPos.x + (x * tileSize), -(tilePrefab.transform.localScale.y / 2f), startPos.y + (y * tileSize));
@@ -66,13 +71,15 @@ public class WorldGenerator : MonoBehaviour
             tileGO.AddComponent<BoxCollider>();
             gridArray[x, y] = tileGO;
 
+            tileGO.AddComponent<AnimatedInstantiation>();
+
             tilesGenerated++;
             if (tilesGenerated >= gridX * gridY)
             {
                 StartCoroutine(FloodFill(0, 0, Color.white, Color.red));
             }
 
-            yield return new WaitForSeconds(.075f);
+            yield return new WaitForSeconds(initiaLGenerationSpeed);
             StartCoroutine(GenerateWorld(x + 1, y, tile, startPos));
             StartCoroutine(GenerateWorld(x - 1, y, tile, startPos));
             StartCoroutine(GenerateWorld(x, y + 1, tile, startPos));
@@ -95,16 +102,16 @@ public class WorldGenerator : MonoBehaviour
                 wallTiles.Add(new Vector2(x, y));
             }
 
-            gridArray[x, y].GetComponent<MeshRenderer>().material.color = Color.black;
+            if (_debug) gridArray[x, y].GetComponent<MeshRenderer>().material.color = Color.black;
             gridCheckArray[x, y] = true;
 
             yield break;
         }
 
 
-        if (gridArray[x, y].GetComponent<MeshRenderer>().material.color == oldColour)
+        if (!gridCheckArray[x, y])
         {
-            gridArray[x, y].GetComponent<MeshRenderer>().material.color = newColour;
+            if (_debug) gridArray[x, y].GetComponent<MeshRenderer>().material.color = newColour;
             gridCheckArray[x, y] = true;
 
             if (x == gridX - 1 && y == gridY - 1)
@@ -131,7 +138,15 @@ public class WorldGenerator : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(.05f);
+            if (_debug)
+            {
+                yield return new WaitForSeconds(initiaLGenerationSpeed * .75f);
+            }
+            else
+            {
+                yield return null;
+            }
+
             StartCoroutine(FloodFill(x + 1, y, oldColour, newColour));
             StartCoroutine(FloodFill(x - 1, y, oldColour, newColour));
             StartCoroutine(FloodFill(x, y + 1, oldColour, newColour));
@@ -156,7 +171,7 @@ public class WorldGenerator : MonoBehaviour
 
         runningChecks++;
 
-        if (gridCheckArray[x, y] == false)
+        if (!gridCheckArray[x, y])
         {
             // Check if there's a wall gameobject in the way by checking collisions at the top of the tile
             if (Physics.CheckBox(gridArray[x, y].transform.position + new Vector3(0, 1, 0), new Vector3(tileSize / 2, 1, tileSize / 2), Quaternion.identity, 1 << 7))
@@ -166,17 +181,25 @@ public class WorldGenerator : MonoBehaviour
                     wallTiles.Add(new Vector2(x, y));
                 }
 
-                gridArray[x, y].GetComponent<MeshRenderer>().material.color = wallColour;
+                if (_debug) gridArray[x, y].GetComponent<MeshRenderer>().material.color = wallColour;
                 gridCheckArray[x, y] = true;
 
                 runningChecks--;
                 yield break;
             }
 
-            gridArray[x, y].GetComponent<MeshRenderer>().material.color = roomColour;
             gridCheckArray[x, y] = true;
 
-            yield return new WaitForSeconds(.025f);
+            if (_debug)
+            {
+                gridArray[x, y].GetComponent<MeshRenderer>().material.color = roomColour;
+                yield return new WaitForSeconds(initiaLGenerationSpeed / 2);
+            }
+            else
+            {
+                yield return null;
+            }
+
             StartCoroutine(FinalChecks(x + 1, y, wallColour, roomColour));
             StartCoroutine(FinalChecks(x - 1, y, wallColour, roomColour));
             StartCoroutine(FinalChecks(x, y + 1, wallColour, roomColour));

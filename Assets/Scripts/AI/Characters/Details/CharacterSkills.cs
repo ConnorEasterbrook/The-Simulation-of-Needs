@@ -30,7 +30,6 @@ public class CharacterSkills
 
     public List<Trait> GenerateTraits(AutonomousIntelligence performer)
     {
-        Debug.Log("Generating traits");
         TextAsset traitsJson = new TextAsset("Hello");
         traitsJson = GameVariableConnector.instance.GetTraitsJson();
 
@@ -46,7 +45,6 @@ public class CharacterSkills
         {
             // Get a random trait and subtract its value from the trait points
             int randomTrait = Random.Range(0, performerTraits.traits.Count);
-            Debug.Log(performerTraits.traits[randomTrait].name);
 
             traitPoints -= (int)performerTraits.traits[randomTrait].value;
 
