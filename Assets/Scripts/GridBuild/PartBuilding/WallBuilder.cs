@@ -163,10 +163,11 @@ public class WallBuilder : GridBuildCore
 
         for (int i = 0; i < affectedTiles.Count; i++)
         {
-            if (!affectedTiles[i].GetComponent<RoomScanner>().HasWall())
+            if (!affectedTiles[i].GetComponent<TileLogging>().HasWall())
             {
-                affectedTiles[i].GetComponent<RoomScanner>().AddWall();
-                break;
+                affectedTiles[i].GetComponent<TileLogging>().IsCorner();
+                // affectedTiles[i].GetComponent<RoomScanner>().AddWall();
+                // break;
             }
         }
     }

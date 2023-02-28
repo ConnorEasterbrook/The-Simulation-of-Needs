@@ -12,6 +12,7 @@ public class GridBuildManager : MonoBehaviour
     public GameObject objectPrefab;
     public GameObject previewObject;
     public float tileSize = 1f;
+    public static float getTileSize;
 
     private ObjectTypes _objectType;
     private WallBuilder _wallBuilder = new WallBuilder();
@@ -23,7 +24,7 @@ public class GridBuildManager : MonoBehaviour
     private GameVariableConnector _gameVariableConnector;
 
     [SerializeField] private GameObject tilePrefab;
-    public GameObject[,] gridArray;
+    public static GameObject[,] gridArray;
     public bool[,] gridCheckArray;
     public int gridX;
     public int gridY;
@@ -35,6 +36,7 @@ public class GridBuildManager : MonoBehaviour
         WorldGenerator worldGenerator = gameObject.GetComponent<WorldGenerator>();
         worldGenerator.Initialize(this, (int)tileSize, tilePrefab, gridX, gridY);
 
+        getTileSize = tileSize;
         gridArray = new GameObject[gridX, gridY];
         gridCheckArray = new bool[gridX, gridY];
 
