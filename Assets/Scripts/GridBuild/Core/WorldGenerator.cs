@@ -68,7 +68,7 @@ public class WorldGenerator : MonoBehaviour
             tileGO.transform.position = new Vector3(startPos.x + (x * tileSize), -(tilePrefab.transform.localScale.y / 2f), startPos.y + (y * tileSize));
             tileGO.transform.parent = GameVariableConnector.instance.floorParent.transform;
             tileGO.name = "Tile_" + x + "_" + y;
-            // tileGO.AddComponent<BoxCollider>();
+            tileGO.AddComponent<BoxCollider>();
             gridArray[x, y] = tileGO;
 
             tileGO.AddComponent<AnimatedInstantiation>();
@@ -117,7 +117,6 @@ public class WorldGenerator : MonoBehaviour
 
             if (x == gridX - 1 && y == gridY - 1)
             {
-                // instance.GetWorldInfo(gridArray, gridCheckArray, wallTiles);
                 bool foundUncheckedTile = false;
 
                 for (int i = 0; i < gridX; i++)
@@ -200,6 +199,8 @@ public class WorldGenerator : MonoBehaviour
             {
                 yield return null;
             }
+
+            gridArray[x, y].tag = "Room";
 
             StartCoroutine(FinalChecks(x + 1, y, wallColour, roomColour));
             StartCoroutine(FinalChecks(x - 1, y, wallColour, roomColour));

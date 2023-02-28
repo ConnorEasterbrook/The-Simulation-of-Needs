@@ -21,6 +21,7 @@ public class GridBuildCore
     public static float _length;
 
     public static bool validRaycast = false;
+    public static bool isInside = false;
 
     public static GameVariableConnector gameVariableConnector;
     public static EconomyManager economyManagerScript;
@@ -52,6 +53,11 @@ public class GridBuildCore
     public void UpdateValidity(bool _validRaycast)
     {
         validRaycast = _validRaycast;
+    }
+
+    public void UpdateInRoom(bool _isInside)
+    {
+        isInside = _isInside;
     }
 
     /// <summary>

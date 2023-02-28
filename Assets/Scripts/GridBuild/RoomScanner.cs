@@ -20,64 +20,10 @@ public class RoomScanner
         gridCheckArray = new bool[gridArray.GetLength(0), gridArray.GetLength(1)];
     }
 
-    public IEnumerator CheckFloodFill(int x, int y, TileLogging tileLoggingScript)
-    {
-        // Make sure the tile is within the grid
-        if (x < 0 || x >= gridArray.GetLength(0) || y < 0 || y >= gridArray.GetLength(1))
-        {
-            yield break;
-        }
-
-        // Check if there's a wall gameobject in the way by checking collisions at the top of the tile
-        if (Physics.CheckBox(gridArray[x, y].transform.position + new Vector3(0, 1, 0), new Vector3(GridBuildManager.getTileSize / 2, 1, GridBuildManager.getTileSize / 2), Quaternion.identity, 1 << 7))
-        {
-
-            gridCheckArray[x, y] = true;
-            gridArray[x, y].GetComponent<MeshRenderer>().material.color = Color.yellow;
-
-            yield break;
-        }
-
-        if (!gridCheckArray[x, y])
-        {
-            gridCheckArray[x, y] = true;
-            gridArray[x, y].GetComponent<MeshRenderer>().material.color = Color.green;
-
-            // if (x == scanRange - 1 && y == scanRange - 1)
-            // {
-            //     // instance.GetWorldInfo(gridArray, gridCheckArray, wallTiles);
-            //     bool foundUncheckedTile = false;
-
-            //     for (int i = 0; i < scanRange; i++)
-            //     {
-            //         for (int j = 0; j < scanRange; j++)
-            //         {
-            //             if (gridCheckArray[i, j] == false)
-            //             {
-            //                 foundUncheckedTile = true;
-            //                 break;
-            //             }
-            //         }
-
-            //         if (foundUncheckedTile)
-            //         {
-            //             break;
-            //         }
-            //     }
-            // }
-
-            yield return new WaitForSeconds(0.1f);
-
-            // tileLoggingScript.CallCoroutine(x + 1, y, tileLoggingScript);
-            // tileLoggingScript.CallCoroutine(x - 1, y, tileLoggingScript);
-            // tileLoggingScript.CallCoroutine(x, y + 1, tileLoggingScript);
-            // tileLoggingScript.CallCoroutine(x, y - 1, tileLoggingScript);
-        }
-    }
-
     private int _invalidCount = 0;
     private int _runningCount = 0;
     private bool _done = false;
+    private List<GameObject> _roomTiles = new List<GameObject>();
 
     public IEnumerator Test(Vector2Int startPosition, Vector2Int direction, TileLogging tileLoggingScript)
     {
@@ -86,6 +32,7 @@ public class RoomScanner
             gridArray[startPosition.x, startPosition.y].GetComponent<MeshRenderer>().material.color = Color.red;
 
             _invalidCount++;
+            _roomTiles.Clear();
             yield break;
         }
         
@@ -96,12 +43,15 @@ public class RoomScanner
             if (Physics.CheckBox(gridArray[startPosition.x, startPosition.y].transform.position + new Vector3(0, 1, 0), new Vector3(GridBuildManager.getTileSize / 2, 1, GridBuildManager.getTileSize / 2), Quaternion.identity, 1 << 7))
             {
                 _runningCount--;
+                gridCheckArray[startPosition.x, startPosition.y] = true;
+                _roomTiles.Add(gridArray[startPosition.x, startPosition.y]);
                 yield break;
             }
 
             if (!gridCheckArray[startPosition.x, startPosition.y])
             {
                 gridCheckArray[startPosition.x, startPosition.y] = true;
+                _roomTiles.Add(gridArray[startPosition.x, startPosition.y]);
                 // gridArray[startPosition.x, startPosition.y].GetComponent<MeshRenderer>().material.color = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
 
                 yield return new WaitForSeconds(0.1f);
@@ -116,9 +66,9 @@ public class RoomScanner
         {
             _invalidCount++;
             _runningCount--;
+            _roomTiles.Clear();
             yield break;
         }
-
 
         _runningCount--;
 
@@ -126,6 +76,11 @@ public class RoomScanner
         {
             _done = true;
             Debug.Log("We have a room!");
+
+            foreach (GameObject tile in _roomTiles)
+            {
+                tile.tag = "Room";
+            }
         }
     }
 

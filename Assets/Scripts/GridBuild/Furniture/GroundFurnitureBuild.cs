@@ -10,7 +10,16 @@ public class GroundFurnitureBuild : GridBuildCore
         objectPosition = new Vector3(hitPoint.x, hitPoint.y, hitPoint.z);
         previewObject.transform.position = objectPosition;
 
-        if (Input.GetMouseButtonDown(0) && previewObject.activeSelf && validRaycast)
+        if (!isInside)
+        {
+            previewObject.SetActive(false);
+        }
+        else
+        {
+            previewObject.SetActive(true);
+        }
+
+        if (Input.GetMouseButtonDown(0) && previewObject.activeSelf && validRaycast && isInside)
         {
             InstantiateObject();
         }

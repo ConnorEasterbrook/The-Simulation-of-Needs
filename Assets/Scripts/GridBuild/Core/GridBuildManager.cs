@@ -41,7 +41,7 @@ public class GridBuildManager : MonoBehaviour
         gridCheckArray = new bool[gridX, gridY];
 
         _gameVariableConnector = GameVariableConnector.instance;
-        
+
         _objectType = objectPrefab.GetComponent<BuildableObject>().objectType;
     }
 
@@ -54,7 +54,7 @@ public class GridBuildManager : MonoBehaviour
         // Bake navmesh
         NavMeshSurface surface = tilePrefab.GetComponent<NavMeshSurface>();
         surface.BuildNavMesh();
-        
+
         Plane _gridPlane = new Plane(Vector3.up, Vector3.zero);
         _gridBuildCore.PrepVariables(_gameVariableConnector, objectPrefab, previewObject, _gridPlane, tileSize, gridArray, gridCheckArray);
 
@@ -64,6 +64,21 @@ public class GridBuildManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Check if raycast is hitting a room tag object
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
+        {
+            if (hit.collider.gameObject.tag == "Room")
+            {
+                _gridBuildCore.UpdateInRoom(true);
+            }
+            else
+            {
+                _gridBuildCore.UpdateInRoom(false);
+            }
+        }
+
+
         if (Input.GetKeyDown(KeyCode.P))
         {
             Debug.Log("Floodfilling");
