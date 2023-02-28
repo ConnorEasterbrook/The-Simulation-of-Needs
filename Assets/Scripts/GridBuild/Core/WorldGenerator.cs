@@ -72,6 +72,7 @@ public class WorldGenerator : MonoBehaviour
             gridArray[x, y] = tileGO;
 
             tileGO.AddComponent<AnimatedInstantiation>();
+            tileGO.AddComponent<RoomScanner>();
 
             tilesGenerated++;
             if (tilesGenerated >= gridX * gridY)

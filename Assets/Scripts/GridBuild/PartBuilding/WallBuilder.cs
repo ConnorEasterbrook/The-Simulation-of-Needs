@@ -37,8 +37,9 @@ public class WallBuilder : GridBuildCore
         }
         else if (Input.GetMouseButtonUp(0) && previewObject.activeSelf)
         {
-            endPoint = SnapToGrid(GetMouseWorldPositionOnPlane(), true);
+            // endPoint = SnapToGrid(GetMouseWorldPositionOnPlane(), true);
             InstantiateObject();
+            UpdateGridArray();
 
             previewObject.transform.localScale = initialObjectScale; // Reset scale
         }
@@ -122,5 +123,51 @@ public class WallBuilder : GridBuildCore
         }
 
         gameVariableConnector.economyManagerScript.SubtractFromBalance(totalCost);
+    }
+
+    private void UpdateGridArray()
+    {
+        // For each tile affected by start point to end point, round up to nearest tile
+        int numTiles = Mathf.FloorToInt(_length / tileSize);
+        List<GameObject> affectedTiles = new List<GameObject>();
+
+        if (numTiles == 0 || !validRaycast)
+        {
+            return;
+        }
+
+        for (int i = 0; i < numTiles + 1; i++)
+        {
+            Vector3 position = startPoint + _direction * (tileSize * 0.5f + tileSize * i);
+            
+            // Get tile at position x, z. Add half of gridX to x to calculate for offset
+            int x = Mathf.FloorToInt((position.x / tileSize) + (gridArray.GetLength(0) / 2));
+            int z = Mathf.FloorToInt(position.z / tileSize);
+
+            // If direction is negative
+            if (startPoint.x > endPoint.x)
+            {
+                x = Mathf.FloorToInt((position.x / tileSize) + (gridArray.GetLength(0) / 2) + 1);
+            }
+            else if (startPoint.z > endPoint.z)
+            {
+                z = Mathf.FloorToInt(position.z / tileSize + 1);
+            }
+
+            // Add tile to list of affected tiles
+            affectedTiles.Add(gridArray[x, z]);
+
+            // Change colour of tile
+            gridArray[x, z].GetComponent<MeshRenderer>().material.color = Color.red;
+        }
+
+        for (int i = 0; i < affectedTiles.Count; i++)
+        {
+            if (!affectedTiles[i].GetComponent<RoomScanner>().HasWall())
+            {
+                affectedTiles[i].GetComponent<RoomScanner>().AddWall();
+                break;
+            }
+        }
     }
 }

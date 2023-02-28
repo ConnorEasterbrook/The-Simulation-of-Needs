@@ -35,11 +35,11 @@ public class GridBuildManager : MonoBehaviour
         WorldGenerator worldGenerator = gameObject.GetComponent<WorldGenerator>();
         worldGenerator.Initialize(this, (int)tileSize, tilePrefab, gridX, gridY);
 
+        gridArray = new GameObject[gridX, gridY];
+        gridCheckArray = new bool[gridX, gridY];
+
         _gameVariableConnector = GameVariableConnector.instance;
-
-        Plane _gridPlane = new Plane(Vector3.up, Vector3.zero);
-
-        _gridBuildCore.PrepVariables(_gameVariableConnector, objectPrefab, previewObject, _gridPlane, tileSize);
+        
         _objectType = objectPrefab.GetComponent<BuildableObject>().objectType;
     }
 
@@ -52,6 +52,9 @@ public class GridBuildManager : MonoBehaviour
         // Bake navmesh
         NavMeshSurface surface = tilePrefab.GetComponent<NavMeshSurface>();
         surface.BuildNavMesh();
+        
+        Plane _gridPlane = new Plane(Vector3.up, Vector3.zero);
+        _gridBuildCore.PrepVariables(_gameVariableConnector, objectPrefab, previewObject, _gridPlane, tileSize, gridArray, gridCheckArray);
 
         GameVariableConnector.instance.UnpauseGame();
     }

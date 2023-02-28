@@ -9,6 +9,7 @@ public class GeneralGUIManager : MonoBehaviour
     public bool stopMovement = false;
 
     [Header("Panels")]
+    [SerializeField] private GameObject _UIPanel;
     [SerializeField] private GameObject _GUIPanel;
     [SerializeField] private GameObject _buildingModePanel;
     [SerializeField] private GameObject _taskCreationPanel;
@@ -58,6 +59,15 @@ public class GeneralGUIManager : MonoBehaviour
         _characterNeedsUIScript.PopulatePerformerDetails();
 
         _economyManagerScript.UpdateBalance();
+
+        if (GameVariableConnector.instance.IsGamePaused())
+        {
+            _UIPanel.SetActive(false);
+        }
+        else
+        {
+            _UIPanel.SetActive(true);
+        }
     }
 
     private void DetectPerformer()

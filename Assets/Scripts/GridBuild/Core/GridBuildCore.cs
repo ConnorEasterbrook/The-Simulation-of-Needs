@@ -7,6 +7,9 @@ public class GridBuildCore
     public static GameObject objectPrefab;
     public static Plane gridPlane;
     public static float tileSize = 1f;
+    public static GameObject[,] gridArray;
+    public static bool[,] gridCheckArray;
+    // public List<GameObject> affectedTiles = new List<GameObject>();
 
     public static GameObject previewObject;
     public static Vector3 startPoint;
@@ -22,7 +25,7 @@ public class GridBuildCore
     public static GameVariableConnector gameVariableConnector;
     public static EconomyManager economyManagerScript;
 
-    public void PrepVariables(GameVariableConnector _gameVariableConnector, GameObject _prefab, GameObject _preview, Plane _gridPlane, float _tileSize)
+    public void PrepVariables(GameVariableConnector _gameVariableConnector, GameObject _prefab, GameObject _preview, Plane _gridPlane, float _tileSize, GameObject[,] _gridArray, bool[,] _gridCheckArray)
     {
         gameVariableConnector = _gameVariableConnector;
         economyManagerScript = gameVariableConnector.economyManagerScript;
@@ -32,6 +35,9 @@ public class GridBuildCore
         gridPlane = _gridPlane;
         tileSize = _tileSize;
         initialObjectScale = objectPrefab.transform.localScale;
+
+        gridArray = _gridArray;
+        gridCheckArray = _gridCheckArray;
     }
 
     public void ChangeObject(GameObject _prefab, GameObject _preview)
