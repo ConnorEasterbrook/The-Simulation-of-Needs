@@ -139,6 +139,13 @@ public class CharacterNeeds
             return true;
         }
     }
+
+    public void ChangeThreshold(float change)
+    {
+        hungerThreshold += change;
+        energyThreshold += change;
+        hygieneThreshold += change;
+    }
 }
 
 /// <summary>

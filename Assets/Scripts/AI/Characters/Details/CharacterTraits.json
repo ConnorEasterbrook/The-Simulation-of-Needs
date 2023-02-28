@@ -5,6 +5,7 @@
             "id": 1,
             "name": "Dedicated",
             "description": "Spends more time working than most people.",
+            "type": "threshold",
             "change": 10,
             "value": 4
         },
@@ -12,6 +13,7 @@
             "id": 2,
             "name": "Hardworking",
             "description": "Works hard.",
+            "type": "efficiency",
             "change": 10,
             "value": 3
         },
@@ -19,6 +21,7 @@
             "id": 3,
             "name": "Big Stomach",
             "description": "Larger food capacity",
+            "type": "hungerCap",
             "change": 10,
             "value": 2
         },
@@ -26,6 +29,7 @@
             "id": 4,
             "name": "Energetic",
             "description": "More energy capacity.",
+            "type": "energyCap",
             "change": 10,
             "value": 2
         },
@@ -33,6 +37,7 @@
             "id": 5,
             "name": "Clean",
             "description": "Higher hygiene capacity.",
+            "type": "hygieneCap",
             "change": 10,
             "value": 2
         },
@@ -40,6 +45,7 @@
             "id": 1,
             "name": "Lazy",
             "description": "Spends less time working than most people.",
+            "type": "threshold",
             "change": -10,
             "value": -3
         },
@@ -47,6 +53,7 @@
             "id": 2,
             "name": "Unmotivated",
             "description": "Works less hard.",
+            "type": "efficiency",
             "change": -10,
             "value": -2
         },
@@ -54,6 +61,7 @@
             "id": 3,
             "name": "Small Stomach",
             "description": "Smaller food capacity",
+            "type": "hungerCap",
             "change": -10,
             "value": -1
         },
@@ -61,6 +69,7 @@
             "id": 4,
             "name": "Tired",
             "description": "Less energy capacity.",
+            "type": "energyCap",
             "change": -10,
             "value": -1
         },
@@ -68,6 +77,7 @@
             "id": 5,
             "name": "Dirty",
             "description": "Lower hygiene capacity.",
+            "type": "hygieneCap",
             "change": -10,
             "value": -1
         }

@@ -11,18 +11,6 @@ public class CharacterSkills
     private int traitPoints = 5;
     private List<Trait> traits = new List<Trait>();
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public float GetSalary()
     {
         return monthlySalary;
@@ -53,6 +41,7 @@ public class CharacterSkills
             newTrait.id = performerTraits.traits[randomTrait].id;
             newTrait.name = performerTraits.traits[randomTrait].name;
             newTrait.description = performerTraits.traits[randomTrait].description;
+            newTrait.type = performerTraits.traits[randomTrait].type;
             newTrait.change = performerTraits.traits[randomTrait].change;
             newTrait.value = performerTraits.traits[randomTrait].value;
 
@@ -71,10 +60,44 @@ public class CharacterSkills
             }
         }
 
-        // CharacterNeedsUI characterNeedsUI = GameVariableConnector.instance.generalGUIManagerScript._characterNeedsUIScript;
-        // characterNeedsUI.AddPerformer(performer.GetComponent<AutonomousIntelligence>());
+        TraitEffect(performer);
 
         return traits;
+    }
+
+    private void TraitEffect(AutonomousIntelligence performer)
+    {
+        for (int i = 0; i < traits.Count; i++)
+        {
+            string type = traits[i].type;
+
+            switch (type)
+            {
+                case "threshold":
+                    performer.characterNeedsScript.ChangeThreshold(traits[i].change);
+                    break;
+
+                case "efficiency":
+                    skillLevel += (int)traits[i].change;
+                    break;
+
+                case "hungerCap":
+                    performer.characterNeedsScript.hungerCap += traits[i].change;
+                    break;
+
+                case "energyCap":
+                    performer.characterNeedsScript.energyCap += traits[i].change;
+                    break;
+
+                case "hygieneCap":
+                    performer.characterNeedsScript.hygieneCap += traits[i].change;
+                    break;
+
+                default:
+                    Debug.LogError("Trait type not found! Type: " + type + "");
+                    break;
+            }
+        }
     }
 }
 
@@ -90,6 +113,7 @@ public class Trait
     public float id;
     public string name;
     public string description;
+    public string type;
     public float change;
     public float value;
 }
