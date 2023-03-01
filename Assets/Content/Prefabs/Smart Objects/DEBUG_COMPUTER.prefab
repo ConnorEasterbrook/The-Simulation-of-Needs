@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2833675057507089468}
   m_Layer: 0
   m_Name: Container
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,9 +44,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2833675057740151350}
   - component: {fileID: 2833675057740151305}
+  - component: {fileID: 9079242398213257125}
   m_Layer: 0
   m_Name: DEBUG_COMPUTER
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -65,7 +66,7 @@ Transform:
   m_Children:
   - {fileID: 2833675057507089468}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!114 &2833675057740151305
 MonoBehaviour:
@@ -81,6 +82,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 50.5
   objectType: 3
+--- !u!65 &9079242398213257125
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2833675057740151351}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.8399785, y: 1.235214, z: 1.7999737}
+  m_Center: {x: -0.010080218, y: 0.66635597, z: 0.024658322}
 --- !u!1 &2833675057761806244
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +108,7 @@ GameObject:
   - component: {fileID: 2833675057761806246}
   m_Layer: 0
   m_Name: Monitor
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -177,7 +191,7 @@ GameObject:
   - component: {fileID: 2833675058314256940}
   m_Layer: 0
   m_Name: Comp_Mouse
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -260,7 +274,7 @@ GameObject:
   - component: {fileID: 2833675058874333339}
   m_Layer: 0
   m_Name: Keyboard1
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -343,7 +357,7 @@ GameObject:
   - component: {fileID: 2833675058916273948}
   m_Layer: 0
   m_Name: Drive
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -426,7 +440,7 @@ GameObject:
   - component: {fileID: 2833675058987938536}
   m_Layer: 0
   m_Name: Computer
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -494,7 +508,7 @@ GameObject:
   - component: {fileID: 2833675059128108453}
   m_Layer: 0
   m_Name: System_unit
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -580,7 +594,7 @@ GameObject:
   - component: {fileID: 2833675059329397090}
   m_Layer: 0
   m_Name: Desk Chair
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -679,7 +693,7 @@ GameObject:
   - component: {fileID: 7312149886902414925}
   m_Layer: 0
   m_Name: Office Desk
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

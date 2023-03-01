@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4980521029931113677}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 2825334904153181057}
   m_Layer: 0
   m_Name: Toilet
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -63,7 +63,7 @@ Transform:
   - {fileID: 1897510104839451917}
   - {fileID: 4980521029931113677}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2825334904153181057
 MonoBehaviour:
@@ -92,9 +92,10 @@ GameObject:
   - component: {fileID: 263418926701635795}
   - component: {fileID: 3639577274036603973}
   - component: {fileID: 3639577274036603974}
+  - component: {fileID: 3764899217837899099}
   m_Layer: 0
   m_Name: Toilet
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -197,3 +198,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Need_Hygiene
   _interactionPoint: {fileID: 4980521029931113677}
+--- !u!65 &3764899217837899099
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7269759902945732150}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 150, y: 200, z: 150}
+  m_Center: {x: -3.4196668, y: 121.204315, z: 5.2069907}

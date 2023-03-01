@@ -30,6 +30,9 @@ public class GridBuildManager : MonoBehaviour
     public int gridY;
     public List<Vector2> wallTiles = new List<Vector2>();
 
+    private bool _destroying = false;
+    private GameObject _objectToDestroy;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,38 +82,22 @@ public class GridBuildManager : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.Delete))
         {
-            Debug.Log("Floodfilling");
-            for (int x = 0; x < gridX; x++)
+            if (_destroying)
             {
-                for (int y = 0; y < gridY; y++)
-                {
-                    if (gridCheckArray[x, y])
-                    {
-                        continue;
-                    }
-
-                    // Check if there's a wall gameobject in the way by checking collisions at the top of the tile
-                    if (Physics.CheckBox(gridArray[x, y].transform.position + new Vector3(0, 1, 0), new Vector3(tileSize / 2, 1, tileSize / 2), Quaternion.identity, 1 << 7))
-                    {
-                        if (!wallTiles.Contains(new Vector2(x, y)))
-                        {
-                            wallTiles.Add(new Vector2(x, y));
-                        }
-
-                        gridArray[x, y].GetComponent<MeshRenderer>().material.color = Color.black;
-                        gridCheckArray[x, y] = true;
-                        continue;
-                    }
-
-                    gridArray[x, y].GetComponent<MeshRenderer>().material.color = Color.yellow;
-                    gridCheckArray[x, y] = true;
-                }
+                _destroying = false;
+                _objectToDestroy = null;
             }
+            else
+            {
+                _destroying = true;
+            }
+
+            Debug.Log("Destroying: " + _destroying);
         }
 
-        if (isBuilding)
+        if (isBuilding && !_destroying)
         {
             switch (_objectType)
             {
@@ -144,6 +131,30 @@ public class GridBuildManager : MonoBehaviour
         else
         {
             _gridBuildCore.UpdateValidity(true);
+        }
+
+
+        RaycastHit hit2 = new RaycastHit();
+        if (_destroying)
+        {
+            Destroy(hit2);
+        }
+    }
+
+    private Material[] mats;
+    private Color[] colors = new Color[10];
+
+    private void Destroy(RaycastHit hit2)
+    {
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit2, 1000))
+        {
+            if (hit2.collider.tag == "Wall" || hit2.collider.tag == "Furniture")
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Destroy(hit2.collider.gameObject);
+                }
+            }
         }
     }
 

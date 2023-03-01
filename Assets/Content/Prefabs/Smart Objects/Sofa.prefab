@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4184422786644959000}
   m_Layer: 0
   m_Name: Sofa
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 2178206522022255738}
   m_Layer: 0
   m_Name: Left Wall
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 3618101268003110859}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -153,9 +153,10 @@ GameObject:
   - component: {fileID: 7650021761173942702}
   - component: {fileID: 7650021761173942700}
   - component: {fileID: 7650021761173942703}
+  - component: {fileID: 4437444895023352380}
   m_Layer: 0
   m_Name: Sofa
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -262,6 +263,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Need_Energy
   _interactionPoint: {fileID: 3618101268003110859}
+--- !u!64 &4437444895023352380
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4251804102422949417}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7960909975771927058, guid: e9e7620af82c81149820b6d294dfcd50, type: 3}
 --- !u!1 &6849861732609358887
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,7 +290,7 @@ GameObject:
   - component: {fileID: 1894899009317290112}
   m_Layer: 0
   m_Name: Left Wall (1)
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
