@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 50.5
-  objectType: 3
+  objectType: 4
 --- !u!1 &2834293431509088936
 GameObject:
   m_ObjectHideFlags: 0

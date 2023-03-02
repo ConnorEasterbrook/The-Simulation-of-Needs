@@ -16,6 +16,7 @@ public class GridBuildManager : MonoBehaviour
 
     private ObjectTypes _objectType;
     private WallBuilder _wallBuilder = new WallBuilder();
+    private DoorBuilder _doorBuilder = new DoorBuilder();
     private FloorBuilder _floorBuilder = new FloorBuilder();
     private RoomObject _roomBuilder;
     private GroundFurnitureBuild _groundFurnitureBuilder = new GroundFurnitureBuild();
@@ -106,6 +107,7 @@ public class GridBuildManager : MonoBehaviour
                     break;
 
                 case ObjectTypes.Door:
+                    _doorBuilder.BuildObject();
                     break;
 
                 case ObjectTypes.Floor:
