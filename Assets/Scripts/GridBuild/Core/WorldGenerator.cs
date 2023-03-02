@@ -200,14 +200,14 @@ public class WorldGenerator : MonoBehaviour
                 yield return null;
             }
 
-            gridArray[x, y].tag = "Room";
+            gridArray[x, y].tag = "IsRoom";
 
             StartCoroutine(FinalChecks(x + 1, y, wallColour, roomColour));
             StartCoroutine(FinalChecks(x - 1, y, wallColour, roomColour));
             StartCoroutine(FinalChecks(x, y + 1, wallColour, roomColour));
             StartCoroutine(FinalChecks(x, y - 1, wallColour, roomColour));
 
-            if (runningChecks == 1)
+            if (runningChecks <= 1)
             {
                 if (!CheckForUncheckedTiles(wallColour, roomColour))
                 {
@@ -218,6 +218,7 @@ public class WorldGenerator : MonoBehaviour
 
         runningChecks--;
     }
+
 
     private bool CheckForUncheckedTiles(Color wallColour, Color roomColour)
     {

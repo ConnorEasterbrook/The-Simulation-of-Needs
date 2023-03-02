@@ -71,7 +71,7 @@ public class GridBuildManager : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
         {
-            if (hit.collider.gameObject.tag == "Room")
+            if (hit.collider.gameObject.tag == "IsRoom")
             {
                 _gridBuildCore.UpdateInRoom(true);
             }
@@ -103,6 +103,9 @@ public class GridBuildManager : MonoBehaviour
             {
                 case ObjectTypes.Wall:
                     _wallBuilder.BuildObject();
+                    break;
+
+                case ObjectTypes.Door:
                     break;
 
                 case ObjectTypes.Floor:
@@ -176,6 +179,7 @@ public class GridBuildManager : MonoBehaviour
 public enum ObjectTypes
 {
     Wall,
+    Door,
     Floor,
     Room,
 
