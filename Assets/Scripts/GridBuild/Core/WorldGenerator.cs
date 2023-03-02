@@ -200,7 +200,7 @@ public class WorldGenerator : MonoBehaviour
                 yield return null;
             }
 
-            gridArray[x, y].tag = "IsRoom";
+            gridArray[x, y].tag = "Room";
 
             StartCoroutine(FinalChecks(x + 1, y, wallColour, roomColour));
             StartCoroutine(FinalChecks(x - 1, y, wallColour, roomColour));

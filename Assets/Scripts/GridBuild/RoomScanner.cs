@@ -79,7 +79,7 @@ public class RoomScanner
 
             foreach (GameObject tile in _roomTiles)
             {
-                tile.tag = "IsRoom";
+                tile.tag = "Room";
             }
         }
     }

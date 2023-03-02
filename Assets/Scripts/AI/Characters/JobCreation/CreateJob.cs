@@ -12,6 +12,7 @@ public class CreateJob : MonoBehaviour
     private List<Slider> _availableSliders = new List<Slider>();
     private List<Slider> _activeSliders = new List<Slider>();
     private string _taskName;
+    private string _SliderText;
 
     // Store all task names created to make sure there are no duplicates
     private Dictionary<string, string> _taskNames = new Dictionary<string, string>();
@@ -74,9 +75,12 @@ public class CreateJob : MonoBehaviour
         slider.GetComponent<ProgressOnBar>().IncreaseProgress(percentageAmount, increaseSpeed);
     }
 
-    public void SetTaskName(TMP_InputField inputField)
+    public void SetTaskName(TMP_InputField inputField, TMP_Dropdown projectType, TMP_Dropdown programmingLanguage, TMP_Dropdown complexity)
     {
         _taskName = inputField.text;
+        _SliderText = inputField.text + " (" + projectType.options[projectType.value].text + ") [" + programmingLanguage.options[programmingLanguage.value].text + "] {" + complexity.options[complexity.value].text + "}";
+
+        CreateTask();
     }
 
     public void CreateTask()
@@ -86,7 +90,7 @@ public class CreateJob : MonoBehaviour
             if (!_availableSliders[i].gameObject.activeInHierarchy && !_taskNames.ContainsKey(_taskName))
             {
                 _availableSliders[i].gameObject.SetActive(true);
-                _availableSliders[i].GetComponentInChildren<TextMeshProUGUI>().text = _taskName;
+                _availableSliders[i].GetComponentInChildren<TextMeshProUGUI>().text = _SliderText;
                 _taskNames.Add(_taskName, _taskName);
                 _activeSliders.Add(_availableSliders[i]);
                 _availableSliders.RemoveAt(i);
