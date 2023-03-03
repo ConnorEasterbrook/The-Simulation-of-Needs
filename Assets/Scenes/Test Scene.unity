@@ -445,7 +445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _debug: 0
-  initiaLGenerationSpeed: 0.01
+  initiaLGenerationSpeed: 0.03
 --- !u!1 &10086337
 GameObject:
   m_ObjectHideFlags: 0

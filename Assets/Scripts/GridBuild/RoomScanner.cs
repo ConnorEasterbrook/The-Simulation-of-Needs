@@ -87,7 +87,7 @@ public class RoomScanner
         }
     }
 
-    private void FinishScan()
+    private async void FinishScan()
     {
         // GameObject newRoom = new GameObject();
         // newRoom.name = "Room";
@@ -97,6 +97,9 @@ public class RoomScanner
         foreach (GameObject tile in _roomTiles)
         {
             tile.tag = "Room";
+
+            await Task.Delay(25);
+            tile.GetComponent<MeshRenderer>().material = new Material(Shader.Find("Standard"));
             // CreateFloor(tile, newRoom);
         }
     }
