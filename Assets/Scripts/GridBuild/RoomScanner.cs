@@ -22,20 +22,21 @@ public class RoomScanner
 
     private int _invalidCount = 0;
     private int _runningCount = 0;
-    private bool _done = false;
     private List<GameObject> _roomTiles = new List<GameObject>();
+    private List<Vector3> _floorTiles = new List<Vector3>();
+    private bool _isRoom = false;
 
     public IEnumerator Test(Vector2Int startPosition, Vector2Int direction, TileLogging tileLoggingScript)
     {
         if (_startPoint.x > startPosition.x + scanRange || _startPoint.y > startPosition.y + scanRange || _startPoint.x < startPosition.x - scanRange || _startPoint.y < startPosition.y - scanRange)
         {
-            gridArray[startPosition.x, startPosition.y].GetComponent<MeshRenderer>().material.color = Color.red;
+            // gridArray[startPosition.x, startPosition.y].GetComponent<MeshRenderer>().material.color = Color.red;
 
             _invalidCount++;
             _roomTiles.Clear();
             yield break;
         }
-        
+
         _runningCount++;
 
         if (CheckIfValid(startPosition))
@@ -54,12 +55,18 @@ public class RoomScanner
                 _roomTiles.Add(gridArray[startPosition.x, startPosition.y]);
                 // gridArray[startPosition.x, startPosition.y].GetComponent<MeshRenderer>().material.color = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
 
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.025f);
 
                 tileLoggingScript.CallCoroutine(startPosition, new Vector2Int(1, 0), this, tileLoggingScript);
                 tileLoggingScript.CallCoroutine(startPosition, new Vector2Int(-1, 0), this, tileLoggingScript);
                 tileLoggingScript.CallCoroutine(startPosition, new Vector2Int(0, 1), this, tileLoggingScript);
                 tileLoggingScript.CallCoroutine(startPosition, new Vector2Int(0, -1), this, tileLoggingScript);
+
+                // Diagonals
+                tileLoggingScript.CallCoroutine(startPosition, new Vector2Int(1, 1), this, tileLoggingScript);
+                tileLoggingScript.CallCoroutine(startPosition, new Vector2Int(-1, 1), this, tileLoggingScript);
+                tileLoggingScript.CallCoroutine(startPosition, new Vector2Int(1, -1), this, tileLoggingScript);
+                tileLoggingScript.CallCoroutine(startPosition, new Vector2Int(-1, -1), this, tileLoggingScript);
             }
         }
         else
@@ -71,17 +78,70 @@ public class RoomScanner
         }
 
         _runningCount--;
+        Debug.Log("Running Count: " + _runningCount + ".");
 
-        if (_invalidCount == 0 && _runningCount <= 1 && !_done)
+        if (_invalidCount == 0 && _runningCount == 0 && _roomTiles.Count > 0)
         {
-            _done = true;
-            Debug.Log("We have a room!");
-
-            foreach (GameObject tile in _roomTiles)
-            {
-                tile.tag = "Room";
-            }
+            Debug.Log ("Room Found!");
+            FinishScan();
         }
+    }
+
+    private void FinishScan()
+    {
+        // GameObject newRoom = new GameObject();
+        // newRoom.name = "Room";
+        // newRoom.transform.parent = GameVariableConnector.instance.floorParent.transform;
+        // newRoom.transform.position = Vector3.zero;
+
+        foreach (GameObject tile in _roomTiles)
+        {
+            tile.tag = "Room";
+            // CreateFloor(tile, newRoom);
+        }
+    }
+
+    private void CreateFloor(GameObject tile, GameObject newRoom)
+    {
+        Vector3 tilePos = new Vector3(tile.transform.position.x + (GridBuildManager.getTileSize / 2), 0.01f, tile.transform.position.z + (GridBuildManager.getTileSize / 2));
+
+        if (!_floorTiles.Contains(tilePos))
+        {
+            _floorTiles.Add(tilePos);
+
+            GameObject newFloor = new GameObject();
+            newFloor.transform.position = tilePos;
+            newFloor.transform.localScale = new Vector3(tile.transform.localScale.x, 0.125f, tile.transform.localScale.z);
+            newFloor.transform.parent = newRoom.transform;
+
+            // Make sure the newFloor isn't touching a non-room tile && a duplicate
+            Collider[] colliders = Physics.OverlapBox(newFloor.transform.position, newFloor.transform.localScale / 4, Quaternion.identity, 1 << 6);
+            if (colliders.Length > 0)
+            {
+                foreach (Collider col in colliders)
+                {
+                    if (col.gameObject.tag != "Room" && col.gameObject.layer != 8)
+                    {
+                        GameObject.Destroy(newFloor);
+                        break;
+                    }
+                }
+            }
+
+            newFloor.AddComponent<MeshFilter>().mesh = tile.GetComponent<MeshFilter>().mesh;
+
+            MeshRenderer floorRenderer = newFloor.AddComponent<MeshRenderer>();
+            floorRenderer.material = tile.GetComponent<MeshRenderer>().material;
+            floorRenderer.material.color = Color.blue;
+
+            newFloor.tag = "Floor";
+            newFloor.layer = 6;
+        }
+    }
+
+    public bool isRoom()
+    {
+        return _isRoom;
     }
 
     public bool CheckIfValid(Vector2Int _position)

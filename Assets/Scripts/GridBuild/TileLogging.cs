@@ -93,36 +93,32 @@ public class TileLogging : MonoBehaviour
         // Check if there is a perpendicular corner
         if (wallOnLeft && wallOnDown)
         {
-            RoomScanner _roomScanner = new RoomScanner();
             Vector2Int direction = new Vector2Int(-1, -1);
-            _roomScanner.SetStartPoint(startPos, direction);
-            startPos += direction;
-            StartCoroutine(_roomScanner.Test(startPos, direction, this));
+            ScanRoom(direction, startPos);
         }
         if (wallOnDown && wallOnRight)
         {
-            RoomScanner _roomScanner = new RoomScanner();
             Vector2Int direction = new Vector2Int(1, -1);
-            _roomScanner.SetStartPoint(startPos, direction);
-            startPos += direction;
-            StartCoroutine(_roomScanner.Test(startPos, direction, this));
+            ScanRoom(direction, startPos);
         }
         if (wallOnRight && wallOnUp)
         {
-            RoomScanner _roomScanner = new RoomScanner();
             Vector2Int direction = new Vector2Int(1, 1);
-            _roomScanner.SetStartPoint(startPos, direction);
-            startPos += direction;
-            StartCoroutine(_roomScanner.Test(startPos, direction, this));
+            ScanRoom(direction, startPos);
         }
         if (wallOnUp && wallOnLeft)
         {
-            RoomScanner _roomScanner = new RoomScanner();
             Vector2Int direction = new Vector2Int(-1, 1);
-            _roomScanner.SetStartPoint(startPos, direction);
-            startPos += direction;
-            StartCoroutine(_roomScanner.Test(startPos, direction, this));
+            ScanRoom(direction, startPos);
         }
+    }
+
+    private void ScanRoom(Vector2Int direction, Vector2Int startPos)
+    {
+        RoomScanner _roomScanner = new RoomScanner();
+        _roomScanner.SetStartPoint(startPos, direction);
+        startPos += direction;
+        StartCoroutine(_roomScanner.Test(startPos, direction, this));
     }
 
     public void CallCoroutine(Vector2Int position, Vector2Int direction, RoomScanner roomScanner, TileLogging tileLogging)

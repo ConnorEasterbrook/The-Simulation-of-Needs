@@ -20,6 +20,8 @@ public class WorldGenerator : MonoBehaviour
     [SerializeField] private bool _debug = false;
     [Range(0.001f, 0.2f)][SerializeField] private float initiaLGenerationSpeed = 0.1f;
 
+    private MeshRenderer meshRenderer;
+
     public void Initialize(GridBuildManager _gridBuildManager, int _tileSize, GameObject _tilePrefab, int _gridX, int _gridY)
     {
         wallTiles = new List<Vector2>();
@@ -58,15 +60,14 @@ public class WorldGenerator : MonoBehaviour
             tileGO.layer = 6;
             tileGO.AddComponent<MeshFilter>().mesh = tile.GetComponent<MeshFilter>().sharedMesh;
 
-            MeshRenderer meshRenderer = tile.GetComponent<MeshRenderer>();
-            meshRenderer.material.color = Color.white;
-            MeshRenderer newMeshRenderer = tileGO.AddComponent<MeshRenderer>();
-            newMeshRenderer.material = meshRenderer.sharedMaterial;
-            newMeshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            MeshRenderer _meshRenderer = tile.GetComponent<MeshRenderer>();
+            meshRenderer = tileGO.AddComponent<MeshRenderer>();
+            meshRenderer.material = _meshRenderer.sharedMaterial;
+            meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 
             tileGO.transform.localScale = new Vector3(tileSize, .25f, tileSize);
             tileGO.transform.position = new Vector3(startPos.x + (x * tileSize), -(tilePrefab.transform.localScale.y / 2f), startPos.y + (y * tileSize));
-            tileGO.transform.parent = GameVariableConnector.instance.floorParent.transform;
+            tileGO.transform.parent = GameVariableConnector.instance.floorParent.transform.GetChild(1);
             tileGO.name = "Tile_" + x + "_" + y;
             tileGO.AddComponent<BoxCollider>();
             gridArray[x, y] = tileGO;
@@ -103,7 +104,9 @@ public class WorldGenerator : MonoBehaviour
                 wallTiles.Add(new Vector2(x, y));
             }
 
-            if (_debug) gridArray[x, y].GetComponent<MeshRenderer>().material.color = Color.black;
+            gridArray[x, y].GetComponent<MeshRenderer>().material.color = Color.black;
+            gridArray[x, y].GetComponent<MeshRenderer>().material = new Material(Shader.Find("Standard"));
+
             gridCheckArray[x, y] = true;
 
             yield break;
@@ -113,6 +116,7 @@ public class WorldGenerator : MonoBehaviour
         if (!gridCheckArray[x, y])
         {
             if (_debug) gridArray[x, y].GetComponent<MeshRenderer>().material.color = newColour;
+
             gridCheckArray[x, y] = true;
 
             if (x == gridX - 1 && y == gridY - 1)
@@ -181,7 +185,8 @@ public class WorldGenerator : MonoBehaviour
                     wallTiles.Add(new Vector2(x, y));
                 }
 
-                if (_debug) gridArray[x, y].GetComponent<MeshRenderer>().material.color = wallColour;
+                gridArray[x, y].GetComponent<MeshRenderer>().material.color = Color.black;
+                gridArray[x, y].GetComponent<MeshRenderer>().material = new Material(Shader.Find("Standard"));
                 gridCheckArray[x, y] = true;
 
                 runningChecks--;
@@ -189,6 +194,7 @@ public class WorldGenerator : MonoBehaviour
             }
 
             gridCheckArray[x, y] = true;
+            gridArray[x, y].GetComponent<MeshRenderer>().material = new Material(Shader.Find("Standard"));
 
             if (_debug)
             {
