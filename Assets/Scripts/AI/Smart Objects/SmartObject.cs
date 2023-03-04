@@ -15,12 +15,22 @@ public class SmartObject : MonoBehaviour
     public List<BaseInteraction> interactions => _interactions != null ? _interactions : _interactions = new List<BaseInteraction>(GetComponents<BaseInteraction>()); // The list of interactions that can be performed on the smart object
 
     // The point where the interaction will take place. Serialized for prefab assignment
-    [SerializeField] private Transform _interactionPoint; // The point where the interaction will take place
-    public Vector3 interactionPoint => _interactionPoint.position != null ? _interactionPoint.position : transform.position; // The position of the interaction point
+    public Transform[] interactionPoints; // The point where the interaction will take place
+    public bool[] interactionPointsOccupied; // The point where the interaction will take place
+    public int[] interactionPointOccupierID; // The point where the interaction will take place
 
     // Start is called before the first frame update
     void Start()
     {
+        if (interactionPoints == null)
+        {
+            interactionPoints = new Transform[1];
+            interactionPoints[0] = transform;
+        }
+
+        interactionPointsOccupied = new bool[interactionPoints.Length];
+        interactionPointOccupierID = new int[interactionPoints.Length];
+        
         SmartObjectManager.instance.RegisterSmartObject(this);
 
         if (GetComponent<BaseInteraction>().interactionType == InteractionType.Work)
@@ -39,8 +49,27 @@ public class SmartObject : MonoBehaviour
         }
     }
 
-    public Transform GetInteractionPoint()
+    public Transform GetInteractionPoint(int performerID)
     {
-        return _interactionPoint;
+        for (int i = 0; i < interactionPoints.Length; i++)
+        {
+            if (!interactionPointsOccupied[i])
+            {
+                interactionPointsOccupied[i] = true;
+                interactionPointOccupierID[i] = performerID;
+
+                // Debug.Log("Interaction point " + i + " is now occupied." + " Occupier ID: " + performerID + " | " + interactionPointOccupierID[i]);
+                return interactionPoints[i];
+            }
+        }
+        
+        if (interactionPointsOccupied[0] && interactionPoints.Length > 1)
+        {
+            return interactionPoints[1];
+        }
+        else
+        {
+            return interactionPoints[0];
+        }
     }
 }

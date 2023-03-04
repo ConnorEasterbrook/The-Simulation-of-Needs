@@ -8,9 +8,7 @@ using UnityEngine.Events;
 /// </Summary>
 public class SimpleInteraction : BaseInteraction
 {
-    public int maxSimultaneousInteractions = 1; // The maximum amount of people that can perform the interaction at the same time
     public List<PerformerInformation> performers = new List<PerformerInformation>(); // The list of performers
-    public int _currentInteractions = 0; // The current amount of people performing the interaction
 
     /// <summary>
     /// Returns true if the interaction can be performed.
@@ -86,10 +84,23 @@ public class SimpleInteraction : BaseInteraction
     /// <summary>
     /// Updates the current amount of people performing the interaction.
     /// </summary>
-    public override void CompleteInteraction()
+    public override void CompleteInteraction(int characterID)
     {
+        SmartObject smartObject = GetComponent<SmartObject>(); // Get the smart object
+
+        // Loop through the interaction points to see what performer has completed their task and set the bool to false
+        for (int i = 0; i < smartObject.interactionPoints.Length; i++)
+        {
+            if (smartObject.interactionPointOccupierID[i] == characterID)
+            {
+                smartObject.interactionPointsOccupied[i] = false;
+                smartObject.interactionPointOccupierID[i] = -1;
+                break;
+            }
+        }
+
         _currentInteractions--;
     }
 
-    
+
 }

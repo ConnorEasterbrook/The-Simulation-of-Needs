@@ -66,7 +66,7 @@ Transform:
   m_Children:
   - {fileID: 2833675057507089468}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!114 &2833675057740151305
 MonoBehaviour:
@@ -479,8 +479,8 @@ MonoBehaviour:
   interactionType: 1
   interactionDuration: 1
   needsChanges: []
-  maxSimultaneousInteractions: 1
   _currentInteractions: 0
+  maxSimultaneousInteractions: 1
 --- !u!114 &2833675058987938536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,7 +494,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Computer
-  _interactionPoint: {fileID: 2833675059329397091}
+  interactionPoints:
+  - {fileID: 2833675059329397091}
 --- !u!1 &2833675059128108451
 GameObject:
   m_ObjectHideFlags: 0

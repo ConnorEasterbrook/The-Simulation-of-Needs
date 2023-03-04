@@ -13,6 +13,8 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
     // private float _interactionInterval = 5f; // The interval between interactions
     // private float _interactionCooldown = 0f; // The cooldown between interactions
     private float _defaultInteractionScore = 0f; // The default score for an interaction
+    private Vector3 _interactionPosition = Vector3.zero; // The position of the interaction
+    private Quaternion _interactionRotation = Quaternion.identity; // The rotation of the interaction
 
     public override void Update()
     {
@@ -26,13 +28,13 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
             // If the agent is not performing an interaction and is not moving, pick a random interaction
             if (currentInteraction != null && !isPerformingInteraction)
             {
-                float distance = Vector3.Distance(transform.position, currentInteraction.GetComponent<SmartObject>().GetInteractionPoint().transform.position);
+                float distance = Vector3.Distance(transform.position, _interactionPosition);
 
                 // If the agent is close enough to the interaction, perform the interaction
                 if (distance <= 1f)
                 {
                     // Rotate agent to face the same way as the interaction target's rotation
-                    if (currentInteraction.GetComponent<SmartObject>().interactionPoint != null)
+                    if (currentInteraction.GetComponent<SmartObject>().interactionPoints != null)
                     {
                         rotatePerformer = true;
                     }
@@ -55,7 +57,7 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
 
             if (rotatePerformer)
             {
-                Quaternion targetDir = currentInteraction.GetComponent<SmartObject>().GetInteractionPoint().transform.rotation;
+                Quaternion targetDir = _interactionRotation;
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, targetDir, 2f);
 
                 if (transform.rotation == targetDir)
@@ -115,7 +117,9 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
                 BaseInteraction interaction = scoredInteractionsSorted[i].interaction; // Get the selected interaction
                 interaction.HeadToInteraction(); // Head to the interaction
                 currentInteraction = interaction; // Set the current interaction
-                navMeshAgent.SetDestination(interaction.GetComponent<SmartObject>().interactionPoint); // Set the destination of the navmesh agent to the interaction's position
+                _interactionPosition = interaction.GetComponent<SmartObject>().GetInteractionPoint(characterID).position; // Set the interaction position
+                _interactionRotation = interaction.GetComponent<SmartObject>().GetInteractionPoint(characterID).rotation; // Set the interaction rotation
+                navMeshAgent.SetDestination(_interactionPosition); // Set the destination of the navmesh agent to the interaction's position
                 break;
             }
         }

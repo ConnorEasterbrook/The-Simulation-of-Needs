@@ -2776,7 +2776,7 @@ Transform:
   m_Children:
   - {fileID: 8703019317936055166}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3656858200827935935
 MonoBehaviour:
@@ -3364,8 +3364,8 @@ MonoBehaviour:
   needsChanges:
   - targetNeedType: 0
     changeAmount: 50
-  maxSimultaneousInteractions: 1
   _currentInteractions: 0
+  maxSimultaneousInteractions: 1
 --- !u!114 &7926100108492500688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3379,7 +3379,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Foof_Vend
-  _interactionPoint: {fileID: 1645853364649862154}
+  interactionPoints:
+  - {fileID: 1645853364649862154}
 --- !u!65 &2071943584163372217
 BoxCollider:
   m_ObjectHideFlags: 0

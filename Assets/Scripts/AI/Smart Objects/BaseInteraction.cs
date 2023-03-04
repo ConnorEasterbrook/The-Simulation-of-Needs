@@ -11,12 +11,16 @@ public abstract class BaseInteraction : MonoBehaviour
     public InteractionType interactionType = InteractionType.Need; // The type of interaction
     public float interactionDuration = 1f; // The duration of the interaction
     public List<InteractionNeedsChange> needsChanges = new List<InteractionNeedsChange>(); // The list of needs that will be changed by the interaction
+    
+    public int _currentInteractions = 0; // The current amount of people performing the interaction
+    public int maxSimultaneousInteractions = 1; // The maximum amount of people that can perform the interaction at the same time
+
 
     public abstract bool CanPerformInteraction(); // Returns true if the interaction can be performed
     public abstract void HeadToInteraction(); // Head to the interaction
     public abstract void PerformInteraction(BaseCharacterIntelligence performer, UnityAction<BaseInteraction> onInteractionComplete); // Performs the interaction
     public abstract void CancelInteraction(); // Cancels the interaction
-    public abstract void CompleteInteraction(); // Completes the interaction
+    public abstract void CompleteInteraction(int characterID); // Completes the interaction
 
     public void AssignWorkFromType(PerformerInformation performer)
     {

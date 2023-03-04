@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class BaseCharacterIntelligence : MonoBehaviour
 {
     public string characterName;
+    private static List<BaseCharacterIntelligence> _performers = new List<BaseCharacterIntelligence>();
 
     public class NameGen
     {
@@ -15,7 +16,7 @@ public class BaseCharacterIntelligence : MonoBehaviour
 
 
     [Header("General")]
-    // [SerializeField] private int _characterID = 0;
+    public int characterID;
     [HideInInspector] public NavMeshAgent navMeshAgent = null;
     [HideInInspector] public Communication individualCommunication = null;
     [HideInInspector] public bool rotatePerformer = false;
@@ -36,6 +37,9 @@ public class BaseCharacterIntelligence : MonoBehaviour
 
     private void Awake()
     {
+        _performers.Add(this);
+        characterID = _performers.Count;
+
         navMeshAgent = GetComponent<NavMeshAgent>(); // Get the navmesh agent component
         navMeshAgent.enabled = false;
     }
@@ -71,6 +75,7 @@ public class BaseCharacterIntelligence : MonoBehaviour
         var forename = classNames.names[Random.Range(0, classNames.names.Count)];
         var surname = classNames.names[Random.Range(0, classNames.names.Count)];
         gameObject.name = forename + " " + surname;
+        characterName = gameObject.name;
 
         // CharacterNeedsUI characterNeedsUI = GameVariableConnector.instance.generalGUIManagerScript._characterNeedsUIScript;
         // characterNeedsUI.AddPerformer(gameObject.GetComponent<AutonomousIntelligence>());
@@ -95,7 +100,7 @@ public class BaseCharacterIntelligence : MonoBehaviour
         {
             interaction.HeadToInteraction(); // Head to the interaction
             currentInteraction = interaction; // Set the current interaction
-            navMeshAgent.SetDestination(interaction.GetComponent<SmartObject>().interactionPoint); // Set the destination of the navmesh agent to the interaction's position
+            navMeshAgent.SetDestination(interaction.GetComponent<SmartObject>().GetInteractionPoint(characterID).position); // Set the destination of the navmesh agent to the interaction's position
         }
     }
 
@@ -104,7 +109,7 @@ public class BaseCharacterIntelligence : MonoBehaviour
     /// </summary>
     public virtual void OnInteractionComplete(BaseInteraction interaction)
     {
-        interaction.CompleteInteraction(); // Complete the interaction
+        interaction.CompleteInteraction(characterID); // Complete the interaction
         isPerformingInteraction = false; // Set to false to allow the interaction to be performed
         currentInteraction = null;
     }

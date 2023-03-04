@@ -63,7 +63,7 @@ Transform:
   - {fileID: 1897510104839451917}
   - {fileID: 4980521029931113677}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2825334904153181057
 MonoBehaviour:
@@ -182,8 +182,8 @@ MonoBehaviour:
   needsChanges:
   - targetNeedType: 2
     changeAmount: 50
-  maxSimultaneousInteractions: 1
   _currentInteractions: 0
+  maxSimultaneousInteractions: 1
 --- !u!114 &3639577274036603974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,7 +197,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Need_Hygiene
-  _interactionPoint: {fileID: 4980521029931113677}
+  interactionPoints:
+  - {fileID: 4980521029931113677}
 --- !u!65 &3764899217837899099
 BoxCollider:
   m_ObjectHideFlags: 0
