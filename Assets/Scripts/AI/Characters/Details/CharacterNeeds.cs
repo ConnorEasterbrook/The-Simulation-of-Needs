@@ -23,8 +23,7 @@ public class CharacterNeeds
     public float hungerDecayRate = 1f; // The rate at which hunger decays
     public float energyDecayRate = 1f; // The rate at which energy decays
     public float hygieneDecayRate = 1f; // The rate at which hygiene decays
-    public float motivationDecayRate = 1f; // The rate at which motivation decays
-    public float happinessDecayRate = 1f; // The rate at which happiness decays
+    public float motivationDecayRate = 0f; // The rate at which motivation decays
 
     // The cap for the needs
     public float hungerCap = 100f; // The cap for hunger
@@ -59,7 +58,7 @@ public class CharacterNeeds
         energy -= energyDecayRate * Time.deltaTime;
         hygiene -= hygieneDecayRate * Time.deltaTime;
         motivation -= motivationDecayRate * Time.deltaTime;
-        happiness -= happinessDecayRate * Time.deltaTime;
+        happiness = (hunger + energy + hygiene + motivation) / 4f;
 
         hunger = Mathf.Clamp(hunger, 0f, hungerCap);
         energy = Mathf.Clamp(energy, 0f, energyCap);
