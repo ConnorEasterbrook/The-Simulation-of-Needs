@@ -6,7 +6,7 @@ using TMPro;
 
 public class ShareJobDetails : MonoBehaviour
 {
-    [SerializeField] private TMP_InputField _taskName;
+    [SerializeField] private TMP_InputField _taskName, _priceInput;
     [SerializeField] private TMP_Dropdown _projectType, _projectLanguage, _projectComplexity;
 
     // Start is called before the first frame update
@@ -17,6 +17,6 @@ public class ShareJobDetails : MonoBehaviour
 
     private void OnButtonClicked()
     {
-        CreateJob.instance.SetTaskName(_taskName, _projectType, _projectLanguage, _projectComplexity);
+        CreateJob.instance.SetTaskName(_taskName, _projectType, _projectLanguage, _projectComplexity, _priceInput);
     }
 }

@@ -90,10 +90,10 @@ public class CreateJob : MonoBehaviour
 
     private int _taskIDs = 0;
 
-    public void SetTaskName(TMP_InputField inputField, TMP_Dropdown projectType, TMP_Dropdown programmingLanguage, TMP_Dropdown complexity)
+    public void SetTaskName(TMP_InputField inputField, TMP_Dropdown projectType, TMP_Dropdown programmingLanguage, TMP_Dropdown complexity, TMP_InputField priceInput)
     {
         _taskName = inputField.text;
-        _SliderText = inputField.text + " (" + projectType.options[projectType.value].text + ") [" + programmingLanguage.options[programmingLanguage.value].text + "] {" + complexity.options[complexity.value].text + "}";
+        _SliderText = inputField.text;
 
         for (int i = 0; i < _availableSliders.Count; i++)
         {
@@ -104,7 +104,7 @@ public class CreateJob : MonoBehaviour
                 _taskNames.Add(_taskName, _taskName);
                 _activeSliders.Add(_availableSliders[i]);
                 _availableSliders[i].name = _taskName;
-                _availableSliders[i].GetComponent<ProgressOnBar>().ChangeTaskID(_taskIDs);
+                _availableSliders[i].GetComponent<ProgressOnBar>().ChangeTaskID(_taskIDs, complexity.value);
                 _taskIDs++;
                 _availableSliders.RemoveAt(i);
 
@@ -113,7 +113,7 @@ public class CreateJob : MonoBehaviour
                 product.Type = projectType.options[projectType.value].text;
                 product.Language = programmingLanguage.options[programmingLanguage.value].text;
                 product.Complexity = complexity.options[complexity.value].text;
-                product.Price = 0;
+                product.Price = int.Parse(priceInput.text);
                 products.Add(product);
                 break;
             }

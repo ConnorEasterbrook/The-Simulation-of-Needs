@@ -62,6 +62,9 @@ public class CharacterSkills
 
         TraitEffect(performer);
 
+        skillLevel = Random.Range(5, 40);
+        GenerateSalary();
+
         return traits;
     }
 
@@ -98,6 +101,11 @@ public class CharacterSkills
                     break;
             }
         }
+    }
+
+    private void GenerateSalary()
+    {
+        monthlySalary = skillLevel * 100;
     }
 }
 

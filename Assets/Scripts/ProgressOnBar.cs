@@ -12,6 +12,7 @@ public class ProgressOnBar : MonoBehaviour
     private CreateJob _createJobScript;
 
     public int taskID = 0;
+    private int _complexity = 0;
 
     void Start()
     {
@@ -43,9 +44,10 @@ public class ProgressOnBar : MonoBehaviour
         }
     }
 
-    public void ChangeTaskID(int newID)
+    public void ChangeTaskID(int newID, int complexity)
     {
         taskID = newID;
+        gameObject.GetComponent<Slider>().maxValue = 50 + (complexity * 100);
     }
 
     public void IncreaseProgress(float percentageAmount, float increaseSpeed)
@@ -56,7 +58,7 @@ public class ProgressOnBar : MonoBehaviour
 
     public bool CheckIfProjectIsFinished()
     {
-        if (progress >= 100)
+        if (progress >= gameObject.GetComponent<Slider>().maxValue)
         {
             return true;
         }
