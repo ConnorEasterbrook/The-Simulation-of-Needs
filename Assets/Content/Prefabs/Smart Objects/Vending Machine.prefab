@@ -3381,6 +3381,8 @@ MonoBehaviour:
   displayName: Foof_Vend
   interactionPoints:
   - {fileID: 1645853364649862154}
+  interactionPointsOccupied: 
+  interactionPointOccupierID: 
 --- !u!65 &2071943584163372217
 BoxCollider:
   m_ObjectHideFlags: 0

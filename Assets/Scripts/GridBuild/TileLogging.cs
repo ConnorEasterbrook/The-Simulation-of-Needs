@@ -5,12 +5,9 @@ using UnityEngine;
 
 public class TileLogging : MonoBehaviour
 {
-    //TODO Room Detection
-    //? Only call this script on a single tile that did not already detect a wall object (new wall).
-    //? If the tile detects a wall object, scan along the wall in the direction of the wall object and check if there is a wall an acute angle away from the wall object.
-    //? The maximum range should be 20 tiles. If there are no corners within that range then cancel the script call.
-    //? Go along the walls and corners, temporarily checking a boolean to make sure that the script does not go back to the same tile. If the tiles lead to a tile that has already been checked when going along the wall, then a room has been found.
-    //? If a room has been found then place all the walls and floor tiles into its own game object and set the boolean to false for all the tiles in the room.
+    //? Look into a fancy hashing system to dissect the grid into rooms
+    //? This will require the world to be split up into a set amount of chunks instead of a single grid
+    //? Spatial hashing is a good way to do this
 
     [SerializeField] private bool _debug = false;
     [SerializeField] private bool _hasWall = false;

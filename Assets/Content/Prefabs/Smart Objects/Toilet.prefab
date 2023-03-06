@@ -199,6 +199,8 @@ MonoBehaviour:
   displayName: Need_Hygiene
   interactionPoints:
   - {fileID: 4980521029931113677}
+  interactionPointsOccupied: 
+  interactionPointOccupierID: 
 --- !u!65 &3764899217837899099
 BoxCollider:
   m_ObjectHideFlags: 0

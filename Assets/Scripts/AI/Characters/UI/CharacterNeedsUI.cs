@@ -61,7 +61,6 @@ public class CharacterNeedsUI
         Color fullColour = new Color(134f / 255f, 217f / 255f, 116f / 255f, 1f);
         Color emptyColour = new Color(140f / 255f, 77f / 255f, 74f / 255f, 1f);
 
-
         performerHunger.maxValue = performer.characterNeedsScript.hungerCap;
         performerHunger.value = performer.characterNeedsScript.hunger;
         performerHunger.fillRect.GetComponent<Image>().color = Color.Lerp(emptyColour, fullColour, performerHunger.value / performerHunger.maxValue);

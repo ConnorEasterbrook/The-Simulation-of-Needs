@@ -25,6 +25,21 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
                 navMeshAgent.enabled = true;
             }
 
+            // if (interactionCooldown > 0f)
+            // {
+            //     interactionCooldown -= Time.deltaTime;
+            // }
+            // else
+            // {
+            //     interactionCooldown = interactionInterval;
+            // }
+
+            // if (!characterNeedsScript.AreNeedsFine() && interactionCooldown <= 0f)
+            // {
+            //     interactionCooldown = interactionInterval;
+            //     PickBestInteraction();
+            // }
+
             // If the agent is not performing an interaction and is not moving, pick a random interaction
             if (currentInteraction != null && !isPerformingInteraction)
             {
@@ -48,7 +63,7 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
                 if (currentInteraction == null)
                 {
                     interactionCooldown = interactionInterval;
-                    PickBestInteractiom();
+                    PickBestInteraction();
                 }
             }
 
@@ -71,7 +86,7 @@ public class AutonomousIntelligence : BaseCharacterIntelligence
     /// <summary>
     /// Selects the best interaction to perform based on the needs of the character
     /// </summary>
-    private void PickBestInteractiom()
+    private void PickBestInteraction()
     {
         List<ScoredInteraction> scoredInteractionsUnsorted = new List<ScoredInteraction>(); // The list of scored interactions
 

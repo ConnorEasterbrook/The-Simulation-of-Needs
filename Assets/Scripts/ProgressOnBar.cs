@@ -11,6 +11,8 @@ public class ProgressOnBar : MonoBehaviour
     private GameVariableConnector _gameVariableConnector;
     private CreateJob _createJobScript;
 
+    public int taskID = 0;
+
     void Start()
     {
         progress = 0;
@@ -36,8 +38,14 @@ public class ProgressOnBar : MonoBehaviour
         {
             _gameVariableConnector.economyManagerScript.AddToBalance(1000);
             progress = 0;
-            _createJobScript.CompleteTask(gameObject.GetComponent<Slider>());
+            Slider thisSlider = gameObject.GetComponent<Slider>();
+            _createJobScript.CompleteTask(thisSlider, taskID);
         }
+    }
+
+    public void ChangeTaskID(int newID)
+    {
+        taskID = newID;
     }
 
     public void IncreaseProgress(float percentageAmount, float increaseSpeed)

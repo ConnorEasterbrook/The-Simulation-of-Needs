@@ -38,6 +38,14 @@ public class CreateJob : MonoBehaviour
         _availableSliders = sliders;
     }
 
+    private void Update()
+    {
+        if (productDetailPanels.Count > 0)
+        {
+            UpdateMarketedTasks();
+        }
+    }
+
     public bool CheckForAvailableSlider()
     {
         for (int i = 0; i < _availableSliders.Count; i++)
@@ -75,16 +83,18 @@ public class CreateJob : MonoBehaviour
         slider.GetComponent<ProgressOnBar>().IncreaseProgress(percentageAmount, increaseSpeed);
     }
 
+    public GameObject productDetailPanelPrefab;
+    public Transform productDetailPanelParent;
+    public static List<Product> products = new List<Product>();
+    public static List<GameObject> productDetailPanels = new List<GameObject>();
+
+    private int _taskIDs = 0;
+
     public void SetTaskName(TMP_InputField inputField, TMP_Dropdown projectType, TMP_Dropdown programmingLanguage, TMP_Dropdown complexity)
     {
         _taskName = inputField.text;
         _SliderText = inputField.text + " (" + projectType.options[projectType.value].text + ") [" + programmingLanguage.options[programmingLanguage.value].text + "] {" + complexity.options[complexity.value].text + "}";
 
-        CreateTask();
-    }
-
-    public void CreateTask()
-    {
         for (int i = 0; i < _availableSliders.Count; i++)
         {
             if (!_availableSliders[i].gameObject.activeInHierarchy && !_taskNames.ContainsKey(_taskName))
@@ -93,7 +103,18 @@ public class CreateJob : MonoBehaviour
                 _availableSliders[i].GetComponentInChildren<TextMeshProUGUI>().text = _SliderText;
                 _taskNames.Add(_taskName, _taskName);
                 _activeSliders.Add(_availableSliders[i]);
+                _availableSliders[i].name = _taskName;
+                _availableSliders[i].GetComponent<ProgressOnBar>().ChangeTaskID(_taskIDs);
+                _taskIDs++;
                 _availableSliders.RemoveAt(i);
+
+                Product product = new Product();
+                product.Name = inputField.text;
+                product.Type = projectType.options[projectType.value].text;
+                product.Language = programmingLanguage.options[programmingLanguage.value].text;
+                product.Complexity = complexity.options[complexity.value].text;
+                product.Price = 0;
+                products.Add(product);
                 break;
             }
             else if (_taskNames.ContainsKey(_taskName))
@@ -104,8 +125,46 @@ public class CreateJob : MonoBehaviour
         }
     }
 
-    public void CompleteTask(Slider slider)
+    public void MarketTask(int taskID)
     {
+        GameObject productDetailPanel = Instantiate(productDetailPanelPrefab, productDetailPanelParent);
+
+        TextMeshProUGUI taskName = productDetailPanel.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskType = productDetailPanel.transform.GetChild(1).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskLanguage = productDetailPanel.transform.GetChild(2).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskComplexity = productDetailPanel.transform.GetChild(3).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskPrice = productDetailPanel.transform.GetChild(4).GetComponentInChildren<TextMeshProUGUI>();
+
+        taskName.text = products[taskID].Name;
+        taskType.text = products[taskID].Type;
+        taskLanguage.text = products[taskID].Language;
+        taskComplexity.text = products[taskID].Complexity;
+        taskPrice.text = products[taskID].Price.ToString();
+
+        productDetailPanels.Add(productDetailPanel);
+    }
+
+    // TODO - Update the task list in the market
+
+    public void UpdateMarketedTasks()
+    {
+        foreach (GameObject productDetailPanel in productDetailPanels)
+        {
+        }
+    }
+
+    public void CompleteTask(Slider slider, int taskID)
+    {
+        // Check if Slider name matches a product name
+        for (int i = 0; i < products.Count; i++)
+        {
+            if (slider.name == products[i].Name)
+            {
+                MarketTask(taskID);
+                break;
+            }
+        }
+
         _activeSliders.Remove(slider);
         _availableSliders.Add(slider);
         slider.gameObject.SetActive(false);
