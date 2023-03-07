@@ -19,7 +19,7 @@ public class EconomyManager : MonoBehaviour
     {
         _balance = balance;
     }
-    
+
     public void UpdateBalance()
     {
         _balanceText.text = "£" + _balance.ToString("0.00");
@@ -48,5 +48,13 @@ public class EconomyManager : MonoBehaviour
 
         _monthlyBalance.Add(_balance);
         Debug.Log("Monthly balance: " + _balance);
+    }
+
+    public void DaySales(Product product)
+    {
+        int saleCount = product.Popularity / 2;
+        product.Sales += saleCount;
+        float saleTotal = saleCount * product.Price;
+        _balance += saleTotal;
     }
 }

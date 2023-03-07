@@ -20,9 +20,9 @@ public class CharacterNeeds
     public float happiness; // The happiness level of the character
 
     // The rate at which the needs decay
-    public float hungerDecayRate = 1f; // The rate at which hunger decays
-    public float energyDecayRate = 1f; // The rate at which energy decays
-    public float hygieneDecayRate = 1f; // The rate at which hygiene decays
+    public float hungerDecayRate = 0.1f; // The rate at which hunger decays
+    public float energyDecayRate = 0.1f; // The rate at which energy decays
+    public float hygieneDecayRate = 0.1f; // The rate at which hygiene decays
     public float motivationDecayRate = 0f; // The rate at which motivation decays
 
     // The cap for the needs
@@ -33,9 +33,9 @@ public class CharacterNeeds
     public float happinessCap = 100f; // The cap for happiness
 
     // The threshold for the needs
-    public float hungerThreshold = 50f; // The threshold for hunger
-    public float energyThreshold = 50f; // The threshold for energy
-    public float hygieneThreshold = 50f; // The threshold for hygiene
+    public float hungerThreshold = 35f; // The threshold for hunger
+    public float energyThreshold = 35f; // The threshold for energy
+    public float hygieneThreshold = 35f; // The threshold for hygiene
 
     public void Initialize(Communication communication)
     {

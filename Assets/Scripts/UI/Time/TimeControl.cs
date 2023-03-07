@@ -37,7 +37,7 @@ public class TimeControl : MonoBehaviour
 
     private void UpdateTimeText()
     {
-        _timeRecorder += Time.deltaTime;
+        _timeRecorder += Time.deltaTime * 100;
 
         if (_timeRecorder >= 1)
         {
@@ -63,6 +63,7 @@ public class TimeControl : MonoBehaviour
         {
             _hours = 0;
             _days++;
+            NextDaySales();
         }
 
         if (_days >= 30)
@@ -78,5 +79,21 @@ public class TimeControl : MonoBehaviour
         _hours = 0;
         _minutes = 0;
         _seconds = 0;
+        NextDaySales();
+    }
+
+    private void NextDaySales()
+    {
+        foreach (Product product in CreateJob.completeProducts)
+        {
+            if (product.Popularity > 0)
+            {
+                product.Popularity -= (Random.Range(0, 5) + product.Price) * product.Age;
+
+                GameVariableConnector.instance.GetComponent<EconomyManager>().DaySales(product);
+            }
+
+            product.Age += 1;
+        }
     }
 }

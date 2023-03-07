@@ -63,7 +63,7 @@ public class CreateJob : MonoBehaviour
     {
         for (int i = 0; i < _activeSliders.Count; i++)
         {
-            if (_activeSliders[i].value < 100)
+            if (_activeSliders[i].value < _activeSliders[i].maxValue)
             {
                 return true;
             }
@@ -86,12 +86,18 @@ public class CreateJob : MonoBehaviour
     public GameObject productDetailPanelPrefab;
     public Transform productDetailPanelParent;
     public static List<Product> products = new List<Product>();
+    public static List<Product> completeProducts = new List<Product>();
     public static List<GameObject> productDetailPanels = new List<GameObject>();
 
     private int _taskIDs = 0;
 
     public void SetTaskName(TMP_InputField inputField, TMP_Dropdown projectType, TMP_Dropdown programmingLanguage, TMP_Dropdown complexity, TMP_InputField priceInput)
     {
+        if (inputField.text == "" || priceInput.text == "")
+        {
+            return;
+        }
+
         _taskName = inputField.text;
         _SliderText = inputField.text;
 
@@ -114,6 +120,15 @@ public class CreateJob : MonoBehaviour
                 product.Language = programmingLanguage.options[programmingLanguage.value].text;
                 product.Complexity = complexity.options[complexity.value].text;
                 product.Price = int.Parse(priceInput.text);
+
+                product.Age = 0;
+
+                int quality = complexity.value * (complexity.value * Random.Range(1, 10));
+                product.Quality = quality;
+
+                int popularityModifier = complexity.value * quality;
+                product.Popularity = popularityModifier;
+
                 products.Add(product);
                 break;
             }
@@ -141,6 +156,8 @@ public class CreateJob : MonoBehaviour
         taskComplexity.text = products[taskID].Complexity;
         taskPrice.text = products[taskID].Price.ToString();
 
+        completeProducts.Add(products[taskID]);
+
         productDetailPanels.Add(productDetailPanel);
     }
 
@@ -150,6 +167,7 @@ public class CreateJob : MonoBehaviour
     {
         foreach (GameObject productDetailPanel in productDetailPanels)
         {
+            productDetailPanel.transform.GetChild(5).GetComponentInChildren<TextMeshProUGUI>().text = completeProducts[productDetailPanels.IndexOf(productDetailPanel)].Sales.ToString();
         }
     }
 

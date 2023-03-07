@@ -25,7 +25,7 @@ public class ProgressOnBar : MonoBehaviour
     void Update()
     {
         progress = Mathf.Lerp(progress, _targetValue, Time.deltaTime * _increaseSpeed);
-        progress = Mathf.Clamp(progress, 0, 100);
+        progress = Mathf.Clamp(progress, 0, gameObject.GetComponent<Slider>().maxValue);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
