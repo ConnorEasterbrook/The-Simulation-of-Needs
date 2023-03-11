@@ -19,10 +19,15 @@ public class CreateJob : MonoBehaviour
 
     public bool isCreatingTask;
 
+    public GameObject productDetailPanelPrefab;
+    public Transform productDetailPanelParent;
+    public static List<Product> products = new List<Product>();
+    public static List<Product> completeProducts = new List<Product>();
+    public static List<GameObject> productDetailPanels = new List<GameObject>();
+
     private void Awake()
     {
-        // If an instance of the SmartObjectManager already exists, destroy this instance
-        if (instance != null)
+        if(instance != null)
         {
             Destroy(gameObject);
         }
@@ -40,7 +45,7 @@ public class CreateJob : MonoBehaviour
 
     private void Update()
     {
-        if (productDetailPanels.Count > 0)
+        if(productDetailPanels.Count > 0)
         {
             UpdateMarketedTasks();
         }
@@ -48,9 +53,9 @@ public class CreateJob : MonoBehaviour
 
     public bool CheckForAvailableSlider()
     {
-        for (int i = 0; i < _availableSliders.Count; i++)
+        for(int i = 0; i < _availableSliders.Count; i++)
         {
-            if (!_availableSliders[i].gameObject.activeInHierarchy)
+            if(!_availableSliders[i].gameObject.activeInHierarchy)
             {
                 return true;
             }
@@ -61,9 +66,9 @@ public class CreateJob : MonoBehaviour
 
     public bool CheckForActiveSlider()
     {
-        for (int i = 0; i < _activeSliders.Count; i++)
+        for(int i = 0; i < _activeSliders.Count; i++)
         {
-            if (_activeSliders[i].value < _activeSliders[i].maxValue)
+            if(_activeSliders[i].value < _activeSliders[i].maxValue)
             {
                 return true;
             }
@@ -83,17 +88,11 @@ public class CreateJob : MonoBehaviour
         slider.GetComponent<ProgressOnBar>().IncreaseProgress(percentageAmount, increaseSpeed);
     }
 
-    public GameObject productDetailPanelPrefab;
-    public Transform productDetailPanelParent;
-    public static List<Product> products = new List<Product>();
-    public static List<Product> completeProducts = new List<Product>();
-    public static List<GameObject> productDetailPanels = new List<GameObject>();
-
     private int _taskIDs = 0;
 
     public void SetTaskName(TMP_InputField inputField, TMP_Dropdown projectType, TMP_Dropdown programmingLanguage, TMP_Dropdown complexity, TMP_InputField priceInput)
     {
-        if (inputField.text == "" || priceInput.text == "")
+        if(inputField.text == "" || priceInput.text == "")
         {
             return;
         }
@@ -101,9 +100,9 @@ public class CreateJob : MonoBehaviour
         _taskName = inputField.text;
         _SliderText = inputField.text;
 
-        for (int i = 0; i < _availableSliders.Count; i++)
+        for(int i = 0; i < _availableSliders.Count; i++)
         {
-            if (!_availableSliders[i].gameObject.activeInHierarchy && !_taskNames.ContainsKey(_taskName))
+            if(!_availableSliders[i].gameObject.activeInHierarchy && !_taskNames.ContainsKey(_taskName))
             {
                 _availableSliders[i].gameObject.SetActive(true);
                 _availableSliders[i].GetComponentInChildren<TextMeshProUGUI>().text = _SliderText;
@@ -115,10 +114,11 @@ public class CreateJob : MonoBehaviour
                 _availableSliders.RemoveAt(i);
 
                 Product product = new Product();
+                product.isPlayer = true;
                 product.Name = inputField.text;
                 product.Type = projectType.options[projectType.value].text;
                 product.Language = programmingLanguage.options[programmingLanguage.value].text;
-                product.Complexity = complexity.options[complexity.value].text;
+                product.Complexity = complexity.value;
                 product.Price = int.Parse(priceInput.text);
 
                 product.Age = 0;
@@ -132,7 +132,7 @@ public class CreateJob : MonoBehaviour
                 products.Add(product);
                 break;
             }
-            else if (_taskNames.ContainsKey(_taskName))
+            else if(_taskNames.ContainsKey(_taskName))
             {
                 Debug.Log("Task name already exists");
                 break;
@@ -143,6 +143,15 @@ public class CreateJob : MonoBehaviour
     public void MarketTask(int taskID)
     {
         GameObject productDetailPanel = Instantiate(productDetailPanelPrefab, productDetailPanelParent);
+        InitializeProductPanel(productDetailPanel, taskID);
+
+        completeProducts.Add(products[taskID]);
+        productDetailPanels.Add(productDetailPanel);
+    }
+
+    public void AddProduct(RandomCompany randCompScript, Product product)
+    {
+        GameObject productDetailPanel = Instantiate(productDetailPanelPrefab, productDetailPanelParent);
 
         TextMeshProUGUI taskName = productDetailPanel.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
         TextMeshProUGUI taskType = productDetailPanel.transform.GetChild(1).GetComponentInChildren<TextMeshProUGUI>();
@@ -150,15 +159,29 @@ public class CreateJob : MonoBehaviour
         TextMeshProUGUI taskComplexity = productDetailPanel.transform.GetChild(3).GetComponentInChildren<TextMeshProUGUI>();
         TextMeshProUGUI taskPrice = productDetailPanel.transform.GetChild(4).GetComponentInChildren<TextMeshProUGUI>();
 
+        taskName.text = product.Name;
+        taskType.text = product.Type;
+        taskLanguage.text = product.Language;
+        taskComplexity.text = product.Complexity.ToString();
+        taskPrice.text = product.Price.ToString();
+
+        completeProducts.Add(product);
+        productDetailPanels.Add(productDetailPanel);
+    }
+
+    public void InitializeProductPanel(GameObject panelDetails, int taskID = 0)
+    {
+        TextMeshProUGUI taskName = panelDetails.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskType = panelDetails.transform.GetChild(1).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskLanguage = panelDetails.transform.GetChild(2).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskComplexity = panelDetails.transform.GetChild(3).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskPrice = panelDetails.transform.GetChild(4).GetComponentInChildren<TextMeshProUGUI>();
+
         taskName.text = products[taskID].Name;
         taskType.text = products[taskID].Type;
         taskLanguage.text = products[taskID].Language;
-        taskComplexity.text = products[taskID].Complexity;
+        taskComplexity.text = products[taskID].Complexity.ToString();
         taskPrice.text = products[taskID].Price.ToString();
-
-        completeProducts.Add(products[taskID]);
-
-        productDetailPanels.Add(productDetailPanel);
     }
 
     // TODO - Update the task list in the market

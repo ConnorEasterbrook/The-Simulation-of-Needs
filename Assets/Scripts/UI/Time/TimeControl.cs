@@ -16,6 +16,8 @@ public class TimeControl : MonoBehaviour
     private List<float> _monthlyBalance = new List<float>();
     private GameVariableConnector _gameVariableConnector;
 
+    private float _chanceOfNewProduct = 0;
+
     private void Start()
     {
         for (int i = 0; i < _timeButtons.Length; i++)
@@ -88,12 +90,20 @@ public class TimeControl : MonoBehaviour
         {
             if (product.Popularity > 0)
             {
-                product.Popularity -= (Random.Range(0, 5) + product.Price) * product.Age;
-
                 GameVariableConnector.instance.GetComponent<EconomyManager>().DaySales(product);
+                product.Popularity -= (Random.Range(0, 5) + product.Price) * product.Age;
             }
 
             product.Age += 1;
+        }
+
+        _chanceOfNewProduct += Random.Range(0, 20);
+        Mathf.Clamp(_chanceOfNewProduct, 0, 100);
+
+        if (_chanceOfNewProduct >= 100)
+        {
+            _chanceOfNewProduct = 0;
+            RandomCompany.instance.CreateRandomProduct();
         }
     }
 }

@@ -55,6 +55,10 @@ public class EconomyManager : MonoBehaviour
         int saleCount = product.Popularity / 2;
         product.Sales += saleCount;
         float saleTotal = saleCount * product.Price;
-        _balance += saleTotal;
+
+        if(product.isPlayer)
+        {
+            _balance += saleTotal;
+        }
     }
 }
