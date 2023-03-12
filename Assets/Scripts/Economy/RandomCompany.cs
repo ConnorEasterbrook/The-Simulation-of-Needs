@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
+using static BaseCharacterIntelligence;
 
 public class RandomCompany : MonoBehaviour
 {
@@ -30,6 +32,7 @@ public class RandomCompany : MonoBehaviour
     {
         string randomName = Random.RandomRange(0, 1000).ToString();
         product.Name = randomName;
+        product.Company = GenerateName();
         product.Type = JobType.Game.ToString();
         product.Language = "C#";
         product.Complexity = 3;
@@ -42,6 +45,27 @@ public class RandomCompany : MonoBehaviour
 
         int popularityModifier = product.Complexity * quality;
         product.Popularity = popularityModifier;
+    }
+
+    public class NameGen
+    {
+        public List<string> company_names = new List<string>();
+    }
+
+    public string GenerateName()
+    {
+        TextAsset namesJson = new TextAsset("Hello");
+        namesJson = GameVariableConnector.instance.GetCompanyNames();
+
+        if(namesJson == null)
+        {
+            Debug.LogError("No names.json file found!");
+            return "NULL";
+        }
+
+        var classNames = JsonUtility.FromJson<NameGen>(namesJson.text);
+        var name = classNames.company_names[Random.Range(0, classNames.company_names.Count)];
+        return name;
     }
 
     private enum JobType

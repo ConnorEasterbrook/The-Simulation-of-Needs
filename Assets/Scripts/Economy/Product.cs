@@ -6,6 +6,7 @@ public class Product
 {
     public bool isPlayer = false;
     public string Name { get; set; }
+    public string Company { get; set; }
     public string Type { get; set; }
     public string Language { get; set; }
     public int Complexity { get; set; }

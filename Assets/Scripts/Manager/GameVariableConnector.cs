@@ -17,6 +17,7 @@ public class GameVariableConnector : MonoBehaviour
 
     [SerializeField] private TextAsset _namesJson = null;
     [SerializeField] private TextAsset _traitsJson = null;
+    [SerializeField] private TextAsset _companyNames = null;
 
     private void Awake()
     {
@@ -67,6 +68,17 @@ public class GameVariableConnector : MonoBehaviour
         }
 
         return _traitsJson;
+    }
+
+    public TextAsset GetCompanyNames()
+    {
+        if (_companyNames == null)
+        {
+            Debug.LogError("No companyNames.json file found!");
+            return null;
+        }
+
+        return _companyNames;
     }
 
     public void PauseGame()

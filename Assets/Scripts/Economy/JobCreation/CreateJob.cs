@@ -116,6 +116,7 @@ public class CreateJob : MonoBehaviour
                 Product product = new Product();
                 product.isPlayer = true;
                 product.Name = inputField.text;
+                product.Company = "Player";
                 product.Type = projectType.options[projectType.value].text;
                 product.Language = programmingLanguage.options[programmingLanguage.value].text;
                 product.Complexity = complexity.value;
@@ -154,12 +155,14 @@ public class CreateJob : MonoBehaviour
         GameObject productDetailPanel = Instantiate(productDetailPanelPrefab, productDetailPanelParent);
 
         TextMeshProUGUI taskName = productDetailPanel.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
-        TextMeshProUGUI taskType = productDetailPanel.transform.GetChild(1).GetComponentInChildren<TextMeshProUGUI>();
-        TextMeshProUGUI taskLanguage = productDetailPanel.transform.GetChild(2).GetComponentInChildren<TextMeshProUGUI>();
-        TextMeshProUGUI taskComplexity = productDetailPanel.transform.GetChild(3).GetComponentInChildren<TextMeshProUGUI>();
-        TextMeshProUGUI taskPrice = productDetailPanel.transform.GetChild(4).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskCompany = productDetailPanel.transform.GetChild(1).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskType = productDetailPanel.transform.GetChild(2).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskLanguage = productDetailPanel.transform.GetChild(3).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskComplexity = productDetailPanel.transform.GetChild(4).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskPrice = productDetailPanel.transform.GetChild(5).GetComponentInChildren<TextMeshProUGUI>();
 
         taskName.text = product.Name;
+        taskCompany.text = product.Company;
         taskType.text = product.Type;
         taskLanguage.text = product.Language;
         taskComplexity.text = product.Complexity.ToString();
@@ -172,12 +175,14 @@ public class CreateJob : MonoBehaviour
     public void InitializeProductPanel(GameObject panelDetails, int taskID = 0)
     {
         TextMeshProUGUI taskName = panelDetails.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
-        TextMeshProUGUI taskType = panelDetails.transform.GetChild(1).GetComponentInChildren<TextMeshProUGUI>();
-        TextMeshProUGUI taskLanguage = panelDetails.transform.GetChild(2).GetComponentInChildren<TextMeshProUGUI>();
-        TextMeshProUGUI taskComplexity = panelDetails.transform.GetChild(3).GetComponentInChildren<TextMeshProUGUI>();
-        TextMeshProUGUI taskPrice = panelDetails.transform.GetChild(4).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskCompany = panelDetails.transform.GetChild(1).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskType = panelDetails.transform.GetChild(2).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskLanguage = panelDetails.transform.GetChild(3).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskComplexity = panelDetails.transform.GetChild(4).GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI taskPrice = panelDetails.transform.GetChild(5).GetComponentInChildren<TextMeshProUGUI>();
 
         taskName.text = products[taskID].Name;
+        taskCompany.text = products[taskID].Company;
         taskType.text = products[taskID].Type;
         taskLanguage.text = products[taskID].Language;
         taskComplexity.text = products[taskID].Complexity.ToString();
@@ -190,7 +195,7 @@ public class CreateJob : MonoBehaviour
     {
         foreach (GameObject productDetailPanel in productDetailPanels)
         {
-            productDetailPanel.transform.GetChild(5).GetComponentInChildren<TextMeshProUGUI>().text = completeProducts[productDetailPanels.IndexOf(productDetailPanel)].Sales.ToString();
+            productDetailPanel.transform.GetChild(6).GetComponentInChildren<TextMeshProUGUI>().text = completeProducts[productDetailPanels.IndexOf(productDetailPanel)].Sales.ToString();
         }
     }
 
