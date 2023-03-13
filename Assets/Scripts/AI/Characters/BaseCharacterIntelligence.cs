@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class BaseCharacterIntelligence : MonoBehaviour
 {
     public string characterName;
-    private static List<BaseCharacterIntelligence> _performers = new List<BaseCharacterIntelligence>();
+    public static List<BaseCharacterIntelligence> performers = new List<BaseCharacterIntelligence>();
 
     public class NameGen
     {
@@ -37,8 +37,8 @@ public class BaseCharacterIntelligence : MonoBehaviour
 
     private void Awake()
     {
-        _performers.Add(this);
-        characterID = _performers.Count;
+        performers.Add(this);
+        characterID = performers.Count;
 
         navMeshAgent = GetComponent<NavMeshAgent>(); // Get the navmesh agent component
         navMeshAgent.enabled = false;
@@ -48,7 +48,7 @@ public class BaseCharacterIntelligence : MonoBehaviour
     {
         currentInteraction = null;
 
-        EstablishCommunication(); // Establish communication
+        /*EstablishCommunication(); // Establish communication*/
         characterNeedsScript.Initialize(individualCommunication); // Initialize the character needs
 
         GenerateName();
