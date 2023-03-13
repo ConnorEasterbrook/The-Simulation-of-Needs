@@ -79,6 +79,7 @@ public abstract class BaseInteraction : MonoBehaviour
         if (CreateJob.instance.CheckForActiveSlider())
         {
             CreateJob.instance.WorkOnTask(workEfficiency, 10f);
+            performer.performingAIIntelligence.characterSkillsScript.IncreaseSkillLevel();
         }
     }
 

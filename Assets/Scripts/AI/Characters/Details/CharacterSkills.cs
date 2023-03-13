@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class CharacterSkills
 {
+    public float skillIncreasePercentage = 0f;
     public int skillLevel = 10;
     public float monthlySalary = 100;
 
@@ -105,7 +106,18 @@ public class CharacterSkills
 
     private void GenerateSalary()
     {
-        monthlySalary = skillLevel * 100;
+        monthlySalary = skillLevel * 50;
+    }
+
+    public void IncreaseSkillLevel()
+    {
+        skillIncreasePercentage += Random.Range(0f, 0.05f);
+
+        if (skillIncreasePercentage >= 100f)
+        {
+            skillIncreasePercentage = 0f;
+            skillLevel++;
+        }
     }
 }
 
