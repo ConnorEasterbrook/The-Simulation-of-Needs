@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 3840
     height: 2087
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: Inspector
   m_RootView: {fileID: 10}
   m_MinSize: {x: 875, y: 542}
   m_MaxSize: {x: 10000, y: 10000}
@@ -521,7 +521,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -621,10 +621,10 @@ MonoBehaviour:
     m_SaveData: []
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: e2650000
-      m_LastClickedID: 26082
-      m_ExpandedIDs: 34fbffff
+      scrollPos: {x: 0, y: 103}
+      m_SelectedIDs: 3ecfffff
+      m_LastClickedID: -12482
+      m_ExpandedIDs: 34fbffffae640000d2640000e6660000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -956,7 +956,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0.100449495, y: 0.8681196, z: -0.19533269, w: 0.44566116}
     speed: 2
-    m_Value: {x: 0.10042487, y: 0.86790675, z: -0.1952848, w: 0.4455519}
+    m_Value: {x: 0.100449495, y: 0.8681196, z: -0.19533269, w: 0.44566113}
   m_Size:
     m_Target: 10
     speed: 2
