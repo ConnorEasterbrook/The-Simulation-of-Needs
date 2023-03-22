@@ -459,7 +459,7 @@ MonoBehaviour:
   m_LastFolders:
   - Assets
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: E:\Not_Windows\Github\AT-SimSomething
+  m_LastProjectPath: E:\Not_Windows\Github\AT-SimSomething\Unity Files
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
@@ -622,9 +622,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 12f8ffff
-      m_LastClickedID: -2030
-      m_ExpandedIDs: a6ccfffff4ccffff34fbffffe061000046620000d6640000
+      m_SelectedIDs: e2650000
+      m_LastClickedID: 26082
+      m_ExpandedIDs: 34fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -906,9 +906,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 8.002191, y: -5.572297, z: 8.471387}
+    m_Target: {x: 2.5578518, y: 2.3917427, z: 19.357935}
     speed: 2
-    m_Value: {x: 8.002191, y: -5.572297, z: 8.471387}
+    m_Value: {x: 2.5578518, y: 2.3917427, z: 19.357935}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -954,9 +954,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.06477961, y: 0.9164817, z: -0.16472423, w: 0.3594711}
+    m_Target: {x: 0.100449495, y: 0.8681196, z: -0.19533269, w: 0.44566116}
     speed: 2
-    m_Value: {x: 0.065302335, y: 0.9160098, z: -0.16605839, w: 0.35928586}
+    m_Value: {x: 0.10042487, y: 0.86790675, z: -0.1952848, w: 0.4455519}
   m_Size:
     m_Target: 10
     speed: 2

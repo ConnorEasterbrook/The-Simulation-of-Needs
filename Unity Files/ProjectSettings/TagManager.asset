@@ -8,6 +8,7 @@ TagManager:
   - Floor
   - Performer
   - Room
+  - Furniture
   layers:
   - Default
   - TransparentFX
