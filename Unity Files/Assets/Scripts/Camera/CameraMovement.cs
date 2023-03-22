@@ -10,7 +10,6 @@ public class CameraMovement : MonoBehaviour
 
     [Header("Camera Rotation")]
     [SerializeField] private float _mouseSensitivity = 5f;
-    [SerializeField] private float _cameraSmoothTime = 0.1f;
     [SerializeField] private Vector2 _xRotationClamp = new Vector2(-90f, 90f);
     private float _xRotation;
     private float _yRotation;

@@ -30,13 +30,13 @@ public class RandomCompany : MonoBehaviour
 
     private void GetProductInformation(Product product)
     {
-        string randomName = Random.RandomRange(0, 1000).ToString();
+        string randomName = Random.Range(0, 1000).ToString();
         product.Name = randomName;
         product.Company = GenerateName();
         product.Type = JobType.Game.ToString();
         product.Language = "C#";
         product.Complexity = 3;
-        product.Price = Random.RandomRange(1, 100);
+        product.Price = Random.Range(1, 100);
 
         product.Age = 0;
 

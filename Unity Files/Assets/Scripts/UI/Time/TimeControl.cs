@@ -18,8 +18,6 @@ public class TimeControl : MonoBehaviour
 
     private float _chanceOfNewProduct = 0;
 
-    private bool _initialWait = true;
-
     private void Start()
     {
         for(int i = 0; i < _timeButtons.Length; i++)
@@ -36,18 +34,6 @@ public class TimeControl : MonoBehaviour
         if(!_gameVariableConnector.IsGamePaused())
         {
             UpdateTimeText();
-
-            /*if(!_initialWait)
-            {
-                SpecificTimeChecks();
-            }
-            else
-            {
-                if (_seconds >= 1)
-                {
-                    _initialWait = false;
-                }
-            }*/
         }
     }
 

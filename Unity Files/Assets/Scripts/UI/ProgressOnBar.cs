@@ -12,7 +12,6 @@ public class ProgressOnBar : MonoBehaviour
     private CreateJob _createJobScript;
 
     public int taskID = 0;
-    private int _complexity = 0;
 
     void Start()
     {

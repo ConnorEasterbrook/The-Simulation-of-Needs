@@ -32,7 +32,6 @@ public class GridBuildManager : MonoBehaviour
     public List<Vector2> wallTiles = new List<Vector2>();
 
     private bool _destroying = false;
-    private GameObject _objectToDestroy;
 
     // Start is called before the first frame update
     void Start()
@@ -88,7 +87,6 @@ public class GridBuildManager : MonoBehaviour
             if (_destroying)
             {
                 _destroying = false;
-                _objectToDestroy = null;
             }
             else
             {
